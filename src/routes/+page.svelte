@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
 
   let mounted = $state(false);
   let titleVisible = $state(false);
@@ -28,7 +27,6 @@
 </svelte:head>
 
 <main class="landing-root">
-  <!-- Decorative background shapes (echo of Background.png) -->
   <div class="shapes-layer" aria-hidden="true">
     {#each shapes as s, i}
       <div
@@ -48,11 +46,16 @@
     {/each}
   </div>
 
-  <!-- Main card -->
   <div class="center-wrap">
     <div class="hero-card" class:visible={mounted}>
 
-      <!-- Title block -->
+      <div class="corner-stamp" aria-hidden="true">
+        <div class="stamp-inner">
+          <span>EST.</span>
+          <span class="stamp-year">2026</span>
+        </div>
+      </div>
+
       <div class="title-block" class:visible={titleVisible}>
         <p class="studio-eyebrow">✦ art gallery & commission ✦</p>
         <h1 class="studio-title">
@@ -62,7 +65,6 @@
         <div class="title-underline"></div>
       </div>
 
-      <!-- CTA buttons -->
       <div class="cta-block" class:visible={buttonsVisible}>
         <a href="/home" class="btn-letsgo">
           <span>Let's Go</span>
@@ -70,20 +72,11 @@
         </a>
       </div>
 
-      <!-- Login link — bottom right of card -->
       <div class="login-corner">
         <a href="/login" class="btn-login">
           Login
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </a>
-      </div>
-
-      <!-- Decorative corner stamp -->
-      <div class="corner-stamp" aria-hidden="true">
-        <div class="stamp-inner">
-          <span>EST.</span>
-          <span class="stamp-year">2026</span>
-        </div>
       </div>
 
     </div>
@@ -140,7 +133,7 @@
     border: 3px solid #2a2420;
     border-radius: 28px;
     box-shadow: 8px 8px 0px #2a2420;
-    padding: 4rem 3.5rem 3.5rem;
+    padding: 4.5rem 3.5rem 4.5rem; /* Tambah padding agar lega */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -172,7 +165,7 @@
 
   .studio-eyebrow {
     font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.1rem; /* Ukuran desktop disesuaikan */
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #2a2420;
@@ -192,7 +185,7 @@
 
   .title-line {
     display: block;
-    font-size: clamp(3.5rem, 10vw, 7.5rem);
+    font-size: clamp(3rem, 10vw, 7.5rem);
     color: #2a2420;
     letter-spacing: -0.02em;
   }
@@ -200,13 +193,12 @@
   .title-line.accent {
     color: transparent;
     -webkit-text-stroke: 3px #2a2420;
-    font-size: clamp(3.5rem, 10vw, 7.5rem);
   }
 
   .title-underline {
     width: 60px;
     height: 4px;
-    background:#2a2420;
+    background: #2a2420;
     border-radius: 2px;
     margin: 1.2rem auto 0;
   }
@@ -306,18 +298,29 @@
   .stamp-inner span { font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; }
   .stamp-year       { font-size: 0.75rem; font-weight: 600; }
 
-  /* ── Responsive ── */
+  /* ══════════════════════════════════════
+      RESPONSIVE (HP)
+     ══════════════════════════════════════ */
   @media (max-width: 640px) {
     .hero-card {
-      padding: 3rem 1.75rem 3rem;
+      /* Padding bawah dibesarkan (5.5rem) agar tombol tidak tabrakan */
+      padding: 3.5rem 1.25rem 5.5rem;
       border-radius: 20px;
       box-shadow: 5px 5px 0px #2a2420;
       min-height: 380px;
     }
 
+    .studio-eyebrow {
+      /* Ukuran font dikecilkan drastis agar tidak menabrak stamp di layar sempit */
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.75rem;
+    }
+
     .title-line,
     .title-line.accent {
-      font-size: clamp(3rem, 14vw, 4.5rem);
+      /* Menggunakan nilai minimal yang lebih aman untuk layar HP mungil */
+      font-size: clamp(2.5rem, 12vw, 4.5rem);
     }
 
     .title-line.accent {
@@ -330,13 +333,21 @@
     }
 
     .login-corner {
+      /* Pindahkan posisi tombol login ke tengah bawah pada versi mobile */
       bottom: 1.25rem;
-      right: 1.25rem;
+      right: 50%;
+      transform: translateX(50%);
+      width: max-content;
+    }
+
+    .btn-login:hover {
+      /* Ubah arah animasi hover pada versi mobile karena posisinya sudah ditengah */
+      transform: translateY(-2px);
     }
 
     .corner-stamp {
       top: 1rem;
-      right: 1.25rem;
+      right: 1rem;
       width: 44px;
       height: 44px;
     }
