@@ -240,6 +240,7 @@
 
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: stretch;
     gap: 0.65rem;
 
