@@ -84,19 +84,19 @@ export const galleryImages = [
     updated_at: "2024-11-09T12:00:00Z",
     deleted_at: null,
   },
-  {
-    gallery_id: 6,
-    title: "Portrait: Quiet Gaze",
-    description:
-      "A tight portrait study capturing subtle emotion and light across the face.",
-    image_url: "/gallery/6.jpg",
-    file_format: "JPG",
-    status: "sold",
-    price: 95000,
-    created_at: "2024-11-11T13:00:00Z",
-    updated_at: "2024-11-11T13:00:00Z",
-    deleted_at: null,
-  },
+  // {
+  //   gallery_id: 6,
+  //   title: "Portrait: Quiet Gaze",
+  //   description:
+  //     "A tight portrait study capturing subtle emotion and light across the face.",
+  //   image_url: "/gallery/6.jpg",
+  //   file_format: "JPG",
+  //   status: "sold",
+  //   price: 95000,
+  //   created_at: "2024-11-11T13:00:00Z",
+  //   updated_at: "2024-11-11T13:00:00Z",
+  //   deleted_at: null,
+  // },
   {
     gallery_id: 7,
     title: "Industrial Geometry",

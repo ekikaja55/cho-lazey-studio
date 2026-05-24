@@ -43,30 +43,42 @@
     }
   }
 
-  const navItems = [
-    {
-      label: 'Gallery',
-      href: '/gallery',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>`,
-      color: '#a2e1db',
-    },
-    {
-      label: 'Shop',
-      href: '/shop',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
-      color: '#f4a87c',
-    },
-    {
-      label: 'Member',
-      href: '/login',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
-      color: '#b4a6d5',
-    },
-  ];
+ const navItems = [
+  {
+    label: 'Home',
+    href: '/home',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+    color: '#ebdcb9', // Warna krem hangat yang senada dengan tone background kartu hero
+  },
+  {
+    label: 'Gallery',
+    href: '/home/gallery',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>`,
+    color: '#a2e1db', // Toska lembut
+  },
+  {
+    label: 'Shop',
+    href: '/home/shop',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
+    color: '#f4a87c', // Oranye/salem lembut
+  },
+  {
+    label: 'Member',
+    href: '/login',
+    icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    color: '#b4a6d5', // Ungu lembut
+  },
+];
 
   function isActive(href) {
-    return $page.url.pathname === href || $page.url.pathname.startsWith(href + '/');
+  // Jika href adalah '/home', harus cocok persis agar tidak ikut aktif di sub-halaman
+  if (href === '/home') {
+    return $page.url.pathname === '/home' || $page.url.pathname === '/home/';
   }
+  // Untuk menu lainnya (Gallery, Shop, dll), gunakan pencocokan bercabang seperti biasa
+  return $page.url.pathname === href || $page.url.pathname.startsWith(href + '/');
+}
+
 </script>
 
 <svelte:document onclick={handleOutsideClick} />
