@@ -1,7 +1,7 @@
 /**
- * toast.svelte.js
- * Cho's Studio — Toast Notification Store
- * Svelte 5 runes-based. Replaces notie + vue-toastification.
+ * toast.js
+ * Cho's Studio — Brutalist Pop-up Store
+ * Hanya satu pop-up aktif sekaligus, tidak auto-close, tutup via tombol OK
  */
 
 import { writable } from "svelte/store";
@@ -9,43 +9,40 @@ import { writable } from "svelte/store";
 /** @typedef {'success'|'error'|'warning'|'info'|'neutral'} ToastType */
 
 /**
- * @typedef {Object} Toast
- * @property {string} id
+ * @typedef {Object} PopupItem
+ * @property {string}    id
  * @property {ToastType} type
- * @property {string} message
- * @property {number} duration
+ * @property {string}    message
  */
 
 function createToastStore() {
-  const { subscribe, update } = writable(/** @type {Toast[]} */ ([]));
+  /** @type {import('svelte/store').Writable<PopupItem[]>} */
+  const { subscribe, update } = writable([]);
 
   /**
-   * @param {string} message
+   * Tambah pop-up baru ke antrian
+   * @param {string}    message
    * @param {ToastType} type
-   * @param {number} duration ms
    */
-  function add(message, type = "info", duration = 3500) {
-    const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    const toast = { id, type, message, duration };
-
-    update((toasts) => [...toasts, toast]);
-
-    setTimeout(() => remove(id), duration);
+  function add(message, type = "info") {
+    const id = `popup-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    update((q) => [...q, { id, type, message }]);
     return id;
   }
 
+  /** Tutup pop-up paling depan (atau berdasarkan id) */
   function remove(id) {
-    update((toasts) => toasts.filter((t) => t.id !== id));
+    update((q) => q.filter((p) => p.id !== id));
   }
 
   return {
     subscribe,
     remove,
-    success: (msg, duration) => add(msg, "success", duration),
-    error: (msg, duration) => add(msg, "error", duration),
-    warning: (msg, duration) => add(msg, "warning", duration),
-    info: (msg, duration) => add(msg, "info", duration),
-    neutral: (msg, duration) => add(msg, "neutral", duration),
+    success: (msg) => add(msg, "success"),
+    error: (msg) => add(msg, "error"),
+    warning: (msg) => add(msg, "warning"),
+    info: (msg) => add(msg, "info"),
+    neutral: (msg) => add(msg, "neutral"),
   };
 }
 

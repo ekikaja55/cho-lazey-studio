@@ -12,7 +12,7 @@
 
   import { onMount } from 'svelte';
   import { getRecentWorks } from '$lib/data/galleryImages.js';
-
+  import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
   let mounted = $state(false);
 
   const works = getRecentWorks(6);
@@ -123,12 +123,16 @@
         <div class="featured-col" aria-live="polite" aria-atomic="true">
           <div class="featured-frame">
             <div class="featured-img-wrap">
+                <WatermarkWrapper opacity={0.14} fontSize={11} spacing={75}>
               <img
                 src={selected.image_url}
                 alt={selected.title}
                 class="featured-img"
               />
-              <span class="format-badge">{selected.file_format}</span>
+ 
+            </WatermarkWrapper>
+
+                           <span class="format-badge">{selected.file_format}</span>
 
               <!-- Prev/Next overlaid on image -->
               <button class="img-nav img-nav-prev" onclick={prev} aria-label="Previous">

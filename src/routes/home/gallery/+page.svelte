@@ -163,12 +163,12 @@
             <div class="folder-footer-left">
               <span class="folder-title">{item.title}</span>
             </div>
-            <span
-              class="folder-status"
-              style="background: {status.bg}; color: {status.color};"
-            >
-              {status.label}
-            </span>
+            <!-- <span -->
+            <!--   class="folder-status" -->
+            <!--   style="background: {status.bg}; color: {status.color};" -->
+            <!-- > -->
+            <!--   {status.label} -->
+            <!-- </span> -->
           </div>
         </button>
       </div>
@@ -234,11 +234,11 @@
         </div>
 
         <div class="lb-meta">
-          {#if lightboxStatus}
-            <span class="lb-status" style="background: {lightboxStatus.bg}; color: {lightboxStatus.color};">
-              {lightboxStatus.label}
-            </span>
-          {/if}
+          <!-- {#if lightboxStatus} -->
+          <!--   <span class="lb-status" style="background: {lightboxStatus.bg}; color: {lightboxStatus.color};"> -->
+          <!--     {lightboxStatus.label} -->
+          <!--   </span> -->
+          <!-- {/if} -->
           {#if lightboxItem.price != null}
             <span class="lb-price">{formatRupiah(lightboxItem.price)}</span>
           {/if}

@@ -1,142 +1,294 @@
 <script>
   import { toast } from '$lib/stores/toast.js';
-  import { fly, fade } from 'svelte/transition';
-  import { flip } from 'svelte/animate';
+  import { scale, fade } from 'svelte/transition';
+  import { backOut } from 'svelte/easing';
 
-  // Icon per type
-  const icons = {
-    success: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
-    error:   `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
-    warning: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
-    info:    `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
-    neutral: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`,
+  // Hanya tampilkan pop-up paling depan dari antrian
+  const current = $derived($toast[0] ?? null);
+
+  // Config per tipe
+  const config = {
+    success: {
+      bg:      '#a2e1a6',
+      border:  '#2a2420',
+      accent:  '#1a7a1e',
+      shadow:  '#2a2420',
+      label:   'Success',
+      icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+    },
+    error: {
+      bg:      '#f46958',
+      border:  '#2a2420',
+      accent:  '#fff',
+      shadow:  '#2a2420',
+      label:   'Error',
+      icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+    },
+    warning: {
+      bg:      '#ffba09',
+      border:  '#2a2420',
+      accent:  '#2a2420',
+      shadow:  '#2a2420',
+      label:   'Warning',
+      icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+    },
+    info: {
+      bg:      '#91fff5',
+      border:  '#2a2420',
+      accent:  '#004d47',
+      shadow:  '#2a2420',
+      label:   'Info',
+      icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>`,
+    },
+    neutral: {
+      bg:      '#b4a6d5',
+      border:  '#2a2420',
+      accent:  '#2d1a5c',
+      shadow:  '#2a2420',
+      label:   'Notice',
+      icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`,
+    },
   };
 
-  const styles = {
-    success: { bg: '#a2e1a6', color: '#1a4d1d', accent: '#4caf50' },
-    error:   { bg: '#f46958', color: '#fff',    accent: '#d32f2f' },
-    warning: { bg: '#ffba09', color: '#3d2800', accent: '#f57c00' },
-    info:    { bg: '#91fff5', color: '#004d47', accent: '#00acc1' },
-    neutral: { bg: '#b4a6d5', color: '#2d1a5c', accent: '#7e57c2' },
-  };
+  function dismiss() {
+    if (current) toast.remove(current.id);
+  }
+
+  // ESC key to dismiss
+  function onKeydown(e) {
+    if (e.key === 'Escape' && current) dismiss();
+  }
 </script>
 
-<div class="toast-container" aria-live="polite" aria-atomic="false">
-  {#each $toast as t (t.id)}
+<svelte:window onkeydown={onKeydown} />
+
+{#if current}
+  <!-- Backdrop -->
+  <div
+    class="backdrop"
+    transition:fade={{ duration: 200 }}
+    onclick={dismiss}
+    role="presentation"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Pop-up -->
+  {@const c = config[current.type]}
+  <div
+    class="popup-wrap"
+    role="alertdialog"
+    aria-modal="true"
+    aria-labelledby="popup-label"
+    aria-describedby="popup-msg"
+    transition:scale={{ duration: 320, easing: backOut, start: 0.85 }}
+  >
     <div
-      class="toast toast-{t.type}"
+      class="popup"
       style="
-        --toast-bg: {styles[t.type].bg};
-        --toast-color: {styles[t.type].color};
-        --toast-accent: {styles[t.type].accent};
+        --pop-bg:     {c.bg};
+        --pop-border: {c.border};
+        --pop-accent: {c.accent};
+        --pop-shadow: {c.shadow};
       "
-      in:fly={{ y: 16, duration: 250, opacity: 0 }}
-      out:fade={{ duration: 200 }}
-      animate:flip={{ duration: 250 }}
-      role="alert"
     >
-      <span class="toast-icon" aria-hidden="true">
-        {@html icons[t.type]}
-      </span>
-      <span class="toast-message">{t.message}</span>
-      <button
-        class="toast-close"
-        onclick={() => toast.remove(t.id)}
-        aria-label="Dismiss notification"
-      >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
+      <!-- Top stripe -->
+      <div class="popup-stripe"></div>
+
+      <!-- Queue indicator (jika ada lebih dari 1 notif antri) -->
+      {#if $toast.length > 1}
+        <div class="queue-badge" aria-label="{$toast.length - 1} more notification(s) waiting">
+          +{$toast.length - 1} more
+        </div>
+      {/if}
+
+      <!-- Icon -->
+      <div class="popup-icon" aria-hidden="true">
+        {@html c.icon}
+      </div>
+
+      <!-- Label -->
+      <p class="popup-label" id="popup-label">{c.label}</p>
+
+      <!-- Message -->
+      <p class="popup-message" id="popup-msg">{current.message}</p>
+
+      <!-- OK button -->
+      <button class="popup-ok" onclick={dismiss} autofocus>
+        OK
       </button>
     </div>
-  {/each}
-</div>
+  </div>
+{/if}
 
 <style>
-  .toast-container {
+  /* ── Backdrop ── */
+  .backdrop {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    inset: 0;
+    background: rgba(42, 36, 32, 0.45);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 9998;
+    cursor: pointer;
+  }
+
+  /* ── Pop-up wrapper (centering) ── */
+  .popup-wrap {
+    position: fixed;
+    inset: 0;
     z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 360px;
-    width: calc(100vw - 48px);
-    pointer-events: none;
-  }
-
-  .toast {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border-radius: 10px;
-    background: var(--toast-bg);
-    color: var(--toast-color);
-    border: 1.5px solid rgba(0, 0, 0, 0.08);
-    box-shadow:
-      0 4px 16px rgba(0, 0, 0, 0.12),
-      0 1px 4px rgba(0, 0, 0, 0.08);
-    pointer-events: all;
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.875rem;
-    line-height: 1.4;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Left accent bar */
-  .toast::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--toast-accent);
-    border-radius: 10px 0 0 10px;
-  }
-
-  .toast-icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    opacity: 0.9;
-  }
-
-  .toast-message {
-    flex: 1;
-    font-weight: 500;
-  }
-
-  .toast-close {
-    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
-    border: none;
-    background: rgba(0, 0, 0, 0.08);
-    color: var(--toast-color);
+    padding: 1.25rem;
+    pointer-events: none; /* clicks pass through to backdrop except the card */
+  }
+
+  /* ── Pop-up card ── */
+  .popup {
+    position: relative;
+    pointer-events: all;
+    background: var(--pop-bg);
+    border: 3px solid var(--pop-border);
+    border-radius: 20px;
+    box-shadow:
+      6px 6px 0px var(--pop-shadow),
+      0 24px 48px rgba(42, 36, 32, 0.22);
+    padding: 2.25rem 2rem 2rem;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  /* Decorative top stripe */
+  .popup-stripe {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--pop-border) 0px,
+      var(--pop-border) 10px,
+      transparent 10px,
+      transparent 18px
+    );
+    border-radius: 17px 17px 0 0;
+  }
+
+  /* Queue badge */
+  .queue-badge {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: rgba(42, 36, 32, 0.15);
+    color: var(--pop-border);
+    border: 1.5px solid rgba(42, 36, 32, 0.25);
+    border-radius: 999px;
+    padding: 2px 9px;
+    text-transform: uppercase;
+  }
+
+  /* Icon */
+  .popup-icon {
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
+    background: rgba(42, 36, 32, 0.12);
+    border: 2.5px solid var(--pop-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--pop-accent);
+    margin-bottom: 0.25rem;
+    flex-shrink: 0;
+    box-shadow: 3px 3px 0 var(--pop-border);
+  }
+
+  /* Label */
+  .popup-label {
+    font-family: 'HammersmithOne', Georgia, serif;
+    font-size: 1.15rem;
+    color: var(--pop-border);
+    margin: 0;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  /* Message */
+  .popup-message {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--pop-border);
+    margin: 0.15rem 0 0.75rem;
+    opacity: 0.88;
+    max-width: 300px;
+  }
+
+  /* OK button */
+  .popup-ok {
+    font-family: 'HammersmithOne', Georgia, serif;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--pop-bg);
+    background: var(--pop-border);
+    border: 2.5px solid var(--pop-border);
+    border-radius: 999px;
+    padding: 10px 48px;
     cursor: pointer;
-    padding: 0;
-    transition: background 150ms ease;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.25);
+    transition: transform 0.15s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.15s ease;
+    min-width: 140px;
   }
 
-  .toast-close:hover {
-    background: rgba(0, 0, 0, 0.18);
+  .popup-ok:hover {
+    transform: translateY(-2px);
+    box-shadow: 4px 5px 0 rgba(0, 0, 0, 0.3);
   }
 
-  @media (max-width: 480px) {
-    .toast-container {
-      bottom: 16px;
-      right: 16px;
-      left: 16px;
-      width: auto;
-      max-width: none;
+  .popup-ok:active {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .popup-ok:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 3px;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 440px) {
+    .popup {
+      max-width: 100%;
+      border-radius: 16px;
+      padding: 2rem 1.5rem 1.75rem;
+      box-shadow:
+        4px 4px 0px var(--pop-shadow),
+        0 16px 32px rgba(42, 36, 32, 0.2);
+    }
+
+    .popup-ok {
+      width: 100%;
+      padding: 12px;
+    }
+
+    .popup-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .popup-icon :global(svg) {
+      width: 22px;
+      height: 22px;
     }
   }
 </style>
