@@ -1,42 +1,107 @@
-# sv
+coba rework sidebar agar senada dari bg layout root ku aku berikan refrensi layout juga pastikan responsive nya bisa di semua device dan readebilitynya gunakan svg untuk icon, saranku pecah jadi beberapa komponen lagi untuk pages sementara jangan diurus dulu itu nanti
+pastikan juga interaktivitasnya aku juga memberikan refrensi layouting di pages galerry ku kamu bisa pakai DNA nya
+karena ini protoype jadi memang mainan local storage (aku berikan auth store ku dan usermock ku)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+├── dashboard
+│   ├── artist
+│   │   ├── adoption
+│   │   │   └── +page.svelte
+│   │   ├── commision
+│   │   │   └── +page.svelte
+│   │   └── galery
+│   │   └── +page.svelte
+│   ├── client
+│   │   ├── commision
+│   │   │   └── +page.svelte
+│   │   ├── history
+│   │   │   └── +page.svelte
+│   │   └── logout
+│   │   └── +page.svelte
+│   └── +layout.svelte
+├── home
+│   ├── gallery
+│   │   └── +page.svelte
+│   ├── +layout.svelte
+│   ├── +page.svelte
+│   └── shop
+│   ├── invoice
+│   │   └── +page.svelte
+│   └── +page.svelte
+├── +layout.svelte
+├── login
+│   └── +page.svelte
+├── +page.svelte
+├── register
+│   └── +page.svelte
+└── terms
+└── +page.svelte
 
-## Creating a project
+## UNTUK ARTIST PAGES
 
-If you're seeing this, you've probably already done this step. Congrats!
+### 1. Overview / Main Dashboard (`/dashboard/artist`)
 
-```sh
-# create a new project
-npx sv create my-app
-```
+- **Subtitle:** `✦ THE WORKSPACE ✦`
+- **Title:** `Creative Solitude`
+  _Deskripsi Baru:_ _"Welcome back, Cho. Here is the quiet rhythm of your work, ongoing creations, and studio updates."_
 
-To recreate this project with the same configuration:
+### 2. Commission (`/dashboard/artist/commision`)
 
-```sh
-# recreate this project
-npx sv@0.15.3 create --template minimal --no-types --add sveltekit-adapter="adapter:vercel" tailwindcss="plugins:none" --install npm .
-```
+- **Subtitle:** `✦ REQUESTED IDEAS ✦`
+- **Title:** `Visions & Drafts`
+  _Deskripsi Baru:_ _"Review and shape the custom pieces requested by your patrons. Turning thoughts into shared imagery."_
 
-## Developing
+## UNTUK CLIENT PAGES
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### 1. Overview / Main Dashboard (`/dashboard/client`)
 
-```sh
-npm run dev
+- **Subtitle:** `✦ PATRON LOUNGE ✦`
+- **Title:** `The Art Corner`
+- _Deskripsi Baru:_ _"Your personal corner of the studio. Wander through your current art orders and collected pieces."_
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### 2. Commission (`/dashboard/client/commision`)
 
-## Building
+- **Subtitle:** `✦ COMMISSION STUDIO ✦`
+  **Title:** `Personal Commissions`
+- _Deskripsi Baru:_ _"Request a unique piece to your own story. Watch its progress unfold from sketch to completion."_
 
-To create a production version of your app:
+### 3. History (`/dashboard/client/history`)
 
-```sh
-npm run build
-```
+- **Subtitle:** `✦ OWNED PIECES ✦`
+- **Title:** `Art Archives`
+- _Deskripsi Baru:_ _"A quiet look back at your history with the studio. Revisiting the illustrations and stories you have gathered over time."_
 
-You can preview the production build with `npm run preview`.
+├── dashboard
+│   ├── artist
+│   │   ├── adoption
+│   │   │   └── +page.svelte
+│   │   ├── commision
+│   │   │   └── +page.svelte
+│   │   └── galery
+│   │   └── +page.svelte
+│   ├── client
+│   │   ├── commision
+│   │   │   └── +page.svelte
+│   │   ├── history
+│   │   │   └── +page.svelte
+│   │   └── logout
+│   │   └── +page.svelte
+│   └── +layout.svelte
+├── home
+│   ├── gallery
+│   │   └── +page.svelte
+│   ├── +layout.svelte
+│   ├── +page.svelte
+│   └── shop
+│   ├── invoice
+│   │   └── +page.svelte
+│   └── +page.svelte
+├── +layout.svelte
+├── login
+│   └── +page.svelte
+├── +page.svelte
+├── register
+│   └── +page.svelte
+└── terms
+└── +page.svelte
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+adapun untuk isi page gapapa sesimpel title dan subtitle page nya aja, itu dulu si
