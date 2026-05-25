@@ -133,9 +133,14 @@
   /* ── Hero card ── */
   .hero-card {
     position: relative;
-    background: rgba(240, 235, 227, 0.92);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    
+    /* UBAH DI SINI: Gunakan warna solid padat, hilangkan opacity (0.92) */
+    background: #f0ebe3; 
+    
+    /* HAPUS ATAU KOMENTARI BAGIAN BACKDROP-FILTER INI: */
+    /* backdrop-filter: blur(20px) saturate(160%); */
+    /* -webkit-backdrop-filter: blur(20px) saturate(160%); */
+    
     border: 3px solid #2a2420;
     border-radius: 28px;
     box-shadow: 8px 8px 0px #2a2420;
@@ -148,7 +153,7 @@
     transition: opacity 0.5s ease, transform 0.5s ease;
     min-height: 480px;
     justify-content: center;
-  }
+  } 
 
   .hero-card.visible {
     opacity: 1;
