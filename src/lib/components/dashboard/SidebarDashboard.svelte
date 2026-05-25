@@ -20,23 +20,33 @@
   // ── Nav config per role ───────────────────────────
   const artistNav = [
     {
+      label: 'Overview',
+      href: '/dashboard/artist',
+      icon: 'overview',
+    },
+    {
       label: 'Commission',
       href: '/dashboard/artist/commission',
       icon: 'palette',
+    },
+    {
+      label: 'Adoption',
+      href: '/dashboard/artist/adoption',
+      icon: 'heart',
     },
     {
       label: 'Gallery',
       href: '/dashboard/artist/gallery',
       icon: 'image',
     },
-    {
-      label: 'Adoption',
-      href: '/dashboard/artist/adoption',
-      icon: 'palette',
-    },  
   ];
 
   const clientNav = [
+    {
+      label: 'Overview',
+      href: '/dashboard/client',
+      icon: 'overview',
+    },
     {
       label: 'Commission',
       href: '/dashboard/client/commission',
@@ -47,22 +57,28 @@
       href: '/dashboard/client/history',
       icon: 'receipt',
     },
-];
+  ];
 
   const navItems = $derived(role === 'artist' ? artistNav : clientNav);
 
-  function isActive(href) {
-    return currentPath.startsWith(href);
+function isActive(href) {
+  // Jika href adalah rute utama dashboard (Overview), pastikan jalurnya sama persis
+  if (href === '/dashboard/artist' || href === '/dashboard/client') {
+    return currentPath === href;
   }
+  
+  // Untuk menu lainnya, tetap gunakan startsWith agar sub-halaman tetap memicu highlight
+  return currentPath.startsWith(href);
+}  
 
-  function navigate(href) {
+function navigate(href) {
     goto(href);
   }
 
   function handleLogout() {
     auth.logout();
     toast.success('Logged out. See you next time! ✦');
-    goto('/login');
+    goto('/');
   }
 
   function toggleMinimize() {
@@ -140,10 +156,9 @@
             >
               <!-- SVG Icon -->
               <span class="nav-icon" aria-hidden="true">
-                {@render NavIcon({ name: item.icon })}
-              </span>              
-
-            {#if !minimized}
+                {@render NavIcon(item.icon)}
+              </span>
+              {#if !minimized}
                 <span class="nav-label">{item.label}</span>
               {/if}
               {#if !minimized && isActive(item.href)}
@@ -209,9 +224,8 @@
       aria-current={isActive(item.href) ? 'page' : undefined}
     >
       <span class="mobile-icon" aria-hidden="true">
-        {@render NavIcon({ name: item.icon })}
+        {@render NavIcon(item.icon)}
       </span>
-      <span class="mobile-label">{item.label}</span>
     </button>
   {/each}
 </nav>
@@ -230,8 +244,15 @@
 <!-- ══════════════════════════════════════
      ICON COMPONENT (inline)
 ══════════════════════════════════════ -->
-{#snippet NavIcon({ name })}
-  {#if name === 'palette'}
+{#snippet NavIcon(name)}
+  {#if name === 'overview'}
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="9" rx="1"/>
+      <rect x="14" y="3" width="7" height="5" rx="1"/>
+      <rect x="14" y="12" width="7" height="9" rx="1"/>
+      <rect x="3" y="16" width="7" height="5" rx="1"/>
+    </svg>
+  {:else if name === 'palette'}
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
       <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
@@ -239,27 +260,15 @@
       <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
       <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
     </svg>
+  {:else if name === 'heart'}
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
   {:else if name === 'image'}
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
       <circle cx="8.5" cy="8.5" r="1.5"/>
       <polyline points="21,15 16,10 5,21"/>
-    </svg>
-  {:else if name === 'users'}
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-      <circle cx="9" cy="7" r="4"/>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-    </svg>
-  {:else if name === 'message'}
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    </svg>
-  {:else if name === 'settings'}
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
     </svg>
   {:else if name === 'receipt'}
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -347,8 +356,8 @@
   }
 
   .brand-dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: var(--sidebar-accent-2);
     border: 2px solid var(--sidebar-border);
@@ -357,10 +366,10 @@
 
   .brand-name {
     font-family: 'HammersmithOne', Georgia, serif;
-    font-size: 0.78rem;
-    line-height: 1.2;
+    font-size: 1rem;
+    line-height: 1.25;
     color: var(--sidebar-text);
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -597,65 +606,94 @@
   }
 
   /* ══════════════════════════════════════
-     MOBILE BOTTOM BAR
+     MOBILE BOTTOM BAR — Floating pill
   ══════════════════════════════════════ */
   .mobile-bar {
     display: none; /* shown via media query */
     position: fixed;
-    bottom: 0; left: 0; right: 0;
+
+    /* Floating: tidak nempel ke tepi, ada margin kiri-kanan */
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Lebar auto menyesuaikan konten, dibatasi agar tidak terlalu lebar */
+    width: auto;
+    max-width: calc(100vw - 2rem);
+    min-width: 0;
+    overflow: hidden;
+
     z-index: 200;
+
+    /* DNA brutalist: border tebal + offset shadow */
     background: var(--sidebar-bg);
-    border-top: 3px solid var(--sidebar-border);
-    box-shadow: 0 -4px 0 0 var(--sidebar-border);
-    padding: 0.5rem 0.5rem calc(0.5rem + env(safe-area-inset-bottom));
+    border: 2.5px solid var(--sidebar-border);
+    border-radius: 999px;   /* full pill */
+    box-shadow:
+      4px 4px 0px var(--sidebar-border),
+      0 8px 24px rgba(42, 36, 32, 0.18),
+      0 2px 8px rgba(42, 36, 32, 0.12);
+
+    padding: 0.35rem 0.5rem;
     align-items: center;
-    justify-content: space-around;
-    gap: 0.25rem;
+    justify-content: center;
+    gap: 0.15rem;
   }
 
+  /* Profile trigger — bulat di kiri, sedikit terpisah */
   .mobile-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.4rem 0.6rem;
+    justify-content: center;
+    padding: 0.6rem 0.75rem;
     border: none;
-    border-radius: 12px;
+    border-radius: 999px;
     background: transparent;
     color: var(--sidebar-muted);
     cursor: pointer;
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.58rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    transition: background var(--transition), color var(--transition);
-    min-width: 48px;
+    transition:
+      background var(--transition),
+      color var(--transition),
+      transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-width: 44px;
   }
 
-  .mobile-item.active {
+  .mobile-item:hover {
     color: var(--sidebar-text);
-    background: rgba(42,36,32,0.07);
-    font-weight: 700;
+    background: rgba(42, 36, 32, 0.06);
+    transform: translateY(-1px);
   }
 
+  /* Active state: pill background dark → teks terang, offset shadow kecil */
+  .mobile-item.active {
+    background: var(--sidebar-active-bg);
+    color: var(--sidebar-active-fg);
+    font-weight: 700;
+    box-shadow: 2px 2px 0px rgba(42, 36, 32, 0.5);
+    transform: translateY(-1px);
+  }
+
+  /* Profile button — border lingkaran tipis sebagai pemisah visual */
   .mobile-item.mobile-profile {
     color: var(--sidebar-muted);
+    border-right: 1.5px solid rgba(42, 36, 32, 0.12);
+    border-radius: 999px 0 0 999px;  /* setengah pill kiri */
+    padding-right: 0.85rem;
+    margin-right: 0.15rem;
+  }
+
+  .mobile-item.mobile-profile:hover {
+    background: rgba(180, 166, 213, 0.15);
+    color: #3d2b6b;
+    border-right-color: rgba(42, 36, 32, 0.12);
+    border-radius: 999px 0 0 999px;
   }
 
   .mobile-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .mobile-label {
-    display: block;
-  }
-
-  /* Active pip on mobile icon */
-  .mobile-item.active .mobile-icon::after {
-    display: none; /* keep it simple on mobile */
   }
 
   /* ══════════════════════════════════════
@@ -681,9 +719,26 @@
     .profile-btn { justify-content: center; padding: 0.65rem; gap: 0; margin: 0 0.5rem 0.85rem; }
   }
 
-  /* Mobile: hide sidebar entirely, show bottom bar */
+  /* Mobile: hide sidebar entirely, show floating bottom bar */
   @media (max-width: 600px) {
     .sidebar { display: none; }
     .mobile-bar { display: flex; }
+  }
+
+  /* Narrow phone — kompreskan padding sedikit */
+  @media (max-width: 360px) {
+    .mobile-bar {
+      max-width: calc(100vw - 1.5rem);
+      padding: 0.3rem 0.35rem;
+      gap: 0.05rem;
+    }
+    .mobile-item {
+      padding: 0.45rem 0.5rem;
+      min-width: 38px;
+      font-size: 0.5rem;
+    }
+    .mobile-item.mobile-profile {
+      padding-right: 0.65rem;
+    }
   }
 </style>

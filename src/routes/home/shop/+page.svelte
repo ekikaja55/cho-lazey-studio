@@ -71,7 +71,7 @@
     const invoiceData = { itemId: item.gallery_id, itemTitle: item.title, itemPrice: item.price, itemFormat: item.file_format, itemStatus: item.status, buyerEmail: email, proofName };
     sessionStorage.setItem('cho_invoice', JSON.stringify(invoiceData));
     toast.success('[PROTOTYPE] Payment submitted! Redirecting to your invoice…');
-    setTimeout(() => goto('/home/shop/invoice'), 1200);
+    setTimeout(() => goto('/invoice?back=/home/shop'), 1200);
   }
 
   onMount(() => { mounted = true; });

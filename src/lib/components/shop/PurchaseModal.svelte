@@ -84,7 +84,7 @@
         <div class="modal-header-left">
           <div class="modal-eyebrow">
             <span class="eyebrow-dot" aria-hidden="true"></span>
-            adoption form
+            payment form
           </div>
           <h2 class="modal-title">Complete Your Purchase</h2>
           <p class="modal-subtitle">You are adopting: <strong class="item-name">{item.title}</strong></p>

@@ -687,7 +687,10 @@
     .dot-indicators{
         height: 5px;
     }
-    .img-nav { display: none; }
+   .img-nav { 
+      width: 28px; 
+      height: 28px; 
+    }
   }
 
   @media (max-width: 420px) {
