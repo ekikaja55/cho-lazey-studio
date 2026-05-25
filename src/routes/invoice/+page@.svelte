@@ -306,11 +306,18 @@
   }
 
   /* ── Header Seksi ── */
-  .main-header { display: flex; justify-content: space-between; align-items: flex-start; }
+  /* ── Header Seksi (Perbaikan Mobile) ── */
+  .main-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+    gap: 1rem; /* Tambah gap biar tidak mepet */
+  }
 
   .invoice-title-text {
     font-family: 'HammersmithOne', Georgia, serif;
-    font-size: 3.5rem;
+    /* Menggunakan clamp agar font otomatis menyesuaikan lebar layar */
+    font-size: clamp(2.2rem, 8vw, 3.5rem); 
     margin: 0;
     line-height: 0.95;
     color: #fbfaf8;
@@ -472,6 +479,23 @@
      MEDIA RESPONSIVE (MOBILE OPTIMIZATION)
      ══════════════════════════════════════════ */
   @media (max-width: 650px) {
+    
+    .main-header {
+      flex-direction: column; /* Ubah ke kolom biar tidak saling tabrak */
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .brand-logo {
+      padding-top: 0; /* Hilangkan padding atas biar lebih rapat ke title-area */
+      order: -1;      /* Pindah ke paling atas kalau mau */
+    }
+
+.invoice-sub-id { margin: 0.2rem 0 0 0; }
+
+.invoice-main-content { padding: 1.5rem; gap: 1.5rem; }
+
+
     .invoice-card-wrapper { border-radius: 16px; min-height: auto; flex-direction: column;}
     .brutal-sidebar-pattern { width: 100%; height: 20px; flex-direction: row; border-right: none; border-bottom: 2.5px solid #2a2420; }
     .geo-block { border-bottom: none; border-right: 2.5px solid #2a2420; transform: skewX(-15deg) scale(1.1); margin-bottom: 0; margin-right: 2px;}
@@ -480,7 +504,7 @@
     .summary-section { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
     .top-total-display { align-self: flex-start; }
     .label-muted-right { text-align: left; }
-    .invoice-title-text { font-size: 2.6rem; text-shadow: 3px 3px 0px #2a2420; -webkit-text-stroke: 1.5px #2a2420;}
+    /* .invoice-title-text { font-size: 2.6rem; text-shadow: 3px 3px 0px #2a2420; -webkit-text-stroke: 1.5px #2a2420;} */
 
     .payment-footer-area { flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
     .payment-method-box { text-align: center; }
