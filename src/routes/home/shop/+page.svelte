@@ -504,7 +504,7 @@
     border: 3px solid #f4a87c;
     border-radius: 22px;
     pointer-events: none;
-    z-index: 8;
+    z-index: -9;
     animation: ringPop 0.3s cubic-bezier(0.34,1.56,0.64,1) both;
   }
 
