@@ -93,10 +93,14 @@
       <span class="eyebrow-dot" aria-hidden="true"></span>
       <span>✦ all works ✦</span>
     </div>
+
     <h1 class="gallery-title">Gallery</h1>
+    
+    <div class="header-underline" aria-hidden="true"></div>
     <p class="gallery-subtitle">
       {items.length} pieces — digital art, illustrations &amp; more
     </p>
+
     <!-- Decorative accent shapes -->
     <div class="header-shape header-shape-1" aria-hidden="true"></div>
     <div class="header-shape header-shape-2" aria-hidden="true"></div>
@@ -288,6 +292,13 @@
     padding: 2rem 2.5rem;
     position: relative;
     overflow: hidden;
+  }
+.header-underline {
+    width: 56px; height: 4px;
+    background: linear-gradient(90deg, #f4a87c, #b4a6d5);
+    border-radius: 2px;
+    margin-bottom: 0.85rem;
+    position: relative; z-index: 1;
   }
 
   .header-eyebrow {

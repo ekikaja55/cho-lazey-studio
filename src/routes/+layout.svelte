@@ -27,10 +27,8 @@
   <script src="https://kit.fontawesome.com/2773bd903f.js" crossorigin="anonymous"></script>
 </svelte:head>
 
-<!-- Page content -->
 {@render children()}
 
-<!-- Global Toast Notification Layer -->
 <Toast />
 
 <style>

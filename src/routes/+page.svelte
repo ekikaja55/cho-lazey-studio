@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  // Impor store autentikasi
+  import { isLoggedIn, userRole } from '$lib/stores/auth.js';
 
   let mounted = $state(false);
   let titleVisible = $state(false);
@@ -10,6 +12,10 @@
     setTimeout(() => titleVisible = true, 100);
     setTimeout(() => buttonsVisible = true, 400);
   });
+
+  // Logika reaktif untuk menentukan tujuan & label tombol di sudut
+  const loginLink = $derived($isLoggedIn ? `/dashboard/${$userRole || ''}` : '/login');
+  const loginText = $derived($isLoggedIn ? 'Dashboard' : 'Login');
 
   // Floating shapes data
   const shapes = [
@@ -73,8 +79,8 @@
       </div>
 
       <div class="login-corner">
-        <a href="/login" class="btn-login">
-          Login
+        <a href={loginLink} class="btn-login" class:is-logged={$isLoggedIn}>
+          {loginText}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
         </a>
       </div>
@@ -133,7 +139,7 @@
     border: 3px solid #2a2420;
     border-radius: 28px;
     box-shadow: 8px 8px 0px #2a2420;
-    padding: 4.5rem 3.5rem 4.5rem; /* Tambah padding agar lega */
+    padding: 4.5rem 3.5rem 4.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -165,7 +171,7 @@
 
   .studio-eyebrow {
     font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 1.1rem; /* Ukuran desktop disesuaikan */
+    font-size: 1.1rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #2a2420;
@@ -263,7 +269,12 @@
     border-radius: 999px;
     background: transparent;
     text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Berikan highlight warna lavender jika status sudah login */
+  .btn-login.is-logged {
+    background: rgba(180, 166, 213, 0.15);
   }
 
   .btn-login:hover {
@@ -299,11 +310,10 @@
   .stamp-year       { font-size: 0.75rem; font-weight: 600; }
 
   /* ══════════════════════════════════════
-      RESPONSIVE (HP)
+       RESPONSIVE (HP)
      ══════════════════════════════════════ */
   @media (max-width: 640px) {
     .hero-card {
-      /* Padding bawah dibesarkan (5.5rem) agar tombol tidak tabrakan */
       padding: 3.5rem 1.25rem 5.5rem;
       border-radius: 20px;
       box-shadow: 5px 5px 0px #2a2420;
@@ -311,7 +321,6 @@
     }
 
     .studio-eyebrow {
-      /* Ukuran font dikecilkan drastis agar tidak menabrak stamp di layar sempit */
       font-size: 0.8rem;
       letter-spacing: 0.15em;
       margin-bottom: 0.75rem;
@@ -319,7 +328,6 @@
 
     .title-line,
     .title-line.accent {
-      /* Menggunakan nilai minimal yang lebih aman untuk layar HP mungil */
       font-size: clamp(2.5rem, 12vw, 4.5rem);
     }
 
@@ -333,7 +341,6 @@
     }
 
     .login-corner {
-      /* Pindahkan posisi tombol login ke tengah bawah pada versi mobile */
       bottom: 1.25rem;
       right: 50%;
       transform: translateX(50%);
@@ -341,7 +348,6 @@
     }
 
     .btn-login:hover {
-      /* Ubah arah animasi hover pada versi mobile karena posisinya sudah ditengah */
       transform: translateY(-2px);
     }
 

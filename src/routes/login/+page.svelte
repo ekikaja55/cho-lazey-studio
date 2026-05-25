@@ -29,7 +29,8 @@
 
       if (user) {
         auth.login(user);
-        toast.success(`Welcome back, ${user.display_name}! 👋`);
+        toast.success(`Welcome back, ${user.display_name}! `);
+
         setTimeout(() => goto(`/dashboard/${user.role}`), 700);
       } else {
         toast.error('Invalid username or password.');
