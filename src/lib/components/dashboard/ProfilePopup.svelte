@@ -241,22 +241,23 @@
     transform: scale(1.1);
   }
 
-  /* Avatar */
- .popup-avatar-wrap {
+/* Avatar */
+  .popup-avatar-wrap {
     position: relative;
     margin-top: 0.5rem;
     
-    /* 1. Menerapkan drop-shadow 60% agar lingkaran dalam & ring putus-putus kebagian shadow */
-    filter: drop-shadow(4px 4px 0px rgba(42, 36, 32, 0.6));
+    /* 1. Hapus drop-shadow dari kontainer luar agar ring putus-putus tidak ikut berbayang */
+    filter: none; 
   }
- .popup-avatar {
+
+  .popup-avatar {
     width: 72px; height: 72px;
     border-radius: 50%;
     background: #b4a6d5;
     border: 3px solid #2a2420;
     
-    /* 2. Hapus box-shadow bawaan agar tidak double dengan drop-shadow pembungkusnya */
-    box-shadow: none; 
+    /* 2. Berikan box-shadow 60% langsung ke lingkaran avatar ini saja */
+    box-shadow: 4px 4px 0px rgba(42, 36, 32, 0.6); 
     
     display: flex;
     align-items: center;
@@ -265,15 +266,14 @@
     position: relative;
     z-index: 1;
   }
- 
 
 .popup-avatar-ring {
     position: absolute;
     inset: -5px;
     border-radius: 50%;
     
-    /* 4. Mengubah warna ring putus-putus menjadi warna tegas/solid agar bayangannya jatuh lebih cantik */
-    border: 2px dashed #2a2420; 
+    /* UBAH DI SINI: Naikkan opasitas dari 0.2 menjadi 0.4 (40%) atau 0.45 (45%) */
+    border: 2px dashed rgba(42, 36, 32, 0.4); 
     
     animation: spin 18s linear infinite;
   }
