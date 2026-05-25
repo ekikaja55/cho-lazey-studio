@@ -14,7 +14,7 @@
   let showModal  = $state(false);
   let showViewer = $state(false);
   let hoveredId  = $state(null);
-
+  let previewRef;
   // Exclude archived
   const items = galleryImages.filter(i => i.status !== 'archived');
   const total = items.length;
@@ -42,7 +42,19 @@
     -2.1, 0.6, -1.5, 1.9, -0.5, 1.1,
   ];
 
-  function selectItem(item) { selected = item; }
+  function selectItem(item) { 
+    selected = item;
+    // Cek apakah ini di sisi client dan ukurannya sesuai dengan breakpoint mobile kamu (960px)
+    if (typeof window !== 'undefined' && window.innerWidth <= 960 && previewRef) {
+      // Gunakan setTimeout kecil untuk memastikan Svelte selesai merender data baru sebelum scrolling
+      setTimeout(() => {
+        previewRef.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }, 50);
+    }
+  }
 
   function openViewer() { if (selected) showViewer = true; }
 
@@ -203,7 +215,7 @@
     </section>
 
     <!-- Preview panel — sticky on desktop -->
-    <aside class="preview-panel" aria-label="Artwork preview">
+    <aside class="preview-panel" bind:this={previewRef} aria-label="Artwork preview">
 
       <!-- Panel inner card — same border+shadow DNA -->
       <div class="panel-card">
