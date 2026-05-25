@@ -1,5 +1,4 @@
 <!-- lib/components/shop/ArtworkViewer.svelte -->
-<!-- Full-screen artwork viewer with watermark — safe replacement for window.open -->
 <script>
   import { scale, fade } from 'svelte/transition';
   import { backOut }     from 'svelte/easing';
@@ -14,7 +13,7 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<!-- Backdrop -->
+<!-- Backdrop — same blur/dark as gallery lightbox -->
 <div
   class="viewer-backdrop"
   transition:fade={{ duration: 200 }}
@@ -23,41 +22,56 @@
   aria-hidden="true"
 ></div>
 
-<!-- Viewer -->
+<!-- Viewer card — same border+shadow DNA, peach nuance -->
 <div
-  class="viewer-wrap"
+  class="viewer-card"
   role="dialog"
   aria-modal="true"
-  aria-label="Full artwork view"
+  aria-label="Full artwork view: {item.title}"
   transition:scale={{ duration: 300, easing: backOut, start: 0.93 }}
 >
-  <!-- Header bar -->
+  <!-- Folder-tab style header -->
   <div class="viewer-header">
-    <div class="viewer-title-wrap">
-      <span class="viewer-tag">
-        <span class="tag-dot" aria-hidden="true"></span>
-        Full Preview
-      </span>
-      <h2 class="viewer-title">{item.title}</h2>
-      <p class="viewer-meta">
-        {item.file_format} &nbsp;·&nbsp; CHO.LAZEY
-      </p>
+    <!-- Decorative tab strip -->
+    <div class="viewer-tab-strip" aria-hidden="true">
+      <span class="vtab vtab-peach"></span>
+      <span class="vtab vtab-lavender"></span>
+      <span class="vtab vtab-turquoise"></span>
     </div>
-    <div class="viewer-actions">
-      <span class="viewer-wm-note">Preview only — watermarked</span>
-      <button class="viewer-close" onclick={onClose} aria-label="Close viewer">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
+
+    <div class="viewer-header-inner">
+      <div class="viewer-title-col">
+        <div class="viewer-eyebrow">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          <span>Full Preview</span>
+        </div>
+        <h2 class="viewer-title">{item.title}</h2>
+        <p class="viewer-meta">{item.file_format} &nbsp;·&nbsp; CHO.LAZEY</p>
+      </div>
+
+      <div class="viewer-actions">
+        <span class="wm-note" aria-label="Watermarked preview">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Preview only — watermarked
+        </span>
+        <button
+          class="viewer-close"
+          onclick={onClose}
+          aria-label="Close viewer"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Image area -->
+  <!-- Image — same border+shadow as lightbox card -->
   <div class="viewer-body">
     <div class="viewer-img-card">
-      <WatermarkWrapper opacity={0.32} fontSize={15} spacing={70} text="CHO'S STUDIO · PREVIEW ONLY">
+      <WatermarkWrapper opacity={0.3} fontSize={14} spacing={70} text="CHO'S STUDIO · PREVIEW ONLY">
         <img
           src={item.image_url}
           alt={item.title}
@@ -70,9 +84,7 @@
 
   <!-- Footer -->
   <div class="viewer-footer">
-    <p class="viewer-footer-note">
-      ✦ This is a watermarked preview. Purchase to receive the original high-quality file.
-    </p>
+    <p class="viewer-note">✦ Watermarked preview. Adopt this piece to receive the original high-quality file.</p>
     <button class="viewer-close-btn" onclick={onClose}>
       Close Preview
     </button>
@@ -83,17 +95,18 @@
   /* Backdrop */
   .viewer-backdrop {
     position: fixed; inset: 0;
-    background: rgba(10, 8, 6, 0.85);
+    background: rgba(42,36,32,0.72);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    z-index: 300;
+    z-index: 400;
     cursor: pointer;
   }
 
-  /* Wrap */
-  .viewer-wrap {
-    position: fixed; inset: 0;
-    z-index: 301;
+  /* Card — same spec as gallery lightbox-card */
+  .viewer-card {
+    position: fixed;
+    inset: 0;
+    z-index: 401;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -102,116 +115,138 @@
     pointer-events: none;
   }
 
-  /* Card container */
-  .viewer-wrap > * { pointer-events: all; }
+  .viewer-card > * { pointer-events: all; }
 
+  /* ── Header ── */
   .viewer-header {
     width: 100%;
     max-width: 860px;
+    background: rgba(240,235,227,0.97);
+    border: 3px solid #2a2420;
+    border-bottom: none;
+    border-radius: 24px 24px 0 0;
+    overflow: hidden;
+  }
+
+  /* Colored tab strip — same palette as folder tabs */
+  .viewer-tab-strip {
+    display: flex;
+    height: 5px;
+  }
+
+  .vtab { flex: 1; }
+  .vtab-peach     { background: #f4a87c; }
+  .vtab-lavender  { background: #b4a6d5; }
+  .vtab-turquoise { background: #a2e1db; }
+
+  .viewer-header-inner {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 0.75rem;
+    padding: 1rem 1.25rem 0.9rem;
     flex-wrap: wrap;
   }
 
-  .viewer-title-wrap { display: flex; flex-direction: column; gap: 2px; }
+  .viewer-title-col { display: flex; flex-direction: column; gap: 2px; }
 
-  .viewer-tag {
-    display: inline-flex;
+  .viewer-eyebrow {
+    display: flex;
     align-items: center;
     gap: 6px;
     font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #7dc8c1;
-    margin-bottom: 2px;
+    color: #d4845a;
   }
 
-  .tag-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: #7dc8c1;
+  .eyebrow-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #f4a87c;
     animation: pulse 2s ease-in-out infinite;
   }
 
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
 
   .viewer-title {
     font-family: 'HammersmithOne', Georgia, serif;
-    font-size: clamp(1.1rem, 3vw, 1.6rem);
-    color: #f0ebe3;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: #2a2420;
     margin: 0;
     line-height: 1.1;
   }
 
   .viewer-meta {
     font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.78rem;
-    color: rgba(240,235,227,0.55);
+    font-size: 0.75rem;
+    color: rgba(42,36,32,0.45);
     margin: 0;
   }
 
   .viewer-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
   }
 
-  .viewer-wm-note {
+  .wm-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.72rem;
-    color: rgba(244,168,124,0.8);
-    background: rgba(244,168,124,0.1);
-    border: 1px dashed rgba(244,168,124,0.4);
+    font-size: 0.7rem;
+    color: #d4845a;
+    background: rgba(244,168,124,0.15);
+    border: 1.5px dashed rgba(244,168,124,0.5);
     border-radius: 6px;
     padding: 4px 10px;
     white-space: nowrap;
   }
 
   .viewer-close {
-    width: 38px; height: 38px;
+    width: 36px; height: 36px;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(240,235,227,0.1);
-    border: 2px solid rgba(240,235,227,0.25);
+    background: rgba(42,36,32,0.07);
+    border: 2px solid #2a2420;
     border-radius: 50%;
     cursor: pointer;
-    color: #f0ebe3;
-    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s;
+    color: #2a2420;
+    box-shadow: 2px 2px 0px #2a2420;
+    transition: background 0.2s ease, transform 0.2s ease;
     flex-shrink: 0;
   }
 
-  .viewer-close:hover { background: rgba(244,105,88,0.25); border-color: #f46958; transform: rotate(90deg); }
+  .viewer-close:hover {
+    background: #f4a87c;
+    transform: rotate(90deg) scale(1.08);
+  }
 
-  /* Body */
+  /* ── Body ── */
   .viewer-body {
     width: 100%;
     max-width: 860px;
-    display: flex;
-    justify-content: center;
   }
 
   .viewer-img-card {
     position: relative;
-    width: 100%;
-    max-height: calc(100vh - 220px);
-    border: 3px solid rgba(240,235,227,0.2);
-    border-radius: 16px;
+    max-height: calc(100vh - 240px);
+    border: 3px solid #2a2420;
+    border-top: none;
     overflow: hidden;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.5), 6px 6px 0 rgba(125,200,193,0.15);
     background: #1a1613;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 6px 6px 0px #2a2420;
   }
 
   .viewer-img {
     width: 100%;
-    height: 100%;
-    max-height: calc(100vh - 220px);
+    max-height: calc(100vh - 240px);
     object-fit: contain;
     display: block;
     user-select: none;
@@ -219,7 +254,7 @@
     -webkit-user-drag: none;
   }
 
-  /* Footer */
+  /* ── Footer ── */
   .viewer-footer {
     width: 100%;
     max-width: 860px;
@@ -231,35 +266,37 @@
     flex-wrap: wrap;
   }
 
-  .viewer-footer-note {
+  .viewer-note {
     font-family: 'Lora', Georgia, serif;
-    font-size: 0.8rem;
-    color: rgba(240,235,227,0.5);
+    font-size: 0.78rem;
+    color: rgba(240,235,227,0.6);
     margin: 0;
     font-style: italic;
   }
 
   .viewer-close-btn {
     font-family: 'HammersmithOne', Georgia, serif;
-    font-size: 0.82rem;
-    color: #f0ebe3;
-    background: transparent;
-    border: 2px solid rgba(240,235,227,0.3);
+    font-size: 0.8rem;
+    color: #2a2420;
+    background: rgba(240,235,227,0.9);
+    border: 2px solid #2a2420;
     border-radius: 999px;
-    padding: 6px 18px;
+    padding: 7px 18px;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    box-shadow: 2px 2px 0px #2a2420;
+    transition: background 0.2s ease, transform 0.15s ease;
     white-space: nowrap;
   }
 
-  .viewer-close-btn:hover { background: rgba(240,235,227,0.1); border-color: rgba(240,235,227,0.6); }
+  .viewer-close-btn:hover {
+    background: #f4a87c;
+    transform: translateY(-1px);
+  }
 
-  /* Responsive */
   @media (max-width: 600px) {
-    .viewer-wm-note { display: none; }
-    .viewer-header { flex-direction: row; }
+    .wm-note { display: none; }
     .viewer-footer { flex-direction: column; align-items: flex-start; }
-    .viewer-img-card { max-height: calc(100vh - 260px); }
-    .viewer-img { max-height: calc(100vh - 260px); }
+    .viewer-img-card { max-height: calc(100vh - 280px); }
+    .viewer-img { max-height: calc(100vh - 280px); }
   }
 </style>
