@@ -77,7 +77,7 @@ function navigate(href) {
 
   function handleLogout() {
     auth.logout();
-    toast.success('Logged out. See you next time! ✦');
+    toast.success('[PROTOTYPE] Logged out. See you next time! ✦');
     goto('/');
   }
 

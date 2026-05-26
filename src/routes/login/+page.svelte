@@ -29,7 +29,7 @@
 
       if (user) {
         auth.login(user);
-        toast.success(`Welcome back, ${user.display_name}! `);
+        toast.success(`[PROTOTYPE]Welcome back, ${user.display_name}! `);
 
         setTimeout(() => goto(`/dashboard/${user.role}`), 700);
       } else {

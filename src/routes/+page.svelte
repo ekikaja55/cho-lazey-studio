@@ -33,7 +33,7 @@
 </svelte:head>
 
 <main class="landing-root">
-  <div class="shapes-layer" aria-hidden="true">
+<div class="shapes-layer" aria-hidden="true">
     {#each shapes as s, i}
       <div
         class="bg-shape"
