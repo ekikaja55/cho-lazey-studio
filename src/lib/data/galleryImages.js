@@ -176,8 +176,7 @@ export const galleryImages = [
   {
     gallery_id: 13,
     title: "Act 2 Final",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/13.jpg",
     file_format: "JPG",
     status: "available",
@@ -189,8 +188,7 @@ export const galleryImages = [
   {
     gallery_id: 14,
     title: "Final Act Scene",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/14.jpeg",
     file_format: "JPEG",
     status: "available",
@@ -202,8 +200,7 @@ export const galleryImages = [
   {
     gallery_id: 15,
     title: "Artprint - Eternal Sugar",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/15.jpg",
     file_format: "JPG",
     status: "available",
@@ -215,8 +212,7 @@ export const galleryImages = [
   {
     gallery_id: 16,
     title: "Artprint - Shadow Milk",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/16.jpg",
     file_format: "JPG",
     status: "available",
@@ -228,8 +224,7 @@ export const galleryImages = [
   {
     gallery_id: 17,
     title: "Bustup - Shadow Milk",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/17.jpg",
     file_format: "JPG",
     status: "available",
@@ -241,8 +236,7 @@ export const galleryImages = [
   {
     gallery_id: 18,
     title: "Khalis - Half Body",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/18.jpg",
     file_format: "JPG",
     status: "available",
@@ -254,8 +248,7 @@ export const galleryImages = [
   {
     gallery_id: 19,
     title: "Kuki Postcard",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/19.jpg",
     file_format: "JPG",
     status: "available",
@@ -267,8 +260,7 @@ export const galleryImages = [
   {
     gallery_id: 20,
     title: "Vox - Full Body",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/20.jpg",
     file_format: "JPG",
     status: "available",
@@ -280,8 +272,7 @@ export const galleryImages = [
   {
     gallery_id: 21,
     title: "Bust Up Example",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/21.jpg",
     file_format: "JPG",
     status: "available",
@@ -293,8 +284,7 @@ export const galleryImages = [
   {
     gallery_id: 22,
     title: "Full Body Example",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/22.png",
     file_format: "PNG",
     status: "available",
@@ -306,8 +296,7 @@ export const galleryImages = [
   {
     gallery_id: 23,
     title: "Half Body Example",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/23.png",
     file_format: "PNG",
     status: "available",
@@ -319,8 +308,7 @@ export const galleryImages = [
   {
     gallery_id: 24,
     title: "Headshot Example",
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. A maxime modi dolores corrupti tenetur natus nihil unde distinctio aut. Eaque explicabo aliquid sint natus facere optio excepturi neque rem dolores!",
+    description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
     image_url: "/gallery/24.png",
     file_format: "PNG",
     status: "available",
