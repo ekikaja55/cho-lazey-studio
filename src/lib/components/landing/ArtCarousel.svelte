@@ -1,6 +1,6 @@
 <script>
   let { items = [], currentIndex = 0 } = $props();
-  
+  import WatermarkWrapper from "../WatermarkWrapper.svelte"; 
   let innerWidth = $state(1024); // Default fallback
 
   // Definisi dimensi kartu secara dinamis agar JS dan CSS selalu sinkron
@@ -26,7 +26,9 @@
         style="width: {itemW}px;"
       >
         {#if item.src}
+        <WatermarkWrapper opacity={0.12} fontSize={12} spacing={80}>
           <img src={item.src} alt={item.alt ?? ''} loading="lazy" draggable="false" />
+        </WatermarkWrapper>   
         {:else}
           <div class="item-placeholder"></div>
         {/if}
