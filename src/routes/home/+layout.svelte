@@ -53,7 +53,11 @@
   /* Styling Container Senada dengan Sidebar */
   .home-container {
     flex: 1; /* Membuat container stretching memenuhi sisa tinggi layar */
+<<<<<<< HEAD
     background: rgba(240, 235, 227, 0.97);
+=======
+    background: rgba(240, 235, 227, 1);
+>>>>>>> e3dd4e1 (refine layouting (kan bener ada yang salah))
     border: 3px solid #2a2420;
     border-radius: 28px;
     box-shadow: 6px 6px 0px #2a2420;
