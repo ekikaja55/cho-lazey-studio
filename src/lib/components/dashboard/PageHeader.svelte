@@ -1,8 +1,8 @@
 <script>
   // Menggunakan Svelte 5 Runes untuk komponen inner page header yang reusable
   let { 
-    title = 'Order Archive', 
-    description = 'A quiet look back at your history with the studio. Revisiting the illustrations and stories you have gathered over time.',
+    title = 'Default', 
+    description ='Default',   
     eyebrow = 'OWNED PIECES'
   } = $props();
 </script>

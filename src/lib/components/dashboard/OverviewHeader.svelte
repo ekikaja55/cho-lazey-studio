@@ -1,10 +1,10 @@
 <script>
   // Menggunakan Svelte 5 Runes untuk komponen reusable
   let { 
-    username = 'Patron', 
-    title = 'The Art Corner', 
-    description = 'Your personal corner of the studio. Wander through your current art orders and collected pieces.',
-    eyebrow = 'PATRON LOUNGE'
+    username = 'Default', 
+    title = 'Default', 
+    description = 'Default',
+    eyebrow = 'Default'
   } = $props();
 </script>
 

@@ -1,30 +1,22 @@
 <script>
   /**
    * FloatingSidebar.svelte
-   * Floating sidebar — redesigned
-   * - Persona info moved OUT of sidebar → popup right of sidebar on click
-   * - Popup position derived reactively from minimized state + isMobile
-   * - Minimize: hides labels only, icon-only strip
-   * - Wider + taller proportions
+   * Home Floating sidebar — redesigned
    */
 
 import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  
-  // Impor store auth (sesuaikan path-nya jika berbeda, misalnya '$lib/stores/auth.js')
   import { isLoggedIn, userRole } from '$lib/stores/auth.js'; 
 
-  let minimized = $state(false);
+ let { minimized = $bindable(false) } = $props();
   let personaOpen = $state(false);
   let isMobile = $state(false);
 
-  // Sidebar constants — must match CSS
-  const SIDEBAR_LEFT   = 20;   // px from left edge (desktop)
-  const SIDEBAR_W_FULL = 220;  // px expanded
-  const SIDEBAR_W_MIN  = 68;   // px minimized
-  const SIDEBAR_GAP    = 14;   // px gap between sidebar and popup
+  const SIDEBAR_LEFT   = 20;
+  const SIDEBAR_W_FULL = 220;
+  const SIDEBAR_W_MIN  = 68;
+  const SIDEBAR_GAP    = 14;
 
-  // Reactively compute popup left position
   const popupLeft = $derived(
     isMobile
       ? null   
@@ -39,14 +31,12 @@ import { page } from '$app/stores';
     return () => mq.removeEventListener('change', handler);
   });
 
-  // Close persona popup when clicking outside
   function handleOutsideClick(e) {
     if (personaOpen && !e.target.closest('.persona-popup') && !e.target.closest('.persona-trigger')) {
       personaOpen = false;
     }
   }
 
-  // Ubah navItems menjadi $derived agar reaktif terhadap perubahan status login
   const navItems = $derived([
     {
       label: 'Home',
@@ -67,9 +57,7 @@ import { page } from '$app/stores';
       color: '#f4a87c',
     },
     {
-      // Pengecekan reaktif: Jika sudah login tampilkan "Dashboard", jika belum "Login"
       label: $isLoggedIn ? 'Dashboard' : 'Login',
-      // Jika sudah login, arahkan ke dashboard sesuai role (misal: /dashboard/artist atau /dashboard/client)
       href: $isLoggedIn ? `/dashboard/${$userRole || ''}` : '/login',
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
       color: '#b4a6d5', 
@@ -81,11 +69,11 @@ import { page } from '$app/stores';
       return $page.url.pathname === '/home' || $page.url.pathname === '/home/';
     }
     return $page.url.pathname === href || $page.url.pathname.startsWith(href + '/');
-  }</script>
+  }
+</script>
 
 <svelte:document onclick={handleOutsideClick} />
 
-<!-- ── Persona Popup — position driven by JS, not CSS ── -->
 {#if personaOpen}
   <div
     class="persona-popup"
@@ -95,7 +83,6 @@ import { page } from '$app/stores';
     aria-label="Artist persona"
     aria-modal="false"
   >
-    <!-- Close button -->
     <button class="popup-close" onclick={() => personaOpen = false} aria-label="Close">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
         <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -115,12 +102,11 @@ import { page } from '$app/stores';
 
     <div class="popup-divider" aria-hidden="true"></div>
 
-    <!-- Bio -->
     <p class="popup-bio">
-      Self-taught aspiring artist. Digital art, merch designs &amp; 3D modelling. ✨
+      self taught aspiring artist illustrator, fanmerch artist and graphic designer, and also pin, poca, and handfan vendor!
     </p>
 
-    <!-- Social links -->
+    <!-- Social links — 2 col grid for proportional layout -->
     <div class="popup-socials">
       <a
         href="https://www.instagram.com/cho.lazey/"
@@ -134,6 +120,7 @@ import { page } from '$app/stores';
         </svg>
         Instagram
       </a>
+
       <a
         href="https://line.me/ti/p/7mifiGmjzn"
         target="_blank"
@@ -146,8 +133,20 @@ import { page } from '$app/stores';
         </svg>
         LINE
       </a>
-    </div>
 
+      <a 
+        href="https://www.linkedin.com/in/brenda-violint"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="popup-social popup-linkedin"
+        aria-label="LinkedIn"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
+        </svg>
+        LinkedIn
+      </a>
+    </div>
 
   </div>
 {/if}
@@ -158,7 +157,6 @@ import { page } from '$app/stores';
   class:minimized
   aria-label="Main navigation"
 >
-  <!-- Toggle minimize button -->
   <button
     class="minimize-btn"
     onclick={() => { minimized = !minimized; if (personaOpen) personaOpen = false; }}
@@ -179,7 +177,6 @@ import { page } from '$app/stores';
     </svg>
   </button>
 
-  <!-- Persona trigger — ONLY avatar, no label inside sidebar -->
   <button
     class="persona-trigger"
     class:active={personaOpen}
@@ -194,12 +191,10 @@ import { page } from '$app/stores';
     </div>
   </button>
 
-  <!-- Divider -->
   <div class="sidebar-divider" aria-hidden="true">
     <span class="divider-star">{minimized ? '' : '✦'}</span>
   </div>
 
-  <!-- Navigation -->
   <nav class="sidebar-nav" aria-label="Site navigation">
     <ul>
       {#each navItems as item}
@@ -230,20 +225,14 @@ import { page } from '$app/stores';
 </aside>
 
 <style>
-  /* ══════════════════════════════════════
-     SIDEBAR SHELL
-  ══════════════════════════════════════ */
   .floating-sidebar {
     position: fixed;
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 100;
-
-    /* Wider + taller than before */
     width: 220px;
     min-height: 340px;
-
     background: rgba(240, 235, 227, 0.97);
     backdrop-filter: blur(20px) saturate(160%);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
@@ -251,20 +240,17 @@ import { page } from '$app/stores';
     border-radius: 28px;
     box-shadow: 6px 6px 0px #2a2420;
     padding: 1.2rem 1rem 1.25rem;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
     gap: 0.65rem;
-
     transition:
       width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
       min-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 0.25s ease;
   }
 
-  /* Minimized: icon-only strip — clean proportions */
   .floating-sidebar.minimized {
     width: 68px;
     min-height: 0;
@@ -276,9 +262,6 @@ import { page } from '$app/stores';
     box-shadow: 8px 8px 0px #2a2420;
   }
 
-  /* ══════════════════════════════════════
-     MINIMIZE BUTTON
-  ══════════════════════════════════════ */
   .minimize-btn {
     position: absolute;
     top: 14px;
@@ -308,9 +291,6 @@ import { page } from '$app/stores';
     box-shadow: 1px 1px 0px #2a2420;
   }
 
-  /* ══════════════════════════════════════
-     PERSONA TRIGGER — avatar only
-  ══════════════════════════════════════ */
   .persona-trigger {
     display: flex;
     justify-content: center;
@@ -328,7 +308,6 @@ import { page } from '$app/stores';
     border-color: rgba(125, 200, 193, 0.5);
   }
 
-  /* Avatar */
   .persona-img-wrap {
     position: relative;
     width: 64px;
@@ -352,7 +331,6 @@ import { page } from '$app/stores';
     border-radius: 13px;
   }
 
-  /* Pulsing ring */
   .persona-ring {
     position: absolute;
     inset: -5px;
@@ -370,9 +348,6 @@ import { page } from '$app/stores';
     100% { opacity: 0; transform: scale(1.3); }
   }
 
-  /* ══════════════════════════════════════
-     DIVIDER
-  ══════════════════════════════════════ */
   .sidebar-divider {
     height: 1px;
     background: rgba(42, 36, 32, 0.15);
@@ -392,9 +367,6 @@ import { page } from '$app/stores';
     line-height: 1;
   }
 
-  /* ══════════════════════════════════════
-     NAV
-  ══════════════════════════════════════ */
   .sidebar-nav ul {
     list-style: none;
     margin: 0;
@@ -408,7 +380,6 @@ import { page } from '$app/stores';
     display: flex;
     align-items: center;
     gap: 11px;
-    /* Taller padding for expanded, centered for minimized */
     padding: 11px 12px;
     border-radius: 16px;
     border: 2px solid transparent;
@@ -426,14 +397,12 @@ import { page } from '$app/stores';
     white-space: nowrap;
   }
 
-  /* Minimized: center icon */
   .minimized .nav-link {
     justify-content: center;
     padding: 11px 8px;
     gap: 0;
   }
 
-  /* Color fill */
   .nav-link::before {
     content: '';
     position: absolute;
@@ -474,12 +443,10 @@ import { page } from '$app/stores';
     z-index: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* Smooth show/hide */
     max-width: 140px;
     transition: max-width 0.3s ease, opacity 0.3s ease;
   }
 
-  /* Active dot in minimized mode */
   .active-dot {
     position: absolute;
     right: 6px; top: 6px;
@@ -489,18 +456,15 @@ import { page } from '$app/stores';
     z-index: 2;
   }
 
-  /* ══════════════════════════════════════
-     PERSONA POPUP
-     left position set via inline style (JS-driven, reactive to minimized)
-  ══════════════════════════════════════ */
+  /* ══ PERSONA POPUP ══ */
   .persona-popup {
     position: fixed;
-    /* left: set by inline style from $derived(popupLeft) */
     top: 50%;
     transform: translateY(-60%);
     z-index: 200;
 
-    width: 230px;
+    /* Slightly wider to accommodate 3 social buttons comfortably */
+    width: 252px;
     background: rgba(240, 235, 227, 0.98);
     backdrop-filter: blur(20px) saturate(160%);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
@@ -516,7 +480,6 @@ import { page } from '$app/stores';
     animation: popupIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 
-  /* Mobile override — centered above bottom bar, ignore inline left */
   .persona-popup.mobile {
     left: 50% !important;
     top: auto;
@@ -531,7 +494,6 @@ import { page } from '$app/stores';
     to   { opacity: 1; transform: translateY(-60%) scale(1); }
   }
 
-  /* Mobile popup animation override */
   .persona-popup.mobile {
     animation: popupInMobile 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
@@ -540,9 +502,6 @@ import { page } from '$app/stores';
     to   { opacity: 1; transform: translateX(-50%) scale(1); }
   }
 
-
-
-  /* Close button */
   .popup-close {
     position: absolute;
     top: 10px; right: 10px;
@@ -560,11 +519,12 @@ import { page } from '$app/stores';
     transform: scale(1.1);
   }
 
-  /* Header */
   .popup-header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    /* Give space for the close button */
+    padding-right: 1.5rem;
   }
 
   .popup-avatar {
@@ -585,6 +545,7 @@ import { page } from '$app/stores';
     display: flex;
     flex-direction: column;
     gap: 3px;
+    min-width: 0;
   }
 
   .popup-name {
@@ -620,17 +581,25 @@ import { page } from '$app/stores';
     margin: 0;
   }
 
+  /* ── Social buttons — 2×2 grid, LinkedIn spans full width on its own row ── */
   .popup-socials {
-    display: flex;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  /* LinkedIn sits alone on the third row, full width */
+  .popup-linkedin {
+    grid-column: 1 / -1;
   }
 
   .popup-social {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
-    padding: 6px 12px;
-    border-radius: 999px;
+    padding: 7px 10px;
+    border-radius: 10px;
     border: 2px solid #2a2420;
     font-family: 'HammersmithOne', Georgia, serif;
     font-size: 0.75rem;
@@ -638,19 +607,17 @@ import { page } from '$app/stores';
     text-decoration: none;
     box-shadow: 2px 2px 0px #2a2420;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    flex: 1;
-    justify-content: center;
   }
   .popup-social:hover {
     transform: translateY(-2px);
     box-shadow: 3px 4px 0px #2a2420;
   }
-  .popup-ig   { background: #f4a87c; }
-  .popup-line { background: #a2e1db; }
+  .popup-ig       { background: #f4a87c; }
+  .popup-line     { background: #a2e1db; }
+  /* LinkedIn — soft purple selaras dengan nav item Dashboard */
+  .popup-linkedin { background: #b4a6d5; color: #2d1a5c; }
 
-  /* ══════════════════════════════════════
-     MOBILE — bottom bar
-  ══════════════════════════════════════ */
+  /* ══ MOBILE ══ */
   @media (max-width: 768px) {
     .floating-sidebar {
       left: 50%;
@@ -671,7 +638,6 @@ import { page } from '$app/stores';
       box-shadow: 6px 6px 0px #2a2420;
     }
 
-    /* Minimized mobile: compact pill */
     .floating-sidebar.minimized {
       width: auto;
       padding: 0.6rem 0.75rem;
@@ -689,12 +655,8 @@ import { page } from '$app/stores';
       transform: translateX(50%) rotate(-90deg) scale(1.12);
     }
 
-    .persona-trigger {
-      flex-shrink: 0;
-    }
-    .persona-img-wrap {
-      width: 44px; height: 44px;
-    }
+    .persona-trigger { flex-shrink: 0; }
+    .persona-img-wrap { width: 44px; height: 44px; }
 
     .sidebar-divider { display: none; }
 
@@ -704,9 +666,7 @@ import { page } from '$app/stores';
       flex: 1;
     }
 
-    .minimized .nav-link {
-      justify-content: center;
-    }
+    .minimized .nav-link { justify-content: center; }
 
     .nav-link {
       flex-direction: column;
@@ -717,8 +677,6 @@ import { page } from '$app/stores';
       border-radius: 14px;
     }
     .nav-link:hover { transform: translateY(-2px) translateX(0); }
-
-    /* Popup anchor — handled by .mobile class + JS inline style */
   }
 
   @media (max-width: 420px) {

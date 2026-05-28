@@ -8,9 +8,9 @@
 
   let { children } = $props();
 
-  onMount(() => {
-    initArtProtection();
-  });
+  // onMount(() => {
+  //   initArtProtection();
+  // });
 </script>
 
 <svelte:head>

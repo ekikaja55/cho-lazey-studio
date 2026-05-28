@@ -6,7 +6,9 @@
   import { galleryImages, formatRupiah } from '$lib/data/galleryImages.js';
   import WatermarkWrapper  from '$lib/components/WatermarkWrapper.svelte';
   import ArtworkViewer     from '$lib/components/shop/ArtworkViewer.svelte';
-  import PurchaseModal     from '$lib/components/shop/PurchaseModal.svelte';
+  import PurchaseModal     from '$lib/components/shop/PurchaseModal.svelte'; 
+  import HomePageHeader from '$lib/components/home/HomePageHeader.svelte';
+
   import { toast }         from '$lib/stores/toast.js';
 
   let mounted    = $state(false);
@@ -92,40 +94,12 @@
 
 <div class="shop-root" class:visible={mounted}>
 
-  <!-- ── Header card — same DNA as gallery-header ── -->
-  <header class="shop-header animate-fade-up">
-    <div class="header-eyebrow">
-      <span class="eyebrow-dot" aria-hidden="true"></span>
-      <span>✦ adopt an artwork ✦</span>
-    </div>
-    <h1 class="shop-title">Shop</h1>
-    <div class="header-underline" aria-hidden="true"></div>
-    <p class="shop-subtitle">
-      {total} pieces — select a work, preview it, then make it yours.
-    </p>
-
-    <!-- Stats pills -->
-    <div class="shop-stats" aria-label="Shop statistics">
-      <span class="stat-pill">
-        <span class="stat-dot" style="background:#a2e1a6; border-color:#1a4d1d;"></span>
-        {availableCount} available
-      </span>
-      <span class="stat-pill">
-        <span class="stat-dot" style="background:#f46958; border-color:#b23a2a;"></span>
-        {items.filter(i => i.status === 'sold').length} adopted
-      </span>
-      <span class="stat-pill">
-        <span class="stat-dot" style="background:#ffba09; border-color:#7a5500;"></span>
-        {items.filter(i => i.status === 'reserved').length} reserved
-      </span>
-    </div>
-
-    <!-- Decorative accent shapes — peach palette for shop -->
-    <div class="header-shape hs-1" aria-hidden="true"></div>
-    <div class="header-shape hs-2" aria-hidden="true"></div>
-    <div class="header-shape hs-3" aria-hidden="true"></div>
-  </header>
-
+     <HomePageHeader 
+      eyebrow="ADOPT AN ARTWORK"
+      title="Shop"
+      description="{total} pieces — select a work, preview it, then make it yours."
+    />
+ 
   <!-- ── Main: folder grid + sticky preview ── -->
   <div class="shop-layout">
 
@@ -332,7 +306,7 @@
   ══════════════════════════════════════ */
   .shop-root {
     width: 100%;
-    max-width: 1020px;
+    /* max-width: 1020px; */
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -342,110 +316,6 @@
     transition: opacity 0.45s ease, transform 0.45s ease;
   }
   .shop-root.visible { opacity: 1; transform: translateY(0); }
-
-  /* ══════════════════════════════════════
-     HEADER — identical DNA to gallery-header
-     Nuance: peach accent instead of turquoise
-  ══════════════════════════════════════ */
-  .shop-header {
-    background: rgba(240, 235, 227, 0.96);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 3px solid #2a2420;
-    border-radius: 28px;
-    box-shadow: 6px 6px 0px #2a2420;
-    padding: 2rem 2.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .header-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    /* Peach instead of turquoise */
-    color: #d4845a;
-    margin-bottom: 0.45rem;
-  }
-
-  .eyebrow-dot {
-    width: 7px; height: 7px;
-    background: #f4a87c;
-    border: 2px solid #2a2420;
-    border-radius: 50%;
-  }
-
-  .shop-title {
-    font-family: 'HammersmithOne', Georgia, serif;
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    color: #2a2420;
-    margin: 0 0 0.35rem;
-    letter-spacing: -0.01em;
-    line-height: 1.05;
-    position: relative; z-index: 1;
-  }
-
-  .header-underline {
-    width: 56px; height: 4px;
-    background: linear-gradient(90deg, #f4a87c, #b4a6d5);
-    border-radius: 2px;
-    margin-bottom: 0.85rem;
-    position: relative; z-index: 1;
-  }
-
-  .shop-subtitle {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.88rem;
-    color: rgba(42,36,32,0.5);
-    margin: 0 0 1rem;
-    position: relative; z-index: 1;
-  }
-
-  /* Stats pills */
-  .shop-stats {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-    position: relative; z-index: 1;
-  }
-
-  .stat-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
-    background: rgba(240,235,227,0.7);
-    border: 1.5px solid rgba(42,36,32,0.15);
-    border-radius: 999px;
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: rgba(42,36,32,0.65);
-  }
-
-  .stat-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    border: 1.5px solid transparent;
-    flex-shrink: 0;
-  }
-
-  /* Decorative shapes — same pattern, peach palette */
-  .header-shape {
-    position: absolute;
-    border: 2px solid rgba(42,36,32,0.1);
-    border-radius: 12px;
-    pointer-events: none;
-  }
-  .hs-1 { width: 72px; height: 72px; background: rgba(244,168,124,0.28); top: -16px; right: 36px; transform: rotate(-12deg); }
-  .hs-2 { width: 48px; height: 48px; background: rgba(180,166,213,0.22); bottom: -8px; right: 92px; transform: rotate(19deg); }
-  .hs-3 { width: 34px; height: 34px; background: rgba(162,225,219,0.2);  top: 22px;  right: 118px; transform: rotate(5deg); }
 
   /* ══════════════════════════════════════
      LAYOUT: 2-col on desktop
