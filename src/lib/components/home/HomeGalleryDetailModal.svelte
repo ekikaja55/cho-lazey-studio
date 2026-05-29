@@ -1,3 +1,4 @@
+<!-- HomeGalleryDetailModal.svelte -->
 <script>
   import { formatRupiah } from '$lib/data/galleryImages.js';
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
@@ -19,25 +20,36 @@
     if (e.key === 'ArrowLeft') onPrev();
   }
 
-  // Efek Svelte 5 untuk mematikan scroll body saat modal terbuka
   $effect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
-
-    // Cleanup otomatis jika komponen unmount atau tertutup
     return () => {
       document.body.style.overflow = '';
     };
   });
+
+  // ✅ Portal action — pindahkan elemen langsung ke <body>
+  // agar position: fixed selalu relatif ke viewport, bukan parent
+  function portal(node) {
+    document.body.appendChild(node);
+    return {
+      destroy() {
+        if (node.parentNode === document.body) {
+          document.body.removeChild(node);
+        }
+      }
+    };
+  }
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
 
 {#if isOpen && item}
   <div
+    use:portal
     class="lightbox-backdrop"
     onclick={onClose}
     role="dialog"
@@ -98,92 +110,224 @@
 {/if}
 
 <style>
-  /* --- PERUBAHAN UTAMA DI SINI --- */
-  .lightbox-backdrop {
-    position: fixed; 
+  /*
+   * Semua style pakai :global() karena elemen di-teleport ke <body>
+   * dan keluar dari scope scoped CSS Svelte komponen ini.
+   */
+
+  :global(.lightbox-backdrop) {
+    position: fixed;
     inset: 0;
     z-index: 9999;
-    display: flex; 
-    align-items: center; 
+    display: flex;
+    align-items: center;
     justify-content: center;
-    padding: 1.5rem; 
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
     animation: backdropIn 0.2s ease both;
   }
-  @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
 
-  .lightbox-card {
-    background: #ffffff; border: 3px solid #2a2420; border-radius: 28px;
-    box-shadow: 12px 12px 0px rgba(0,0,0,0.5); width: 100%; max-width: 900px;
-    max-height: 90vh; display: flex; flex-direction: column;
-    overflow: hidden; position: relative;
+  @keyframes backdropIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  :global(.lightbox-card) {
+    background: #ffffff;
+    border: 3px solid #2a2420;
+    border-radius: 28px;
+    box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
     animation: lbCardIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
+
   @keyframes lbCardIn {
     from { opacity: 0; transform: scale(0.9) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
+    to   { opacity: 1; transform: scale(1)   translateY(0);    }
   }
 
-  .lb-img-wrap {
-    flex: 1; min-height: 0; position: relative; display: flex;
-    align-items: center; justify-content: center;
-    background: rgba(42, 36, 32, 0.03); overflow: hidden;
-  }
-  
-  .watermark-container {
-    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-  }
-
-  .lb-img {
-    width: 100%; height: 100%; max-height: 65vh;
-    object-fit: contain; display: block;
+  :global(.lb-img-wrap) {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(42, 36, 32, 0.03);
+    overflow: hidden;
   }
 
-  .lb-format {
-    position: absolute; top: 16px; left: 16px; background: #a2e1db;
-    border: 2px solid #2a2420; border-radius: 999px;
-    font-family: 'HammersmithOne', Georgia, serif; font-size: 0.7rem;
-    letter-spacing: 0.08em; color: #2a2420; padding: 4px 12px;
+  :global(.watermark-container) {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(.lb-img) {
+    width: 100%;
+    height: 100%;
+    max-height: 65vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  :global(.lb-format) {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: #a2e1db;
+    border: 2px solid #2a2420;
+    border-radius: 999px;
+    font-family: 'HammersmithOne', Georgia, serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: #2a2420;
+    padding: 4px 12px;
     box-shadow: 2px 2px 0px #2a2420;
   }
 
-  .lb-info {
-    padding: 1.5rem 2rem; display: flex; align-items: flex-start;
-    justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
-    background: #ffffff; border-top: 2.5px solid #2a2420; flex-shrink: 0;
+  :global(.lb-info) {
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    background: #ffffff;
+    border-top: 2.5px solid #2a2420;
+    flex-shrink: 0;
   }
-  
-  .lb-info-top { flex: 1; min-width: 0; }
-  .lb-title { font-family: 'HammersmithOne', Georgia, serif; font-size: 1.5rem; color: #2a2420; margin: 0 0 0.5rem; line-height: 1.2; }
-  .lb-desc { font-family: 'Lora', Georgia, serif; font-size: 0.95rem; color: #3a322e; line-height: 1.6; margin: 0; }
-  
-  .lb-meta { display: flex; align-items: center; gap: 0.7rem; flex-shrink: 0; flex-wrap: wrap; }
-  .lb-price { font-family: 'HammersmithOne', Georgia, serif; font-size: 1.1rem; color: #2a2420; background: #f4a87c; padding: 4px 12px; border-radius: 8px; border: 2px solid #2a2420; box-shadow: 2px 2px 0px #2a2420; }
-  .lb-counter { font-family: 'HammersmithOne', Georgia, serif; font-size: 0.9rem; color: rgba(42, 36, 32, 0.6); letter-spacing: 0.06em; align-self: flex-end; flex-shrink: 0; }
-  
-  .lb-close {
-    position: absolute; top: 16px; right: 16px; width: 36px; height: 36px;
-    background: #f46958; border: 2.5px solid #2a2420; border-radius: 50%;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: #ffffff; box-shadow: 3px 3px 0px #2a2420; z-index: 10;
+
+  :global(.lb-info-top) {
+    flex: 1;
+    min-width: 0;
+  }
+
+  :global(.lb-title) {
+    font-family: 'HammersmithOne', Georgia, serif;
+    font-size: 1.5rem;
+    color: #2a2420;
+    margin: 0 0 0.5rem;
+    line-height: 1.2;
+  }
+
+  :global(.lb-desc) {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.95rem;
+    color: #3a322e;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  :global(.lb-meta) {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  :global(.lb-price) {
+    font-family: 'HammersmithOne', Georgia, serif;
+    font-size: 1.1rem;
+    color: #2a2420;
+    background: #f4a87c;
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 2px solid #2a2420;
+    box-shadow: 2px 2px 0px #2a2420;
+  }
+
+  :global(.lb-counter) {
+    font-family: 'HammersmithOne', Georgia, serif;
+    font-size: 0.9rem;
+    color: rgba(42, 36, 32, 0.6);
+    letter-spacing: 0.06em;
+    align-self: flex-end;
+    flex-shrink: 0;
+  }
+
+  :global(.lb-close) {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    background: #f46958;
+    border: 2.5px solid #2a2420;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    box-shadow: 3px 3px 0px #2a2420;
+    z-index: 10;
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .lb-close:hover { transform: scale(1.1); box-shadow: 4px 4px 0px #2a2420; }
-  .lb-close:active { transform: scale(0.95); box-shadow: 1px 1px 0px #2a2420; }
-  
-  .lb-nav {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 44px; height: 44px; background: #ffffff; border: 2.5px solid #2a2420;
-    border-radius: 50%; cursor: pointer; display: flex; align-items: center;
-    justify-content: center; color: #2a2420; box-shadow: 3px 3px 0px #2a2420;
-    z-index: 10; transition: background 0.2s ease, transform 0.2s ease;
+
+  :global(.lb-close:hover) {
+    transform: scale(1.1);
+    box-shadow: 4px 4px 0px #2a2420;
   }
-  .lb-prev { left: 16px; } .lb-next { right: 16px; }
-  .lb-nav:hover { background: #b4a6d5; transform: translateY(-50%) scale(1.1); }
-  .lb-nav:active { transform: translateY(-50%) scale(0.95); box-shadow: 1px 1px 0px #2a2420; }
+
+  :global(.lb-close:active) {
+    transform: scale(0.95);
+    box-shadow: 1px 1px 0px #2a2420;
+  }
+
+  :global(.lb-nav) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: #ffffff;
+    border: 2.5px solid #2a2420;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2a2420;
+    box-shadow: 3px 3px 0px #2a2420;
+    z-index: 10;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  :global(.lb-prev) { left: 16px; }
+  :global(.lb-next) { right: 16px; }
+
+  :global(.lb-nav:hover) {
+    background: #b4a6d5;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  :global(.lb-nav:active) {
+    transform: translateY(-50%) scale(0.95);
+    box-shadow: 1px 1px 0px #2a2420;
+  }
 
   @media (max-width: 600px) {
-    .lightbox-card { max-height: 85vh; border-radius: 20px; }
-    .lb-info { padding: 1.25rem; }
-    .lb-nav { width: 36px; height: 36px; }
+    :global(.lightbox-card) {
+      max-height: 85vh;
+      border-radius: 20px;
+    }
+    :global(.lb-info) {
+      padding: 1.25rem;
+    }
+    :global(.lb-nav) {
+      width: 36px;
+      height: 36px;
+    }
   }
 </style>

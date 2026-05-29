@@ -1,6 +1,9 @@
 <script>
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
   import { onMount } from 'svelte';
+  // IMPORT TRANSISI SVELTE
+  import { fade, fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
 
   let { works = [] } = $props();
 
@@ -59,8 +62,15 @@
     <div class="featured-col">
       <div class="featured-card">
         <div class="image-viewport">
-          <WatermarkWrapper opacity={0.12} fontSize={12} spacing={80}>
-            <img src={selected.image_url} alt={selected.title} class="main-img" />
+          <WatermarkWrapper opacity={0.5} fontSize={15} spacing={80}>
+            {#key selected.image_url}
+              <img 
+                src={selected.image_url} 
+                alt={selected.title} 
+                class="main-img" 
+                in:fade={{ duration: 400, easing: cubicOut }} 
+              />
+            {/key}
           </WatermarkWrapper>
           
           <div class="img-badge">{selected.file_format}</div>
@@ -80,8 +90,12 @@
     <div class="side-panel">
       
       <div class="info-box">
-        <h3 class="work-title">{selected.title}</h3>
-        <p class="work-desc">{selected.description || 'A piece from the latest collection. Dive into the gallery to see more details.'}</p>
+        {#key selected.title}
+          <div in:fly={{ y: 15, duration: 400, delay: 100, easing: cubicOut }}>
+            <h3 class="work-title">{selected.title}</h3>
+            <p class="work-desc">{selected.description || 'A piece from the latest collection. Dive into the gallery to see more details.'}</p>
+          </div>
+        {/key}
       </div>
 
       <div class="thumbs-wrapper">
@@ -130,14 +144,32 @@
 </section>
 
 <style>
+  /* --- KEYFRAMES TAMBAHAN UNTUK ANIMASI DINAMIS --- */
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(3deg); }
+  }
+
+  @keyframes spinSlow {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+
+  @keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   .works-section {
     margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
+    /* Animasi masuk saat komponen dimuat */
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* ── Divider Bertenaga (Badge Style) ── */
   .section-header {
     display: flex;
     align-items: center;
@@ -146,7 +178,7 @@
   }
 
   .title-badge {
-    background: #eae4f8; /* Ungu pastel dari tema sebelumnya */
+    background: #eae4f8;
     border: 2.5px solid #1a1a1a;
     padding: 0.6rem 1.5rem;
     border-radius: 99px;
@@ -159,9 +191,18 @@
     gap: 0.5rem;
     box-shadow: 4px 4px 0px #1a1a1a;
     white-space: nowrap;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .star { color: #de5c23; }
+  .title-badge:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .star { 
+    color: #de5c23; 
+    display: inline-block;
+    animation: spinSlow 4s linear infinite; /* Bintang berputar & membesar pelan */
+  }
 
   .divider-line {
     flex: 1;
@@ -171,15 +212,13 @@
     opacity: 0.15;
   }
 
-  /* ── Layout Baru ── */
   .works-container {
     display: grid;
-    grid-template-columns: 1.3fr 0.9fr; /* Kiri lebih lebar sedikit */
+    grid-template-columns: 1.3fr 0.9fr;
     gap: 2.5rem;
-    align-items: stretch; /* Memaksa tinggi sejajar */
+    align-items: stretch;
   }
 
-  /* ── Kiri: Featured Card Full Image ── */
   .featured-col {
     display: flex;
     flex-direction: column;
@@ -191,14 +230,20 @@
     border-radius: 24px;
     overflow: hidden;
     box-shadow: 10px 10px 0px #1a1a1a;
-    height: 100%; /* Memenuhi ruang vertikal */
+    height: 100%;
     display: flex;
     flex-direction: column;
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+  }
+  
+  .featured-card:hover {
+    box-shadow: 14px 14px 0px #b19ffb; /* Efek hover mengubah warna bayangan utama */
+    transform: translate(-2px, -2px);
   }
 
   .image-viewport {
     position: relative;
-    flex: 1; /* Mengambil seluruh sisa tinggi */
+    flex: 1;
     min-height: 400px;
     background: #f4f0ea;
     overflow: hidden;
@@ -212,7 +257,7 @@
   }
 
   .image-viewport:hover .main-img {
-    transform: scale(1.03);
+    transform: scale(1.04);
   }
 
   .img-badge {
@@ -228,6 +273,8 @@
     color: #1a1a1a;
     box-shadow: 3px 3px 0px #1a1a1a;
     z-index: 10;
+    /* Efek mengambang terus-menerus */
+    animation: float 3.5s ease-in-out infinite; 
   }
 
   .nav-overlay {
@@ -239,7 +286,7 @@
     padding: 0 1.5rem;
     opacity: 0;
     transition: opacity 0.3s;
-    pointer-events: none; /* Biar ngga ganggu seleksi */
+    pointer-events: none;
   }
 
   .image-viewport:hover .nav-overlay { opacity: 1; }
@@ -256,18 +303,25 @@
     align-items: center;
     justify-content: center;
     box-shadow: 4px 4px 0 #1a1a1a;
-    transition: all 0.2s;
+    /* Transisi BOUNCY */
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .nav-btn:hover { transform: translate(-3px, -3px); box-shadow: 7px 7px 0 #1a1a1a; background: #e3f7ee; }
-  .nav-btn:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0 #1a1a1a; }
+  .nav-btn:hover { 
+    transform: translate(-4px, -4px) scale(1.1); 
+    box-shadow: 8px 8px 0 #1a1a1a; 
+    background: #e3f7ee; 
+  }
+  .nav-btn:active { 
+    transform: translate(2px, 2px) scale(0.95); 
+    box-shadow: 0px 0px 0 #1a1a1a; 
+  }
 
-  /* ── Kanan: Side Panel ── */
   .side-panel {
     display: flex;
     flex-direction: column;
     gap: 1.8rem;
-    justify-content: space-between; /* Menyebar konten agar pas di kolom */
+    justify-content: space-between;
   }
 
   .info-box {
@@ -276,6 +330,7 @@
     border-radius: 20px;
     padding: 1.5rem 1.8rem;
     box-shadow: 6px 6px 0px #1a1a1a;
+    overflow: hidden; /* Mencegah teks overlap saat animasi fly */
   }
 
   .work-title {
@@ -294,7 +349,6 @@
     margin: 0;
   }
 
-  /* ── Thumbs Carousel ── */
   .thumbs-wrapper {
     display: flex;
     flex-direction: column;
@@ -311,7 +365,7 @@
   .thumbs-track {
     display: flex;
     gap: 1rem;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* Lebih smooth */
   }
 
   .thumb-card {
@@ -325,17 +379,33 @@
     background: #fff;
     padding: 0;
     box-shadow: 4px 4px 0 #1a1a1a;
-    transition: all 0.3s;
+    /* Transisi BOUNCY pada thumbnail */
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .thumb-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(40%); transition: all 0.3s;}
-  .thumb-card.active img, .thumb-card:hover img { filter: grayscale(0%); transform: scale(1.1); }
+  .thumb-card img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    filter: grayscale(40%); 
+    transition: all 0.4s ease;
+  }
+  
+  .thumb-card.active img, .thumb-card:hover img { 
+    filter: grayscale(0%); 
+    transform: scale(1.15); 
+  }
 
   .thumb-card.active {
-    transform: scale(1.05) translateY(-4px);
-    box-shadow: 6px 6px 0 #b19ffb;
+    transform: scale(1.08) translateY(-6px);
+    box-shadow: 8px 8px 0 #b19ffb;
     border-color: #1a1a1a;
     z-index: 2;
+  }
+
+  .thumb-card:not(.active):hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 6px 0 #ff9e7d;
   }
 
   .thumb-label {
@@ -352,7 +422,6 @@
     text-overflow: ellipsis;
   }
 
-  /* Control Panel Kanan */
   .carousel-controls {
     display: flex;
     align-items: center;
@@ -372,9 +441,10 @@
     cursor: pointer;
     color: #1a1a1a;
     text-transform: uppercase;
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
   }
-  .ctrl-btn:hover { color: #de5c23; }
+  .ctrl-btn:hover { color: #de5c23; transform: scale(1.1); }
+  .ctrl-btn:active { transform: scale(0.9); }
 
   .dot-nav {
     display: flex;
@@ -389,17 +459,16 @@
     opacity: 0.2;
     border: none;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .dot.active {
     opacity: 1;
     background: #ff9e7d;
-    transform: scale(1.5);
+    transform: scale(1.6);
   }
 
-  /* ── CTA Penutup Kekosongan ── */
   .cta-section {
-    margin-top: auto; /* Mendorong tombol ini ke paling bawah panel */
+    margin-top: auto;
   }
 
   .cta-button {
@@ -413,17 +482,17 @@
     text-decoration: none;
     color: #1a1a1a;
     box-shadow: 6px 6px 0px #1a1a1a;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .cta-button:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 9px 9px 0px #1a1a1a;
+    transform: translate(-4px, -4px) scale(1.01);
+    box-shadow: 10px 10px 0px #1a1a1a;
     background: #d4ede9;
   }
 
   .cta-button:active {
-    transform: translate(2px, 2px);
+    transform: translate(2px, 2px) scale(0.98);
     box-shadow: 2px 2px 0px #1a1a1a;
   }
 
@@ -449,6 +518,13 @@
     font-size: 1.8rem;
     font-family: monospace;
     font-weight: bold;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  /* Panah bergerak saat tombol di-hover */
+  .cta-button:hover .cta-icon {
+    transform: translateX(8px) scale(1.1);
   }
 
   /* ── Responsif ── */

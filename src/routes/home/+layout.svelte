@@ -4,7 +4,10 @@
    * Layout wrapper untuk semua halaman di /home group
    * Includes: FloatingSidebar (persistent across child pages)
    */
-  import FloatingSidebar from '$lib/components/FloatingSidebar.svelte';
+  import FloatingSidebar from '$lib/components/home/FloatingSidebar.svelte';
+  import FABWhatsapp from '$lib/components/utils/FABWhatsapp.svelte';
+  import FABScrollUp from '$lib/components/utils/FABScrollUp.svelte';
+
 
   let { children } = $props();
   
@@ -16,6 +19,8 @@
   <FloatingSidebar bind:minimized={sidebarMinimized} />
 
   <main class="home-main" class:minimized={sidebarMinimized}>
+     <FABWhatsapp />
+     <FABScrollUp />
     <div class="home-container">
       {@render children()}
     </div>

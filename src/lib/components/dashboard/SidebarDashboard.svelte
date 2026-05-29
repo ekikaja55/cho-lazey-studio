@@ -83,7 +83,7 @@ function navigate(href) {
   function handleLogout() {
     auth.logout();
     toast.success('[PROTOTYPE] Logged out. See you next time! ✦');
-    goto('/');
+    goto('/home');
   }
 
   function toggleMinimize() {

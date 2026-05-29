@@ -135,7 +135,7 @@
               aria-pressed={selected?.gallery_id === item.gallery_id}
             >
               <div class="folder-img-wrap">
-                <WatermarkWrapper opacity={0.14} fontSize={11} spacing={75}>
+                <WatermarkWrapper opacity={0.5} fontSize={15} spacing={75}>
                   <img
                     src={item.image_url}
                     alt={item.title}

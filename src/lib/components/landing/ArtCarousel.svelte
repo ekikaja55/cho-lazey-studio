@@ -26,7 +26,7 @@
         style="width: {itemW}px;"
       >
         {#if item.src}
-        <WatermarkWrapper opacity={0.12} fontSize={12} spacing={80}>
+        <WatermarkWrapper opacity={0.5} fontSize={15} spacing={80}>
           <img src={item.src} alt={item.alt ?? ''} loading="lazy" draggable="false" />
         </WatermarkWrapper>   
         {:else}
