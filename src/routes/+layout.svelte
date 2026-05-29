@@ -13,14 +13,11 @@
 </script>
 
 <svelte:head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cho's Studio</title>
   <meta name="description" content="Cho's Studio — Art Gallery & Commission" />
-
+  <link rel="icon" href={icon} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link rel="icon" href={icon} />
   <script src="https://kit.fontawesome.com/2773bd903f.js" crossorigin="anonymous"></script>
 </svelte:head>
 

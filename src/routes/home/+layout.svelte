@@ -5,9 +5,10 @@
    * Includes: FloatingSidebar (persistent across child pages)
    */
   import FloatingSidebar from '$lib/components/home/FloatingSidebar.svelte';
-  import FABWhatsapp from '$lib/components/utils/FABWhatsapp.svelte';
-  import FABScrollUp from '$lib/components/utils/FABScrollUp.svelte';
-
+    import FABGroup from '$lib/components/utils/FABGroup.svelte';
+  // import FABWhatsapp from '$lib/components/utils/FABWhatsapp.svelte';
+  // import FABScrollUp from '$lib/components/utils/FABScrollUp.svelte';
+  
 
   let { children } = $props();
   
@@ -18,9 +19,10 @@
 <div class="home-layout">
   <FloatingSidebar bind:minimized={sidebarMinimized} />
 
+   <FABGroup /> 
   <main class="home-main" class:minimized={sidebarMinimized}>
-     <FABWhatsapp />
-     <FABScrollUp />
+     <!-- <FABWhatsapp /> -->
+     <!-- <FABScrollUp /> -->
     <div class="home-container">
       {@render children()}
     </div>
