@@ -134,7 +134,7 @@
     .fab-group {
       /* Pindah ke kanan, vertikal ~65% dari atas layar */
       bottom: auto;
-      top: 60%;
+      top: 75%;
       right: 14px;
       transform: translateY(-50%);
       gap: 10px;
