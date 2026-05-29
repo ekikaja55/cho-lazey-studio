@@ -14,7 +14,6 @@
   let sidebarMinimized = $state(false);
 </script>
 
-<FABGroup /> 
 <div class="home-layout">
   <FloatingSidebar bind:minimized={sidebarMinimized} />
   <main class="home-main" class:minimized={sidebarMinimized}>
@@ -23,6 +22,8 @@
     </div>
   </main>
 </div>
+
+<FABGroup />
 
 <style>
   .home-layout {
