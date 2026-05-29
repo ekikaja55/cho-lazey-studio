@@ -99,7 +99,7 @@
     font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 1.05rem;
     line-height: 1.7;
-    color: #555555; /* Kontras teks deskripsi dioptimalkan untuk background putih */
+    color: #333333; /* Warna lebih gelap untuk kontras dan readability yang lebih baik */
     max-width: 640px;
     margin: 0;
   }
@@ -148,12 +148,57 @@
   /* Responsive Adjustments */
   @media (max-width: 600px) {
     .page-header.boxed-header {
-      padding: 2rem 1.75rem;
+      padding: 2.25rem 1.5rem;
       border-radius: 20px;
+      box-shadow: 6px 6px 0px #1a1a1a;
     }
+
+    .header-content {
+      gap: 0.5rem;
+    }
+
+    .header-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      gap: 0.5rem;
+    }
+
+    .eyebrow-dot {
+      width: 6px;
+      height: 6px;
+    }
+
+    .header-title {
+      font-size: clamp(1.8rem, 8vw, 2.4rem);
+      line-height: 1.2;
+    }
+
+    .header-rule {
+      width: 60px;
+      height: 5px;
+      margin-top: 0.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .header-desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Adjust shapes for mobile to keep them from overwhelming the content */
+    .shape-purple {
+      width: 28px; height: 28px;
+      top: 20px; right: 60px;
+    }
+
     .shape-green {
-      top: -45px;
-      right: -10px;
+      width: 70px; height: 70px;
+      top: -25px; right: -10px;
+    }
+
+    .shape-peach {
+      width: 50px; height: 50px;
+      bottom: -15px; right: 30px;
     }
   }
 </style>
