@@ -1,5 +1,4 @@
 <script>
-  // Menggunakan Svelte 5 Runes untuk komponen inner page header yang reusable
   let { 
     title = 'Default', 
     description = 'Default', 
@@ -25,20 +24,18 @@
 </header>
 
 <style>
-  /* ── Header (Boxed Style - Modern Crisp Brutalist) ── */
   .page-header.boxed-header {
     position: relative;
-    background: #ffffff; /* Menggunakan putih jelas/bersih */
-    border: 2.5px solid #1a1a1a; /* Warna outline lebih kontras dan tegas */
-    border-radius: 24px; /* Sudut sedikit lebih melengkung agar modern */
+    background: #ffffff;   
+    border: 2.5px solid #1a1a1a; 
+    border-radius: 24px;    
     padding: 3rem 3.5rem;
-    box-shadow: 8px 8px 0px #1a1a1a; /* Bayangan pop-art yang lebih hidup */
+    box-shadow: 8px 8px 0px #1a1a1a;   
     overflow: hidden; 
     z-index: 1;
     transition: all 0.3s ease;
   }
 
-  /* Efek interaktif halus saat komponen di-hover */
   .page-header.boxed-header:hover {
     transform: translate(-2px, -2px);
     box-shadow: 10px 10px 0px #1a1a1a;
@@ -58,14 +55,13 @@
     font-weight: 800;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: #de5c23; /* Warna terracotta yang lebih vibrant di atas bg putih */
+    color: #de5c23;     
     margin: 0;
     display: flex;
     align-items: center;
     gap: 0.6rem;
   }
 
-  /* Detail titik estetis */
   .eyebrow-dot {
     display: inline-block;
     width: 8px;
@@ -84,7 +80,6 @@
     font-weight: 900;
   }
 
-  /* Garis pembatas dengan gradasi warna studio yang segar */
   .header-rule {
     width: 80px;
     height: 6px;
@@ -99,12 +94,11 @@
     font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 1.05rem;
     line-height: 1.7;
-    color: #333333; /* Warna lebih gelap untuk kontras dan readability yang lebih baik */
+    color: #333333;    
     max-width: 640px;
     margin: 0;
   }
 
-  /* ── Decorative Background Shapes ── */
   .bg-shapes {
     position: absolute;
     inset: 0;
@@ -112,7 +106,6 @@
     pointer-events: none; 
   }
 
-  /* Bentuk geometri sekarang menggunakan outline tipis dan shadow pop-art kecil */
   .shape {
     position: absolute;
     border: 2px solid #1a1a1a;
@@ -145,7 +138,6 @@
     box-shadow: 3px 3px 0px #1a1a1a;
   }
 
-  /* Responsive Adjustments */
   @media (max-width: 600px) {
     .page-header.boxed-header {
       padding: 2.25rem 1.5rem;
@@ -185,7 +177,6 @@
       line-height: 1.6;
     }
 
-    /* Adjust shapes for mobile to keep them from overwhelming the content */
     .shape-purple {
       width: 28px; height: 28px;
       top: 20px; right: 60px;

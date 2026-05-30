@@ -7,11 +7,10 @@
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
   import HistoryDetailModal from '$lib/components/dashboard/HistoryDetailModal.svelte';
 
-  // ── States ─────────────────────────────────────────
   let loadedOrders = $state([]);
-  let filterType    = $state('all');     // 'all' | 'adoption' | 'commission'
-  let filterStatus  = $state('all');     // 'all' | 'active' | 'completed' | 'cancelled'
-  let selectedOrder = $state(null);      // Menyimpan order yang aktif dibuka di modal
+  let filterType    = $state('all');     
+  let filterStatus  = $state('all');     
+  let selectedOrder = $state(null);      
 
   onMount(() => {
     let currentUser = null;
@@ -27,7 +26,6 @@
     }
   });
 
-  // ── Filter Reaktif ─────────────────────────────────
   const filteredOrders = $derived(
     loadedOrders.filter(order => {
       if (filterType !== 'all' && order.typeCommis !== filterType) return false;
@@ -44,7 +42,7 @@
   );
 
   function openDetail(order) {
-    selectedOrder = order; // Membuka modal tanpa memicu pemberitahuan toast
+    selectedOrder = order; 
   }
 
   function closeDetail() {
@@ -57,9 +55,7 @@
 </svelte:head>
 
 <div class="page">
- <!-- ── Header Section (DNA Matched) ── -->
   <header class="page-header boxed-header">
-    <!-- Ornamen Geometris Background -->
     <div class="bg-shapes">
       <div class="shape shape-purple"></div>
       <div class="shape shape-green"></div>
@@ -110,7 +106,7 @@
         <div class="history-card" style="--card-index: {index};">
           
           <div class="card-preview">
-            <WatermarkWrapper text="CHO'S STUDIO" fontSize={11} spacing={45} opacity={0.5}>
+            <WatermarkWrapper text="CHO'S STUDIO" fontSize={15} spacing={45} opacity={0.5}>
               <img src={order.pathImage} alt={order.title} class="art-img" />
             </WatermarkWrapper>
             <div class="card-img-overlay"></div>
@@ -146,30 +142,27 @@
 <HistoryDetailModal order={selectedOrder} onclose={closeDetail} />
 
 <style>
-  /* ── Page Shell ── */
   .page {
     width: 100%;
-    /* max-width dihapus agar merenggang penuh mengikuti kontainer luar */
     display: flex;
     flex-direction: column;
     gap: 2rem;
   }
 
-  /* ── Header (Boxed Style Matched) ── */
   .page-header.boxed-header {
     position: relative;
-    background: #f3eee6; /* Warna krem hangat menyesuaikan gambar */
+    background: #f3eee6; 
     border: 2.5px solid #2a2420;
     border-radius: 20px;
     padding: 2.5rem 3rem;
     box-shadow: 6px 6px 0px #2a2420;
-    overflow: hidden; /* Memastikan ornamen tidak keluar kotak */
+    overflow: hidden; 
     z-index: 1;
   }
 
   .header-content {
     position: relative;
-    z-index: 2; /* Menjaga teks tetap di atas ornamen dekorasi */
+    z-index: 2; 
     display: flex; 
     flex-direction: column; 
     gap: 0.6rem;
@@ -188,7 +181,6 @@
     gap: 0.6rem;
   }
 
-  /* Ikon donat kecil di teks eyebrow */
   .eyebrow-dot {
     display: inline-block;
     width: 10px;
@@ -205,7 +197,6 @@
     line-height: 1.1;
   }
 
-  /* Garis gradasi peach ke ungu */
   .header-rule {
     width: 72px;
     height: 5px;
@@ -224,12 +215,11 @@
     margin: 0;
   }
 
-  /* ── Decorative Background Shapes ── */
   .bg-shapes {
     position: absolute;
     inset: 0;
     z-index: 0;
-    pointer-events: none; /* Agar tidak menghalangi seleksi teks */
+    pointer-events: none; 
   }
 
   .shape {
@@ -261,15 +251,14 @@
     transform: rotate(18deg);
   }
 
-  /* Responsive penyesuaian khusus header */
   @media (max-width: 600px) {
     .page-header.boxed-header {
       padding: 1.5rem;
       border-radius: 16px;
     }
-    .bg-shapes { opacity: 0.4; } /* Diredam di layar kecil agar teks tidak bertabrakan */
+    .bg-shapes { opacity: 0.4; } 
   }
-  /* ── Filter Panel (Matching Configuration Panels) ── */
+
   .filter-panel {
     display: flex;
     flex-wrap: wrap;
@@ -296,7 +285,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* Brutalist Tabs */
   .btn-tabs {
     display: flex;
     background: #fbfaf8;
@@ -338,13 +326,12 @@
     }
   } 
 
-  /* ── History Grid (Responsive auto-fit) ── */
 .history-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Ubah bagian auto-fit menjadi auto-fill di sini */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
     gap: 1.6rem;
   }
-  /* ── History Card (Matching Tier Card DNA) ── */
+
   .history-card {
     background: #fbfaf8;
     border: 2.5px solid #2a2420;
@@ -391,7 +378,6 @@
   }
   .history-card:hover .art-img { transform: scale(1.04); }
 
-  /* Tags/Badge styles updated for DM Sans */
   .card-badge {
     position: absolute;
     top: 12px; left: 12px;
@@ -409,7 +395,6 @@
   }
   .card-badge.commis { background: #f4a87c; color: #2a2420; }
 
-  /* ── Card Details ── */
   .card-details {
     padding: 1.25rem;
     display: flex;
@@ -460,7 +445,6 @@
     margin: 0 0 0.8rem 0;
   }
 
-  /* ── Action Button (Matching back/submit buttons) ── */
   .btn-view {
     margin-top: auto;
     display: inline-flex;
@@ -489,7 +473,6 @@
     box-shadow: 1px 1px 0px #2a2420;
   }
 
-  /* ── Empty State ── */
   .empty-state {
     text-align: center;
     padding: 4rem 2rem;
@@ -507,7 +490,6 @@
   }
 
 
-  /* ── Responsive adjustments ── */
   @media (max-width: 600px) {
     .filter-panel { flex-direction: column; align-items: stretch; gap: 1rem; }
     .filter-group { flex-direction: column; align-items: flex-start; gap: 0.5rem; }

@@ -2,17 +2,13 @@
   import { fade, fly } from 'svelte/transition';
   import { toast } from '$lib/stores/toast.js';
 
-  // Props Svelte 5 Runes
   let { image, onClose, onUpdate, onDelete } = $props();
-
-  // Local Editable Form States
   let localTitle = $state('');
   let localDesc = $state('');
   let localPrice = $state(0);
   let localStatus = $state('not_sold');
   let localFormat = $state('JPG');
 
-  // Sinkronisasi data awal modal dibuka
   $effect(() => {
     if (image) {
       localTitle = image.title;
@@ -23,7 +19,6 @@
     }
   });
 
-  // Submit Update Asset
   function handleSubmit(e) {
     e.preventDefault();
     if (onUpdate) {
@@ -40,7 +35,6 @@
     toast.success("[PROTOTYPE] Artwork registry configuration saved!");
   }
 
-  // Submit soft delete / permanent delete mock
   function triggerDelete() {
     if (confirm(`Are you sure you want to drop "${image.title}" from the active manifest?`)) {
       if (onDelete) {
@@ -50,7 +44,6 @@
     }
   }
 
-  // Lock body window scroll context
   $effect(() => {
     if (image) document.body.style.overflow = 'hidden';
     return () => document.body.style.overflow = 'auto';
@@ -58,11 +51,13 @@
 </script>
 
 {#if image}
-  <div class="modal-backdrop" transition:fade={{ duration: 200 }} onclick={onClose}>
+  <div class="modal-backdrop" role="button" tabindex="0" transition:fade={{ duration: 200 }} onclick={onClose} 
+  onkeydown={(e)=>{if (e.key === 'Escape' || e.key === 'Enter') onclose(); }}>
     <div 
       class="modal-content" 
       transition:fly={{ y: 30, duration: 300, opacity: 0 }} 
       onclick={(e) => e.stopPropagation()}
+      role="presentation"
     >
       <div class="modal-header">
         <div>
@@ -198,7 +193,6 @@
   .info-tag-box .lbl { font-weight: 700; color: #7a706a; }
   .info-tag-box .val { font-weight: 800; color: #2a2420; }
 
-  /* Input fields layout Right */
   .form-column { display: flex; flex-direction: column; gap: 1rem; }
   .form-grid-row { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1rem; }
   .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
@@ -221,7 +215,6 @@
   .select-field { appearance: none; padding-right: 2.5rem; cursor: pointer; }
   .dropdown-icon { position: absolute; right: 12px; pointer-events: none; color: #2a2420; }
 
-  /* Modal Actions Footer Layout */
   .modal-footer {
     border-top: 3px solid #2a2420; padding: 1.25rem 2rem; background: #fbfaf8;
     display: flex; justify-content: space-between; align-items: center; gap: 1rem;

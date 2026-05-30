@@ -1,22 +1,18 @@
 <script>
   import { formatRupiah } from '$lib/data/mockCommissions.js';
 
-  // Props Svelte 5 Runes untuk menerima data dan fungsi dari parent
   let { data = [], onView } = $props();
 
-  // State Kontrol Tabel
   let searchQuery = $state('');
   let statusFilter = $state('all');
   let paymentFilter = $state('all');
   let currentPage = $state(1);
   let itemsPerPage = 10;
 
-  // Derivasi Komparasi Multi-Filtering & Search ($derived)
   let filteredData = $derived(
     data.filter((item) => {
       const query = searchQuery.toLowerCase();
       
-      // Pencarian berdasarkan ID, Nama Pelanggan, Email, Kategori, atau Detail Pesanan
       const matchSearch = 
         item.id?.toLowerCase().includes(query) ||
         item.customer?.name?.toLowerCase().includes(query) ||
@@ -24,34 +20,28 @@
         item.category?.toLowerCase().includes(query) ||
         item.details?.toLowerCase().includes(query);
           
-      // Filter berdasarkan Progress / Order Status
       const matchStatus = statusFilter === 'all' || item.status === statusFilter;
       
-      // Filter berdasarkan Status Pembayaran
       const matchPayment = paymentFilter === 'all' || item.paymentStatus === paymentFilter;
       
       return matchSearch && matchStatus && matchPayment;
     })
   );
 
-  // Derivasi Akumulasi Pagination
   let totalPages = $derived(Math.max(1, Math.ceil(filteredData.length / itemsPerPage)));
   let paginatedData = $derived(
     filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
   );
 
-  // Reset otomatis ke halaman 1 jika input filter berubah
   $effect(() => {
     if (searchQuery || statusFilter || paymentFilter) {
       currentPage = 1;
     }
   });
 
-  // Navigasi Halaman
   function prevPage() { if (currentPage > 1) currentPage--; }
   function nextPage() { if (currentPage < totalPages) currentPage++; }
 
-  // Helper Formatter Tanggal Lokal (ISO ke format ringkas)
   const formatDate = (dateStr) => {
     if (!dateStr) return '—';
     return new Date(dateStr).toLocaleDateString('en-US', { 
@@ -59,7 +49,6 @@
     });
   };
 
-  // Helper untuk membersihkan string underscore status menjadi teks normal
   const formatStatusText = (statusStr) => {
     return statusStr.replace(/_/g, ' ');
   };
@@ -189,7 +178,6 @@
 </div>
 
 <style>
-  /* ── Container & Controls Layout ── */
   .table-container {
     display: flex;
     flex-direction: column;
@@ -250,7 +238,6 @@
     outline: none;
   }
 
-  /* ── Scrollable Table Box Wrapper ── */
   .table-responsive-wrapper {
     background: #fbfaf8;
     border: 2.5px solid #2a2420;
@@ -262,7 +249,6 @@
     position: relative;
   }
 
-  /* Custom Aesthetic Minimalist Scrollbar */
   .table-responsive-wrapper::-webkit-scrollbar { width: 8px; height: 8px; }
   .table-responsive-wrapper::-webkit-scrollbar-track { background: #f0ebe3; }
   .table-responsive-wrapper::-webkit-scrollbar-thumb {
@@ -271,7 +257,6 @@
     border: 2px solid #f0ebe3;
   }
 
-  /* ── Brutalist Table Base Styling ── */
   .brutal-table {
     width: 100%;
     min-width: 1100px; 
@@ -304,7 +289,6 @@
   .brutal-table tbody tr:hover { background: rgba(42, 36, 32, 0.02); }
   .brutal-table tr:last-child td { border-bottom: none; }
 
-  /* ── Cells Specific Layouts ── */
   .customer-cell {
     display: flex;
     flex-direction: column;
@@ -339,7 +323,6 @@
     flex-shrink: 0;
     box-shadow: 2px 2px 0px rgba(42,36,32,0.15);
   }
-  .art-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
   .details-text {
     margin: 0;
@@ -348,6 +331,7 @@
     color: #4a403a;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -356,7 +340,6 @@
   .font-bold { font-weight: 700; }
   .text-gray { color: #7a706a; font-size: 0.88rem; white-space: nowrap; }
 
-  /* ── Multi-status Badges Stack Layout ── */
   .status-container {
     display: flex;
     align-items: center;
@@ -377,24 +360,21 @@
     box-shadow: 2px 2px 0px #2a2420;
   }
 
-  /* Variasi Warna Progress Status (Sesuai dengan Foto & Opsi Baru) */
-  .status-pending { background: #ffeb3b; color: #2a2420; } /* Yellow */
-  .status-accepted { background: #448aff; color: #ffffff; } /* Blue */
-  .status-declined { background: #ff5252; color: #ffffff; } /* Red */
-  .status-in_progress_sketch { background: #e040fb; color: #ffffff; } /* Purple/Sketching */
-  .status-in_progress_coloring { background: #ff4081; color: #ffffff; } /* Pink/Coloring */
-  .status-review { background: #00e5ff; color: #2a2420; } /* Cyan In Review */
-  .status-revision { background: #ff6d00; color: #ffffff; } /* Orange Revision */
-  .status-completed { background: #00e676; color: #1a5c57; } /* Mint Green */
-  .status-cancelled { background: #b0bec5; color: #2a2420; } /* Grey */
+  .status-pending { background: #ffeb3b; color: #2a2420; } 
+  .status-accepted { background: #448aff; color: #ffffff; }
+  .status-declined { background: #ff5252; color: #ffffff; }
+  .status-in_progress_sketch { background: #e040fb; color: #ffffff; }   
+  .status-in_progress_coloring { background: #ff4081; color: #ffffff; }
+  .status-review { background: #00e5ff; color: #2a2420; } 
+  .status-revision { background: #ff6d00; color: #ffffff; }
+  .status-completed { background: #00e676; color: #1a5c57; } 
+  .status-cancelled { background: #b0bec5; color: #2a2420; } 
 
-  /* Variasi Warna Payment Status Badges */
   .pay-pending { background: #fbfaf8; color: #2a2420; border-style: dashed; box-shadow: none; }
-  .pay-dp { background: #ff9100; color: #2a2420; font-weight: 900; } /* Bulatan DP Oranye */
+  .pay-dp { background: #ff9100; color: #2a2420; font-weight: 900; } 
   .pay-paid { background: #2a2420; color: #fbfaf8; box-shadow: none; }
   .pay-refunded { background: #b2dfdb; color: #004d40; border-color: #2a2420; }
 
-  /* ── Action Cell Layout ── */
   .action-cell { text-align: right; width: 100px; white-space: nowrap; }
 
   .btn-icon-only {
@@ -422,7 +402,6 @@
     box-shadow: 1px 1px 0px #2a2420;
   }
 
-  /* ── Pagination Elements ── */
   .pagination {
     display: flex;
     justify-content: space-between;
@@ -480,7 +459,6 @@
     font-size: 1.05rem;
   }
 
-  /* Responsive Breakpoints */
   @media (max-width: 768px) {
     .table-controls { flex-direction: column; align-items: stretch; }
     .filter-group { flex-direction: column; }

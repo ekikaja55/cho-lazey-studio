@@ -1,23 +1,13 @@
 <script>
-  /**
-   * SidebarDashboard.svelte
-   * Cho's Studio — Dashboard Sidebar
-   * Sticky floating sidebar, minimizable (desktop), bottom bar (mobile)
-   * DNA: brutalist warm, cream + dark brown + accent teal/peach/lavender
-   */
-
   import { goto } from '$app/navigation';
   import { auth } from '$lib/stores/auth.js';
   import { toast } from '$lib/stores/toast.js';
   import ProfilePopup from '$lib/components/dashboard/ProfilePopup.svelte';
 
   let { role = 'client', currentPath = '' } = $props();
-
-  // ── State ─────────────────────────────────────────
   let minimized   = $state(false);
   let showProfile = $state(false);
 
-  // ── Nav config per role ───────────────────────────
   const artistNav = [
     {
       label: 'Overview',
@@ -39,11 +29,11 @@
       href: '/dashboard/artist/gallery',
       icon: 'image',
     },
-    {
-      label:'Portofolio',
-      href:'/dashboard/artist/porto',
-      icon: 'porto',
-    }
+    // {
+    //   label:'Portofolio',
+    //   href:'/dashboard/artist/porto',
+    //   icon: 'porto',
+    // }
   ];
 
   const clientNav = [
@@ -67,12 +57,10 @@
   const navItems = $derived(role === 'artist' ? artistNav : clientNav);
 
 function isActive(href) {
-  // Jika href adalah rute utama dashboard (Overview), pastikan jalurnya sama persis
   if (href === '/dashboard/artist' || href === '/dashboard/client') {
     return currentPath === href;
   }
   
-  // Untuk menu lainnya, tetap gunakan startsWith agar sub-halaman tetap memicu highlight
   return currentPath.startsWith(href);
 }  
 
@@ -82,7 +70,7 @@ function navigate(href) {
 
   function handleLogout() {
     auth.logout();
-    toast.success('[PROTOTYPE] Logged out. See you next time! ✦');
+    toast.success('[PROTOTYPE] Logged out. See you next time!');
     goto('/home');
   }
 
@@ -99,15 +87,9 @@ function navigate(href) {
   }
 </script>
 
-<!-- ══════════════════════════════════════
-     DESKTOP SIDEBAR
-══════════════════════════════════════ -->
 <aside class="sidebar" class:minimized aria-label="Dashboard navigation">
-
-  <!-- Sidebar inner card -->
-  <div class="sidebar-card">
-
-    <!-- ── Top: Brand + Minimize ── -->
+ 
+ <div class="sidebar-card">
     <div class="sidebar-top">
       {#if !minimized}
         <div class="sidebar-brand">
@@ -122,7 +104,6 @@ function navigate(href) {
         aria-label={minimized ? 'Expand sidebar' : 'Collapse sidebar'}
         title={minimized ? 'Expand' : 'Collapse'}
       >
-        <!-- Chevron SVG flips with CSS -->
         <svg
           class="chevron-icon"
           class:flipped={minimized}
@@ -139,7 +120,6 @@ function navigate(href) {
       </button>
     </div>
 
-    <!-- ── Role badge ── -->
     {#if !minimized}
       <div class="role-badge" data-role={role}>
         <span class="role-dot" aria-hidden="true"></span>
@@ -147,7 +127,6 @@ function navigate(href) {
       </div>
     {/if}
 
-    <!-- ── Nav ── -->
     <nav class="sidebar-nav" aria-label="Main navigation">
       <ul role="list">
         {#each navItems as item}
@@ -159,7 +138,6 @@ function navigate(href) {
               aria-current={isActive(item.href) ? 'page' : undefined}
               title={minimized ? item.label : undefined}
             >
-              <!-- SVG Icon -->
               <span class="nav-icon" aria-hidden="true">
                 {@render NavIcon(item.icon)}
               </span>
@@ -175,10 +153,7 @@ function navigate(href) {
       </ul>
     </nav>
 
-    <!-- ── Spacer ── -->
     <div class="sidebar-spacer"></div>
-
-    <!-- ── Profile button (bottom) ── -->
     <button
       class="profile-btn"
       onclick={openProfile}
@@ -186,7 +161,6 @@ function navigate(href) {
       title="Profile"
     >
       <span class="profile-avatar" aria-hidden="true">
-        <!-- Default SVG avatar -->
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/>
           <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
@@ -208,11 +182,7 @@ function navigate(href) {
   </div>
 </aside>
 
-<!-- ══════════════════════════════════════
-     MOBILE BOTTOM BAR
-══════════════════════════════════════ -->
 <nav class="mobile-bar" aria-label="Mobile navigation">
-  <!-- Profile trigger (left) -->
   <button class="mobile-item mobile-profile" onclick={openProfile} aria-label="Profile">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="8" r="4"/>
@@ -235,9 +205,6 @@ function navigate(href) {
   {/each}
 </nav>
 
-<!-- ══════════════════════════════════════
-     PROFILE POPUP
-══════════════════════════════════════ -->
 {#if showProfile}
   <ProfilePopup
     user={$auth}
@@ -246,9 +213,6 @@ function navigate(href) {
   />
 {/if}
 
-<!-- ══════════════════════════════════════
-     ICON COMPONENT (inline)
-══════════════════════════════════════ -->
 {#snippet NavIcon(name)}
   {#if name === 'overview'}
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -275,19 +239,19 @@ function navigate(href) {
       <circle cx="8.5" cy="8.5" r="1.5"/>
       <polyline points="21,15 16,10 5,21"/>
     </svg>
-  {:else if name === 'porto'} 
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-  <polyline points="9,12 12,15 16,11"/>
-</svg>
-
+<!--   {:else if name === 'porto'}  -->
+<!-- <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"> -->
+<!--   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/> -->
+<!--   <polyline points="9,12 12,15 16,11"/> -->
+<!-- </svg> -->
+ {:else if name === 'receipt'}
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>  
   {/if}
 {/snippet}
 
 <style>
-  /* ══════════════════════════════════════
-     CSS TOKENS — inherits Cho's Studio DNA
-  ══════════════════════════════════════ */
   :root {
     --sidebar-bg:        #f0ebe3;
     --sidebar-border:    #2a2420;
@@ -295,9 +259,9 @@ function navigate(href) {
     --sidebar-w:         220px;
     --sidebar-w-min:     64px;
     --sidebar-radius:    24px;
-    --sidebar-accent-1:  #a2e1db; /* teal  */
-    --sidebar-accent-2:  #f4a87c; /* peach */
-    --sidebar-accent-3:  #b4a6d5; /* lavender */
+    --sidebar-accent-1:  #a2e1db;
+    --sidebar-accent-2:  #f4a87c;
+    --sidebar-accent-3:  #b4a6d5;
     --sidebar-text:      #2a2420;
     --sidebar-muted:     rgba(42, 36, 32, 0.45);
     --sidebar-active-bg: #2a2420;
@@ -306,11 +270,7 @@ function navigate(href) {
     --transition:        0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* ══════════════════════════════════════
-     DESKTOP SIDEBAR
-  ══════════════════════════════════════ */
   .sidebar {
-    /* Sticky, floats on the right edge of the left column */
     position: sticky;
     top: 1.5rem;
     height: calc(100vh - 3rem);
@@ -319,7 +279,6 @@ function navigate(href) {
     transition: width var(--transition);
     display: flex;
     flex-direction: column;
-    /* Mobile: hidden by default, shown via media query override */
   }
 
   .sidebar.minimized {
@@ -338,7 +297,6 @@ function navigate(href) {
     transition: width var(--transition);
   }
 
-  /* ── Top ── */
   .sidebar-top {
     display: flex;
     align-items: center;
@@ -381,7 +339,6 @@ function navigate(href) {
     text-overflow: ellipsis;
   }
 
-  /* Minimize button */
   .btn-icon {
     display: flex;
     align-items: center;
@@ -408,7 +365,6 @@ function navigate(href) {
     transform: rotate(180deg);
   }
 
-  /* ── Role badge ── */
   .role-badge {
     display: flex;
     align-items: center;
@@ -444,7 +400,6 @@ function navigate(href) {
     opacity: 0.7;
   }
 
-  /* ── Nav ── */
   .sidebar-nav {
     flex: 1;
     overflow-y: auto;
@@ -531,10 +486,8 @@ function navigate(href) {
     box-shadow: 0 0 6px rgba(162, 225, 219, 0.8);
   }
 
-  /* ── Spacer ── */
   .sidebar-spacer { flex: 1; }
 
-  /* ── Profile button ── */
   .profile-btn {
     display: flex;
     align-items: center;
@@ -611,19 +564,12 @@ function navigate(href) {
     flex-shrink: 0;
   }
 
-  /* ══════════════════════════════════════
-     MOBILE BOTTOM BAR — Floating pill
-  ══════════════════════════════════════ */
   .mobile-bar {
-    display: none; /* shown via media query */
+    display: none;     
     position: fixed;
-
-    /* Floating: tidak nempel ke tepi, ada margin kiri-kanan */
     bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
-
-    /* Lebar auto menyesuaikan konten, dibatasi agar tidak terlalu lebar */
     width: auto;
     max-width: calc(100vw - 2rem);
     min-width: 0;
@@ -631,22 +577,19 @@ function navigate(href) {
 
     z-index: 200;
 
-    /* DNA brutalist: border tebal + offset shadow */
     background: var(--sidebar-bg);
     border: 2.5px solid var(--sidebar-border);
-    border-radius: 999px;   /* full pill */
+    border-radius: 999px;      
     box-shadow:
       4px 4px 0px var(--sidebar-border),
       0 8px 24px rgba(42, 36, 32, 0.18),
       0 2px 8px rgba(42, 36, 32, 0.12);
-
     padding: 0.35rem 0.5rem;
     align-items: center;
     justify-content: center;
     gap: 0.15rem;
   }
 
-  /* Profile trigger — bulat di kiri, sedikit terpisah */
   .mobile-item {
     display: flex;
     flex-direction: column;
@@ -671,7 +614,6 @@ function navigate(href) {
     transform: translateY(-1px);
   }
 
-  /* Active state: pill background dark → teks terang, offset shadow kecil */
   .mobile-item.active {
     background: var(--sidebar-active-bg);
     color: var(--sidebar-active-fg);
@@ -680,7 +622,6 @@ function navigate(href) {
     transform: translateY(-1px);
   }
 
-  /* Profile button — border lingkaran tipis sebagai pemisah visual */
   .mobile-item.mobile-profile {
     color: var(--sidebar-muted);
     border-right: 1.5px solid rgba(42, 36, 32, 0.12);
@@ -702,11 +643,7 @@ function navigate(href) {
     justify-content: center;
   }
 
-  /* ══════════════════════════════════════
-     RESPONSIVE
-  ══════════════════════════════════════ */
 
-  /* Tablet: sidebar still shown but narrower */
   @media (max-width: 900px) {
     .sidebar {
       width: var(--sidebar-w-min);
@@ -725,13 +662,11 @@ function navigate(href) {
     .profile-btn { justify-content: center; padding: 0.65rem; gap: 0; margin: 0 0.5rem 0.85rem; }
   }
 
-  /* Mobile: hide sidebar entirely, show floating bottom bar */
   @media (max-width: 600px) {
     .sidebar { display: none; }
     .mobile-bar { display: flex; }
   }
 
-  /* Narrow phone — kompreskan padding sedikit */
   @media (max-width: 360px) {
     .mobile-bar {
       max-width: calc(100vw - 1.5rem);

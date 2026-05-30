@@ -87,7 +87,6 @@
 
 <div class="inner-form">
 
-  <!-- ① Back button ke /home -->
   <a href="/home" class="back-btn">
     <i class="fa-solid fa-arrow-left"></i> Back to Home
   </a>
@@ -100,8 +99,6 @@
 
   <form onsubmit={handleRegister} novalidate id="registerForm">
     <div class="form-stack">
-
-      <!-- Basic Info -->
       <section class="form-section">
         <div class="section-header">
           <div class="section-dot" style="background:#a2e1db"></div>
@@ -158,7 +155,6 @@
         </div>
       </section>
 
-      <!-- ② Contact Method — Line + Phone + Instagram -->
       <section class="form-section">
         <div class="section-header">
           <div class="section-dot" style="background:#b4a6d5"></div>
@@ -167,7 +163,6 @@
         </div>
         <div class="fields contact-fields">
 
-          <!-- Line -->
           <div class="contact-block">
             <label class="contact-toggle" class:active={hasLine}>
               <input type="checkbox" bind:checked={hasLine} disabled={loading} />
@@ -184,7 +179,6 @@
             {/if}
           </div>
 
-          <!-- ② Phone -->
           <div class="contact-block">
             <label class="contact-toggle" class:active={hasPhone}>
               <input type="checkbox" bind:checked={hasPhone} disabled={loading} />
@@ -201,7 +195,6 @@
             {/if}
           </div>
 
-          <!-- ② Instagram -->
           <div class="contact-block">
             <label class="contact-toggle" class:active={hasInstagram}>
               <input type="checkbox" bind:checked={hasInstagram} disabled={loading} />
@@ -223,7 +216,6 @@
 
     </div>
 
-    <!-- ① Terms row — link ke /terms, tampilan lebih prominent -->
     <div class="terms-row">
       <label class="terms-label">
         <input type="checkbox" bind:checked={agreeTerms} disabled={loading} />
@@ -248,7 +240,6 @@
     </button>
   </form>
 
-  <!-- ③ Switch ke Login — lebih prominent -->
   <div class="auth-switch-wrap">
     <p class="auth-switch-text">Already have an account?</p>
     <button type="button" class="switch-btn" onclick={onSwitch}>
@@ -259,7 +250,6 @@
 </div>
 
 <style>
-  /* ── Layout ── */
   .inner-form {
     width: 100%;
     max-width: 460px;
@@ -268,7 +258,6 @@
     flex-direction: column;
   }
 
-  /* ① Back button */
   .back-btn {
     display: inline-flex;
     align-items: center;
@@ -288,23 +277,19 @@
   }
   .back-btn:hover { background: #7dc8c1; transform: translateX(-3px); }
 
-  /* ── Header ── */
   .auth-header { text-align: center; margin-bottom: 1.5rem; }
   .auth-eyebrow { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: #7dc8c1; margin: 0 0 0.5rem; font-weight: 500; }
   .auth-title { font-family: 'HammersmithOne', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); color: #2a2420; margin: 0; }
   .auth-underline { width: 40px; height: 3px; background: #7dc8c1; border-radius: 2px; margin: 0.7rem auto 0; }
 
-  /* ── Form stack ── */
   .form-stack { display: flex; flex-direction: column; gap: 1.75rem; margin-bottom: 1.25rem; }
 
-  /* ── Section ── */
   .form-section { display: flex; flex-direction: column; }
   .section-header { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; flex-wrap: wrap; }
   .section-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid #2a2420; flex-shrink: 0; }
   .section-title { font-family: 'HammersmithOne', serif; font-size: 0.95rem; color: #2a2420; margin: 0; }
   .section-hint { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: #7c6f6a; background: rgba(42,36,32,0.07); border-radius: 999px; padding: 2px 10px; margin-left: auto; }
 
-  /* ── Fields ── */
   .fields { display: flex; flex-direction: column; gap: 0.8rem; }
   .field-wrap { display: flex; flex-direction: column; gap: 5px; }
   .field-label { font-family: 'HammersmithOne', serif; font-size: 0.8rem; color: #4a3f3a; }
@@ -328,13 +313,11 @@
 
   .toggle-pass { position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: #477c77; padding: 4px; font-size: 0.9rem; }
 
-  /* ── Strength ── */
   .strength-wrap { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
   .strength-bar { display: flex; gap: 4px; flex: 1; }
   .strength-seg { flex: 1; height: 4px; border-radius: 2px; transition: background 0.3s; }
   .strength-label { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600; min-width: 36px; }
 
-  /* ── Contact section ── */
   .contact-fields { gap: 0.5rem; }
   .contact-block { display: flex; flex-direction: column; border-radius: 14px; overflow: hidden; }
   .contact-toggle {
@@ -361,7 +344,6 @@
   .contact-field-input { background: #fff !important; border-color: var(--accent, #477c77) !important; }
   .contact-field-input:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #477c77) 20%, transparent) !important; }
 
-  /* ① Terms row */
   .terms-row { margin-bottom: 1.1rem; }
   .terms-label { display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
   .terms-label input { display: none; }
@@ -373,7 +355,6 @@
   }
   .terms-box.checked { background: #a2e1db; }
   .terms-text { font-family: 'DM Sans', sans-serif; font-size: 0.87rem; color: #4a3f3a; }
-  /* ① Link terms — prominent */
   .terms-link {
     color: #477c77;
     font-weight: 700;
@@ -386,7 +367,6 @@
   .terms-link:hover { color: #2a2420; text-decoration-style: solid; }
   .terms-ext-icon { font-size: 0.65rem; vertical-align: middle; margin-left: 2px; }
 
-  /* ── Submit ── */
   .btn-submit {
     width: 100%;
     padding: 13px;
@@ -407,7 +387,6 @@
   .btn-submit:hover:not(:disabled) { background: #9b8bc4; transform: translateY(-2px); box-shadow: 5px 5px 0px #2a2420; }
   .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
 
-  /* ③ Auth switch — prominent pill card */
   .auth-switch-wrap {
     display: flex;
     align-items: center;
@@ -437,7 +416,6 @@
   }
   .switch-btn:hover { background: #477c77; transform: translateY(-1px); }
 
-  /* ── Spinner ── */
   .spinner { width: 16px; height: 16px; border: 2.5px solid rgba(42,36,32,0.2); border-top-color: #2a2420; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
 </style>

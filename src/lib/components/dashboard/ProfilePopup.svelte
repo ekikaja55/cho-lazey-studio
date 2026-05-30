@@ -1,13 +1,6 @@
 <script>
-  /**
-   * ProfilePopup.svelte
-   * Cho's Studio — Profile Popup
-   * Shows user data, logout & back to home buttons
-   * Brutalist warm aesthetic
-   */
-
   import { goto } from '$app/navigation';
-
+ 
   let { user = null, onclose, onlogout } = $props();
 
   function goHome() {
@@ -28,7 +21,6 @@
     if (e.key === 'Escape') onclose?.();
   }
 
-  // Map role to accent color
   const roleColor = {
     artist: { bg: 'rgba(162,225,219,0.35)', fg: '#1a5c57', border: 'rgba(162,225,219,0.6)', label: '✦ Artist' },
     client: { bg: 'rgba(244,168,124,0.3)',  fg: '#7a3a10', border: 'rgba(244,168,124,0.5)', label: '✦ Client' },
@@ -38,8 +30,6 @@
 
 <svelte:window onkeydown={handleKey} />
 
-<!-- Backdrop -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
   class="popup-backdrop"
   role="dialog"
@@ -51,7 +41,6 @@
 >
   <div class="popup-card" role="document">
 
-    <!-- Close button -->
     <button class="popup-close" onclick={onclose} aria-label="Close profile">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
         <line x1="18" y1="6" x2="6" y2="18"/>
@@ -59,7 +48,6 @@
       </svg>
     </button>
 
-    <!-- ── Avatar area ── -->
     <div class="popup-avatar-wrap">
       <div class="popup-avatar">
         <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -67,11 +55,9 @@
           <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
         </svg>
       </div>
-      <!-- Decorative ring -->
       <div class="popup-avatar-ring" aria-hidden="true"></div>
     </div>
 
-    <!-- ── Name & role ── -->
     <div class="popup-identity">
       <h2 class="popup-name">{user?.display_name ?? 'User'}</h2>
       <span
@@ -82,7 +68,6 @@
       </span>
     </div>
 
-    <!-- ── Info rows ── -->
     <div class="popup-info">
 
       {#if user?.username}
@@ -151,10 +136,8 @@
 
     </div>
 
-    <!-- Divider -->
     <div class="popup-divider" aria-hidden="true"></div>
 
-    <!-- ── Actions ── -->
     <div class="popup-actions">
       <button class="btn-home" onclick={goHome}>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -173,7 +156,6 @@
       </button>
     </div>
 
-    <!-- Decorative corner accent -->
     <div class="popup-accent" aria-hidden="true"></div>
 
   </div>
@@ -221,7 +203,6 @@
     to   { opacity: 1; transform: scale(1)   translateY(0);     }
   }
 
-  /* Close */
   .popup-close {
     position: absolute;
     top: 14px; right: 14px;
@@ -241,12 +222,9 @@
     transform: scale(1.1);
   }
 
-/* Avatar */
   .popup-avatar-wrap {
     position: relative;
     margin-top: 0.5rem;
-    
-    /* 1. Hapus drop-shadow dari kontainer luar agar ring putus-putus tidak ikut berbayang */
     filter: none; 
   }
 
@@ -255,10 +233,7 @@
     border-radius: 50%;
     background: #b4a6d5;
     border: 3px solid #2a2420;
-    
-    /* 2. Berikan box-shadow 60% langsung ke lingkaran avatar ini saja */
     box-shadow: 4px 4px 0px rgba(42, 36, 32, 0.6); 
-    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -271,10 +246,7 @@
     position: absolute;
     inset: -5px;
     border-radius: 50%;
-    
-    /* UBAH DI SINI: Naikkan opasitas dari 0.2 menjadi 0.4 (40%) atau 0.45 (45%) */
     border: 2px dashed rgba(42, 36, 32, 0.4); 
-    
     animation: spin 18s linear infinite;
   }
 
@@ -283,7 +255,6 @@
     to   { transform: rotate(360deg); }
   }
 
-  /* Identity */
   .popup-identity {
     display: flex;
     flex-direction: column;
@@ -310,7 +281,6 @@
     border: 1.5px solid;
   }
 
-  /* Info rows */
   .popup-info {
     width: 100%;
     display: flex;
@@ -361,7 +331,6 @@
     min-width: 0;
   }
 
-  /* Divider */
   .popup-divider {
     width: 100%;
     height: 2px;
@@ -375,7 +344,6 @@
     border-radius: 1px;
   }
 
-  /* Actions */
   .popup-actions {
     display: flex;
     gap: 0.65rem;
@@ -430,7 +398,6 @@
     box-shadow: 1px 1px 0px #2a2420;
   }
 
-  /* Decorative corner */
   .popup-accent {
     position: absolute;
     bottom: -18px; right: -18px;
@@ -440,7 +407,6 @@
     pointer-events: none;
   }
 
-  /* Mobile adjustments */
   @media (max-width: 480px) {
     .popup-card {
       padding: 1.75rem 1.25rem 1.25rem;

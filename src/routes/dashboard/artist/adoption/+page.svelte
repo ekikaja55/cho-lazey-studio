@@ -1,20 +1,19 @@
 <script>
   import PageHeader from '$lib/components/dashboard/PageHeader.svelte';
   import AdoptionTable from '$lib/components/dashboard/AdoptionTable.svelte';
- import AdoptionDetailModal from '$lib/components/dashboard/AdoptionDetailModal.svelte'; 
-  // Mengambil data sesuai dengan mock yang kamu sediakan
+  import AdoptionDetailModal from '$lib/components/dashboard/AdoptionDetailModal.svelte'; 
   import { getAdoptions } from '$lib/data/mockAdoptions.js';
 
   let adoptionData = $state(getAdoptions());
   let selectedAdoption = $state(null);
 
-  // Trigger Action Button -> untuk memunculkan modal
+  
  function handleOpenModal(item) { selectedAdoption = item; }
   
  function handleCloseModal() { selectedAdoption = null; }
 
  function handleUpdateData(updatedItem) {
-    // 1. Perbarui state data tabel agar UI langsung re-render (Optimistic Update)
+    
     adoptionData = adoptionData.map(item => 
       item.id === updatedItem.id ? updatedItem : item
     );

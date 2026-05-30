@@ -2,20 +2,15 @@
   import PageHeader from '$lib/components/dashboard/PageHeader.svelte';
   import { galleryImages, formatRupiah } from '$lib/data/galleryImages.js';
   import { toast } from '$lib/stores/toast.js';
-  
-  // Import Sub-Komponen
   import GalleryCard from '$lib/components/dashboard/GalleryCard.svelte';
   import GalleryDetailModal from '$lib/components/dashboard/GalleryDetailModal.svelte';
 
-  // State Utama (Reactive array untuk simulasi CRUD di prototype)
-  let items = $state([...galleryImages]);
   
-  // State Filter & Kontrol Konten
+  let items = $state([...galleryImages]);
   let searchQuery = $state('');
   let statusFilter = $state('all');
-  let selectedImage = $state(null); // Menyimpan item yang sedang diedit/dilihat
+  let selectedImage = $state(null); 
 
-  // Derivasi Komparasi Data Filtering ($derived)
   let filteredImages = $derived(
     items.filter((img) => {
       const query = searchQuery.toLowerCase();
@@ -29,16 +24,13 @@
     })
   );
 
-  // --- HANDLERS FOR CRUD (PROTOTYPE) ---
-  
-  // CREATE: Tambah Artwork Baru Muted Item
   function handleCreateImage() {
     const newId = items.length + 1;
     const newArtwork = {
       gallery_id: newId,
       title: `Untitled Masterpiece #${newId}`,
       description: "Write your artwork description here...",
-      image_url: "/gallery/placeholder.jpg", // static default placeholder
+      image_url: "/gallery/placeholder.jpg", 
       file_format: "JPG",
       status: "not_sold",
       price: 0,
@@ -49,16 +41,14 @@
 
     items = [newArtwork, ...items];
     toast.success("New artwork draft initialized!");
-    selectedImage = items[0]; // Langsung buka modal untuk diisi
+    selectedImage = items[0]; 
   }
 
-  // UPDATE: Simpan Perubahan Form dari Modal
   function handleUpdateImage(updatedItem) {
     items = items.map(img => img.gallery_id === updatedItem.gallery_id ? updatedItem : img);
     selectedImage = null;
   }
 
-  // DELETE: Soft Delete Data Gambar
   function handleDeleteImage(id) {
     items = items.filter(img => img.gallery_id !== id);
     selectedImage = null;
@@ -164,7 +154,7 @@
   .btn-create:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #f4a87c; }
   .btn-create:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0px #f4a87c; }
 
-  /* ── Filter Controls Layout ── */
+  
   .controls-container {
     display: flex;
     gap: 1rem;
@@ -192,7 +182,7 @@
     font-family: 'DM Sans', sans-serif; font-weight: 700; color: #2a2420; cursor: pointer; outline: none;
   }
 
-  /* ── Gallery Card Grid ── */
+  
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

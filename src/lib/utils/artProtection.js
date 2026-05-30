@@ -1,13 +1,3 @@
-/**
- * artProtection.js
- * Cho's Studio — Art Protection Utilities
- * Replaces the inline script from Laravel template
- */
-
-/**
- * Initialize all art protection measures.
- * Call this once in the root +layout.svelte onMount.
- */
 export function initArtProtection() {
   if (typeof window === "undefined") return; // SSR guard
 
@@ -77,22 +67,14 @@ export function initArtProtection() {
   });
 }
 
-/**
- * Remove all protection listeners (useful for admin areas where you need DevTools)
- */
 export function removeArtProtection() {
   if (typeof window === "undefined") return;
   window.removeEventListener("blur", () => {});
   window.removeEventListener("focus", () => {});
-  // Note: contextmenu and keydown are anonymous in initArtProtection;
-  // for full removal, you'd use AbortController pattern (upgrade if needed)
+  // Note: contextmenu sama keydown itu anonim di initArtProtection;
 }
 
-/**
- * Simple toast for protection messages — no external dep needed
- */
 function showProtectionToast(message) {
-  // Remove existing toast
   const existing = document.getElementById("cho-protection-toast");
   if (existing) existing.remove();
 

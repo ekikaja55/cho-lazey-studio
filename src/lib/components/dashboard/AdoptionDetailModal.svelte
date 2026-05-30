@@ -2,17 +2,11 @@
   import { fade, fly } from 'svelte/transition';
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
   
-  // Import store toast kamu
   import { toast } from '$lib/stores/toast.js';
-
-  // Svelte 5 Runes Props
   let { adoption, onClose, onUpdate } = $props();
-
-  // Local State untuk menampung sementara perubahan form
   let localOrderStatus = $state('');
   let localPaymentStatus = $state('');
 
-  // Sinkronisasi data saat modal dibuka
   $effect(() => {
     if (adoption) {
       localOrderStatus = adoption.orderStatus;
@@ -20,7 +14,6 @@
     }
   });
 
-  // Fungsi Action Submit
   function handleUpdate(e) {
     e.preventDefault();
     
@@ -32,13 +25,11 @@
       });
     }
 
-    // Trigger Toast success
     toast.success(`[PROTOTYPE] Adoption #${adoption.id} updated successfully!`);
     
     onClose();
   }
 
-  // Helper formating tanggal
   const formatDate = (dateStr) => {
     if (!dateStr) return '-';
     return new Date(dateStr).toLocaleDateString('en-GB', {
@@ -46,7 +37,6 @@
     });
   };
 
-  // Kunci scroll body saat modal terbuka
   $effect(() => {
     if (adoption) {
       document.body.style.overflow = 'hidden';
@@ -58,12 +48,20 @@
 </script>
 
 {#if adoption}
-  <div class="modal-backdrop" transition:fade={{ duration: 200 }} onclick={onClose}>
+ <div 
+    class="modal-backdrop" 
+    transition:fade={{ duration: 200 }} 
+    onclick={onClose}
+    role="button"
+    tabindex="0"
+    onkeydown={(e) => { if (e.key === 'Escape' || e.key === 'Enter') onClose(); }}
+  >
     
     <div 
       class="modal-content" 
       transition:fly={{ y: 30, duration: 300, opacity: 0 }} 
       onclick={(e) => e.stopPropagation()}
+      role="presentation"
     >
       <div class="modal-header">
         <div>
@@ -163,7 +161,6 @@
 {/if}
 
 <style>
-  /* ── Modal & Layout Utama ── */
   .modal-backdrop {
     position: fixed; inset: 0;
     background: rgba(26, 22, 20, 0.5);
@@ -204,7 +201,6 @@
     padding: 2rem; overflow-y: auto;
   }
 
-  /* ── Kolom Kiri: Artwork Info ── */
   .info-column { display: flex; flex-direction: column; gap: 1.5rem; }
 
   .artwork-preview {
@@ -228,7 +224,6 @@
   .info-value { font-family: 'DM Sans', sans-serif; font-size: 1.05rem; font-weight: 600; color: #2a2420; }
   .email-text { word-break: break-all; }
 
-  /* ── Kolom Kanan: Editor Form ── */
   .editor-column { display: flex; flex-direction: column; gap: 1.5rem; }
 
   .editor-card {
@@ -258,7 +253,6 @@
     position: absolute; right: 12px; pointer-events: none; color: #2a2420;
   }
 
-  /* ── Invoice Section ── */
   .invoice-preview {
     position: relative; border: 2.5px solid #2a2420; border-radius: 8px;
     background: #e2dcf2; height: 140px; overflow: hidden;
@@ -285,7 +279,6 @@
   .invoice-preview:hover .btn-view-invoice { transform: translateY(0); }
   .btn-view-invoice:hover { background: #f4a87c; }
 
-  /* ── Footer & Buttons ── */
   .modal-footer {
     border-top: 3px solid #2a2420; padding: 1.25rem 2rem;
     display: flex; justify-content: flex-end; gap: 1rem; background: #fbfaf8;
@@ -305,7 +298,6 @@
   .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #f4a87c; }
   .btn-primary:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0px #f4a87c; }
 
-  /* ── Responsive ── */
   @media (max-width: 768px) {
     .modal-body { grid-template-columns: 1fr; padding: 1.25rem; gap: 1.5rem; }
     .modal-header, .modal-footer { padding: 1rem 1.25rem; }

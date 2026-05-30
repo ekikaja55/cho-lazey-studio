@@ -1,4 +1,3 @@
-<!-- $lib/components/dashboard/HistoryDetailModal.svelte -->
 <script>
   import { formatRupiah } from '$lib/data/galleryImages.js';
   import { fade, scale } from 'svelte/transition';
@@ -39,30 +38,28 @@
 <svelte:window onkeydown={handleKey} />
 
 {#if order}
-  <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
   <div 
     class="modal-backdrop" 
     role="dialog" 
     aria-modal="true"
     onclick={handleBackdropClick}
     transition:fade={{ duration: 150 }}
+    tabindex="0"
+    onkeydown={(e)=>{if(e.key === 'Escape' || e.key === 'Enter') handleBackdropClick() ;}}
   >
     <div class="modal-card" role="document" transition:scale={{ duration: 200, start: 0.95 }}>
-      <!-- Close Button -->
       <button class="modal-close" onclick={onclose} aria-label="Close details">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
           <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       </button>
 
-      <!-- LEFT SIDE: Full Image Preview dengan Watermark Overlay -->
       <div class="modal-preview-side">
         <WatermarkWrapper text="CHO'S STUDIO" fontSize={13} spacing={55} opacity={0.45}>
           <img src={order.pathImage} alt={order.title} class="modal-full-img" />
         </WatermarkWrapper>
       </div>
 
-      <!-- RIGHT SIDE: Information Details & Fixed Action Footer -->
       <div class="modal-info-side">
         
         <div class="modal-scroll-content">
@@ -86,7 +83,6 @@
                 <span class="value status-text status-{order.statusOrder}">{order.statusOrder}</span>
               </div>
 
-              <!-- FIXED: Label Payment Status dikembalikan kembali -->
               <div class="info-item">
                 <span class="label">Payment Status</span>
                 <span class="value status-text status-{order.statusPayment}">{order.statusPayment}</span>

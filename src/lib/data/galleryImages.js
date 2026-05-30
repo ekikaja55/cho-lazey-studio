@@ -1,26 +1,3 @@
-/**
- * galleryImages.js
- * Cho's Studio — Mock Gallery Data
- * Mirrors the `gallery` table schema from Laravel
- */
-
-/** @typedef {'not_sold'|'available'|'reserved'|'sold'|'archived'} GalleryStatus */
-
-/**
- * @typedef {Object} GalleryImage
- * @property {number}        gallery_id
- * @property {string}        title
- * @property {string|null}   description
- * @property {string}        image_url
- * @property {string}        file_format
- * @property {GalleryStatus} status
- * @property {number|null}   price
- * @property {string}        created_at
- * @property {string}        updated_at
- * @property {null}          deleted_at
- */
-
-/** @type {GalleryImage[]} */
 export const galleryImages = [
   {
     gallery_id: 1,
@@ -216,20 +193,10 @@ export const galleryImages = [
   },
 ];
 
-/**
- * Helper: ambil N items pertama yang tidak archived
- * @param {number} n
- * @returns {GalleryImage[]}
- */
 export function getRecentWorks(n = 6) {
   return galleryImages.filter((img) => img.status !== "archived").slice(0, n);
 }
 
-/**
- * Helper: format harga ke Rupiah
- * @param {number|null} price
- * @returns {string}
- */
 export function formatRupiah(price) {
   if (price == null) return "—";
   return new Intl.NumberFormat("id-ID", {

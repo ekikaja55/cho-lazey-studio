@@ -1,9 +1,4 @@
 <script>
-  /**
-   * FloatingSidebar.svelte
-   * Home Floating sidebar — redesigned
-   */
-
 import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { isLoggedIn, userRole } from '$lib/stores/auth.js'; 
@@ -59,9 +54,10 @@ import { page } from '$app/stores';
   },
   {
     label: 'Porto',
-    href: '/home/porto',
+    href: 'https://www.figma.com/deck/LbxzO8apkfs4yxjoxagN33',
     icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
     color: '#e9b7c8',
+    external: true,
   },
   {
     label: $isLoggedIn ? 'Dashboard' : 'Login',
@@ -72,6 +68,7 @@ import { page } from '$app/stores';
 ]);
   
 function isActive(href) {
+    if (href.startsWith('http')) return false;
     if (href === '/home') {
       return $page.url.pathname === '/home' || $page.url.pathname === '/home/';
     }
@@ -96,7 +93,6 @@ function isActive(href) {
       </svg>
     </button>
 
-    <!-- Avatar + name -->
     <div class="popup-header">
       <div class="popup-avatar">
         <img src="/assets/Talking cho.png" alt="Cho's OC" />
@@ -113,7 +109,6 @@ function isActive(href) {
       self taught aspiring artist illustrator, fanmerch artist and graphic designer, and also pin, poca, and handfan vendor!
     </p>
 
-    <!-- Social links — 2 col grid for proportional layout -->
     <div class="popup-socials">
       <a
         href="https://www.instagram.com/cho.lazey/"
@@ -158,7 +153,6 @@ function isActive(href) {
   </div>
 {/if}
 
-<!-- ── Sidebar ── -->
 <aside
   class="floating-sidebar"
   class:minimized
@@ -214,6 +208,8 @@ function isActive(href) {
             style="--item-color: {item.color};"
             aria-current={active ? 'page' : undefined}
             title={minimized ? item.label : ''}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
           >
             <span class="nav-icon" aria-hidden="true">
               {@html item.icon}
@@ -463,14 +459,11 @@ function isActive(href) {
     z-index: 2;
   }
 
-  /* ══ PERSONA POPUP ══ */
   .persona-popup {
     position: fixed;
     top: 50%;
     transform: translateY(-60%);
     z-index: 200;
-
-    /* Slightly wider to accommodate 3 social buttons comfortably */
     width: 252px;
     background: rgba(240, 235, 227, 0.98);
     backdrop-filter: blur(20px) saturate(160%);
@@ -483,7 +476,6 @@ function isActive(href) {
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
-
     animation: popupIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 
@@ -530,7 +522,6 @@ function isActive(href) {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    /* Give space for the close button */
     padding-right: 1.5rem;
   }
 
@@ -588,14 +579,12 @@ function isActive(href) {
     margin: 0;
   }
 
-  /* ── Social buttons — 2×2 grid, LinkedIn spans full width on its own row ── */
   .popup-socials {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 7px;
   }
 
-  /* LinkedIn sits alone on the third row, full width */
   .popup-linkedin {
     grid-column: 1 / -1;
   }
@@ -621,10 +610,8 @@ function isActive(href) {
   }
   .popup-ig       { background: #f4a87c; }
   .popup-line     { background: #a2e1db; }
-  /* LinkedIn — soft purple selaras dengan nav item Dashboard */
   .popup-linkedin { background: #b4a6d5; color: #2d1a5c; }
 
-  /* ══ MOBILE ══ */
   @media (max-width: 768px) {
     .floating-sidebar {
       left: 50%;

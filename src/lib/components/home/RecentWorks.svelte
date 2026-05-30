@@ -1,13 +1,11 @@
 <script>
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
   import { onMount } from 'svelte';
-  // IMPORT TRANSISI SVELTE
   import { fade, fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
 
   let { works = [] } = $props();
 
-  // Carousel State
   let selectedIndex = $state(0);
   let carouselOffset = $state(0);
   let autoTimer;
@@ -122,6 +120,7 @@
                 class="dot" 
                 class:active={i === selectedIndex}
                 onclick={() => selectWork(i)}
+                aria-label="Go to slide {i + 1}"
               ></button>
             {/each}
           </div>
@@ -144,7 +143,6 @@
 </section>
 
 <style>
-  /* --- KEYFRAMES TAMBAHAN UNTUK ANIMASI DINAMIS --- */
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate(0deg); }
     50% { transform: translateY(-5px) rotate(3deg); }
@@ -166,7 +164,6 @@
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
-    /* Animasi masuk saat komponen dimuat */
     animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
@@ -201,8 +198,8 @@
   .star { 
     color: #de5c23; 
     display: inline-block;
-    animation: spinSlow 4s linear infinite; /* Bintang berputar & membesar pelan */
-  }
+    animation: spinSlow 4s linear infinite;   
+    }
 
   .divider-line {
     flex: 1;
@@ -237,7 +234,7 @@
   }
   
   .featured-card:hover {
-    box-shadow: 14px 14px 0px #b19ffb; /* Efek hover mengubah warna bayangan utama */
+    box-shadow: 14px 14px 0px #b19ffb; 
     transform: translate(-2px, -2px);
   }
 
@@ -273,7 +270,6 @@
     color: #1a1a1a;
     box-shadow: 3px 3px 0px #1a1a1a;
     z-index: 10;
-    /* Efek mengambang terus-menerus */
     animation: float 3.5s ease-in-out infinite; 
   }
 
@@ -303,7 +299,6 @@
     align-items: center;
     justify-content: center;
     box-shadow: 4px 4px 0 #1a1a1a;
-    /* Transisi BOUNCY */
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
@@ -330,8 +325,8 @@
     border-radius: 20px;
     padding: 1.5rem 1.8rem;
     box-shadow: 6px 6px 0px #1a1a1a;
-    overflow: hidden; /* Mencegah teks overlap saat animasi fly */
-  }
+    overflow: hidden;   
+    }
 
   .work-title {
     font-family: 'HammersmithOne', sans-serif;
@@ -365,7 +360,7 @@
   .thumbs-track {
     display: flex;
     gap: 1rem;
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* Lebih smooth */
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .thumb-card {
@@ -379,7 +374,6 @@
     background: #fff;
     padding: 0;
     box-shadow: 4px 4px 0 #1a1a1a;
-    /* Transisi BOUNCY pada thumbnail */
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
@@ -522,12 +516,10 @@
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
-  /* Panah bergerak saat tombol di-hover */
   .cta-button:hover .cta-icon {
     transform: translateX(8px) scale(1.1);
   }
 
-  /* ── Responsif ── */
   @media (max-width: 960px) {
     .works-container {
       grid-template-columns: 1fr;

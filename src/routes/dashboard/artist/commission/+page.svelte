@@ -1,7 +1,5 @@
 
 <script>
-  // Script logic akan ditambahkan di sini kedepannya
-
   import PageHeader from '$lib/components/dashboard/PageHeader.svelte';
   import CommissionTable from '$lib/components/dashboard/CommissionTable.svelte';
   import {getAllCommissions} from '$lib/data/mockCommissions.js'
@@ -10,13 +8,13 @@
   let commissionData = $state(getAllCommissions());
   let selectedCommission = $state(null);
 
-  // Trigger Action Button -> untuk memunculkan modal
+  
  function handleOpenModal(item) { selectedCommission = item; }
   
  function handleCloseModal() { selectedCommission = null; }
 
  function handleUpdateData(updatedItem) {
-    // 1. Perbarui state data tabel agar UI langsung re-render (Optimistic Update)
+    
     commissionData = commissionData.map(item => 
       item.id === updatedItem.id ? updatedItem : item
     );

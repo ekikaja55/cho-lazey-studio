@@ -1,4 +1,3 @@
-<!-- lib/components/shop/ArtworkViewer.svelte -->
 <script>
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
 
@@ -15,7 +14,6 @@
     };
   });
 
-  // ✅ Portal action — pindahkan elemen langsung ke <body>
   function portal(node) {
     document.body.appendChild(node);
     return {
@@ -38,13 +36,15 @@
     role="dialog"
     aria-modal="true"
     aria-label="Full artwork view: {item.title}"
-    tabindex="-1"
+    tabindex="0"
+    onkeydown={(e)=>{if (e.key === 'Escape' || e.key === 'Enter') onclose(); }}
   >
     <div
       class="viewer-card"
       onclick={(e) => e.stopPropagation()}
-      role="document"
-      tabindex="0"
+      role="dialog"
+      tabindex="-1"
+      onkeydown={(e) => e.stopPropagation()}
     >
       <button class="lb-close" onclick={onClose} aria-label="Close viewer">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
@@ -85,10 +85,6 @@
 {/if}
 
 <style>
-  /*
-   * Mengikuti style dari HomeGalleryDetailModal agar konsisten
-   */
-
   :global(.viewer-backdrop) {
     position: fixed;
     inset: 0;

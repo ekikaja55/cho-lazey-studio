@@ -1,18 +1,11 @@
 <script>
-  /**
-   * PersonaCard.svelte
-   * Floating persona popup — triggered dari sidebar
-   * Props: open (boolean), onClose (function)
-   */
 
-  /** @type {boolean} */
   let { open = $bindable(false) } = $props();
 
   function close() {
     open = false;
   }
 
-  // Close on Escape key
   function handleKeydown(e) {
     if (e.key === 'Escape' && open) close();
   }
@@ -93,7 +86,6 @@
 {/if}
 
 <style>
-  /* Backdrop */
   .persona-backdrop {
     position: fixed;
     inset: 0;
@@ -108,7 +100,6 @@
     to   { opacity: 1; }
   }
 
-  /* Card */
   .persona-card {
     position: fixed;
     left: 50%;
@@ -130,7 +121,6 @@
     to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   }
 
-  /* Close button */
   .persona-close {
     position: absolute;
     top: 14px; right: 14px;
@@ -150,7 +140,6 @@
     transform: rotate(90deg);
   }
 
-  /* Avatar */
   .persona-avatar {
     width: 120px; height: 120px;
     background: #a2e1db;
@@ -165,7 +154,6 @@
     object-fit: contain;
   }
 
-  /* Info */
   .persona-info { text-align: center; }
 
   .persona-eyebrow {
@@ -201,14 +189,13 @@
     margin: 0;
   }
 
-  /* Socials */
   .persona-socials {
     display: flex;
     gap: 0.5rem;
     justify-content: center;
     margin-top: 1.15rem;
-    flex-wrap: wrap; /* Mengamankan layout agar tidak overflow saat ada 3 tombol */
-  }
+    flex-wrap: wrap;   
+    }
 
   .social-btn {
     display: inline-flex;
@@ -231,9 +218,8 @@
 
   .social-ig       { background: #f4a87c; }
   .social-line     { background: #a2e1db; }
-  .social-linkedin { background: #99c2ff; } /* Warna pastel biru bertema LinkedIn */
-
-  /* Decorative corners */
+  .social-linkedin { background: #99c2ff; } 
+  
   .persona-corner-tl {
     position: absolute;
     top: -14px; left: -14px;

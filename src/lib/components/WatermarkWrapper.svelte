@@ -1,8 +1,4 @@
 <script>
-  /**
-   * WatermarkWrapper.svelte
-   * Cho's Studio — Repeating diagonal watermark overlay
-   */
 
   let {
     text     = "CHO'S STUDIO",
@@ -13,7 +9,6 @@
     children,
   } = $props();
 
-  // Generate SVG data-URI watermark pattern — two lines per tile for density
   const svgPattern = $derived(() => {
     const w = spacing * 2;
     const h = spacing * 2;
@@ -26,7 +21,7 @@
       `font-family="HammersmithOne,Georgia,serif" font-size="${fontSize}" ` +
       `fill="${color}" opacity="${opacity}" letter-spacing="2" ` +
       `transform="rotate(-30 ${cx} ${cy})">${text}</text>` +
-      // offset repeat for density
+      // offset repeat
       `<text x="${0}" y="${0}" dominant-baseline="middle" text-anchor="middle" ` +
       `font-family="HammersmithOne,Georgia,serif" font-size="${fontSize}" ` +
       `fill="${color}" opacity="${opacity}" letter-spacing="2" ` +

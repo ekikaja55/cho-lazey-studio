@@ -2,19 +2,14 @@
   import { fade, fly } from 'svelte/transition';
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
   
-  // Import store toast dan helper format dari project kamu
   import { toast } from '$lib/stores/toast.js';
   import { formatRupiah } from '$lib/data/mockCommissions.js';
 
-  // Svelte 5 Runes Props
   let { commission, onClose, onUpdate } = $props();
-
-  // Local State untuk sinkronisasi form kontrol
   let localStatus = $state('');
   let localPaymentStatus = $state('');
   let localDueDate = $state('');
 
-  // Sinkronisasi data saat modal dibuka / berganti data komisi
   $effect(() => {
     if (commission) {
       localStatus = commission.status;
@@ -23,7 +18,6 @@
     }
   });
 
-  // Fungsi Action Submit Perubahan Data
   function handleUpdate(e) {
     e.preventDefault();
     
@@ -36,13 +30,11 @@
       });
     }
 
-    // Trigger Toast Success
     toast.success(`[PROTOTYPE] Commission #${commission.id} updated successfully!`);
     
     onClose();
   }
 
-  // Helper formating tanggal agar rapi dibaca
   const formatDate = (dateStr) => {
     if (!dateStr) return '—';
     return new Date(dateStr).toLocaleDateString('en-GB', {
@@ -50,7 +42,6 @@
     });
   };
 
-  // Kunci scroll background body saat modal terbuka
   $effect(() => {
     if (commission) {
       document.body.style.overflow = 'hidden';
@@ -62,18 +53,26 @@
 </script>
 
 {#if commission}
-  <div class="modal-backdrop" transition:fade={{ duration: 200 }} onclick={onClose}>
+  <div 
+    class="modal-backdrop" 
+    transition:fade={{ duration: 200 }} 
+    onclick={onClose}
+    role="button"
+    tabindex="0"
+    onkeydown={(e) => { if (e.key === 'Escape' || e.key === 'Enter') onClose(); }}
+  >
     
     <div 
       class="modal-content" 
       transition:fly={{ y: 30, duration: 300, opacity: 0 }} 
       onclick={(e) => e.stopPropagation()}
+      role="presentation"
     >
-      <div class="modal-header">
-        <div>
+      <div class="modal-header">       
+      <div>
           <span class="modal-eyebrow">✦ MANAGE COMMISSION ✦</span>
           <h2 class="modal-title">#{commission.id}</h2>
-        </div>
+      </div>
         <button class="btn-close" onclick={onClose} aria-label="Close modal">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -189,7 +188,6 @@
 {/if}
 
 <style>
-  /* ── Modal Backdrop & Window ── */
   .modal-backdrop {
     position: fixed; inset: 0;
     background: rgba(26, 22, 20, 0.5);
@@ -230,7 +228,6 @@
     padding: 2rem; overflow-y: auto;
   }
 
-  /* ── Kolom Kiri Styling ── */
   .info-column { display: flex; flex-direction: column; gap: 1.25rem; }
 
   .artwork-preview {
@@ -268,7 +265,6 @@
   .price-highlight { color: #c05c20; font-size: 1.25rem; font-weight: 800; }
   .info-subtext { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: #7a706a; word-break: break-all; }
 
-  /* ── Kolom Kanan Editor Form Styling ── */
   .editor-column { display: flex; flex-direction: column; gap: 1.5rem; }
 
   .editor-card {
@@ -294,12 +290,10 @@
   }
   .brutal-input:focus { outline: none; box-shadow: 5px 5px 0px rgba(42,36,32, 1); transform: translate(-2px, -2px); }
   
-  /* Khusus modifikasi input date agar seragam style brutalnya */
   .date-input { padding-right: 1rem; cursor: text; }
 
   .dropdown-icon { position: absolute; right: 12px; pointer-events: none; color: #2a2420; }
 
-  /* ── Invoice Image Box ── */
   .invoice-preview {
     position: relative; border: 2.5px solid #2a2420; border-radius: 8px;
     background: #e2dcf2; height: 135px; overflow: hidden;
@@ -321,7 +315,6 @@
   .invoice-preview:hover .btn-view-invoice { transform: translateY(0); }
   .btn-view-invoice:hover { background: #f4a87c; }
 
-  /* ── Footer Actions ── */
   .modal-footer {
     border-top: 3px solid #2a2420; padding: 1.25rem 2rem;
     display: flex; justify-content: flex-end; gap: 1rem; background: #fbfaf8;
@@ -341,7 +334,6 @@
   .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px #f4a87c; }
   .btn-primary:active { transform: translate(1px, 1px); box-shadow: 2px 2px 0px #f4a87c; }
 
-  /* ── Responsive Screen View ── */
   @media (max-width: 768px) {
     .modal-body { grid-template-columns: 1fr; padding: 1.25rem; gap: 1.5rem; }
     .modal-header, .modal-footer { padding: 1rem 1.25rem; }

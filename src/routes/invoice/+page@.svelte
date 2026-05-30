@@ -5,7 +5,6 @@
 
   let { fallbackUrl = '/home' } = $props();
   
-  // State Reaktif Svelte 5
   let invoiceData = $state(null);
   let isLoading = $state(true);
 
@@ -26,7 +25,6 @@
       invoiceData = parsed;
       isLoading = false;
 
-      // --- IMPLEMENTASI HISTORY TRAPPING ---
       history.pushState(null, '', location.href);
 
       const handlePopState = () => {
@@ -184,18 +182,14 @@
 {/if}
 
 <style>
-  /* ══════════════════════════════════════════
-     PENGATURAN DASAR & VARIABEL WARNA (DNA MATCHED)
-     ══════════════════════════════════════════ */
   :global(body) {
-    background-color: #f3eee6 !important; /* Latar belakang krem hangat */
+    background-color: #f3eee6 !important;
     color: #2a2420 !important;
     font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
   }
 
-  /* Animasi Masuk */
   @keyframes pageEntry {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -205,7 +199,6 @@
     animation-delay: var(--delay);
   }
 
-  /* ── Loader ── */
   .loading-overlay {
     display: flex;
     flex-direction: column;
@@ -225,7 +218,6 @@
   @keyframes smooth-spin { to { transform: rotate(360deg); } }
   .loading-text { font-family: 'HammersmithOne', serif; font-size: 1.1rem; color: #2a2420; }
 
-  /* ── Container Utama ── */
   .invoice-page-container {
     max-width: 820px;
     margin: 0 auto;
@@ -235,7 +227,6 @@
     gap: 1.5rem;
   }
 
-  /* ── Action Control Top Bar ── */
   .action-bar {
     display: flex;
     justify-content: space-between;
@@ -265,7 +256,6 @@
   .btn-print { background-color: #f4a87c; }
   .btn-print:hover { background-color: #e08454; }
 
-  /* ── STRUKTUR INVOICE CARD WRAPPER ── */
   .invoice-card-wrapper {
     background-color: #fbfaf8;
     border: 2.5px solid #2a2420;
@@ -277,7 +267,6 @@
     box-shadow: 8px 8px 0px #2a2420;
   }
 
-  /* ── BANNER GEOMETRIS SISI KIRI ── */
   .brutal-sidebar-pattern {
     width: 40px;
     border-right: 2.5px solid #2a2420;
@@ -296,7 +285,6 @@
   .block-purple { background-color: #e2dcf2; }
   .block-mint   { background-color: #dcf2e9; }
 
-  /* ── AREA KONTEN UTAMA NOTA (KANAN) ── */
   .invoice-main-content {
     flex: 1;
     padding: 3rem 3.5rem;
@@ -305,18 +293,15 @@
     gap: 2rem;
   }
 
-  /* ── Header Seksi ── */
-  /* ── Header Seksi (Perbaikan Mobile) ── */
   .main-header { 
     display: flex; 
     justify-content: space-between; 
     align-items: flex-start; 
-    gap: 1rem; /* Tambah gap biar tidak mepet */
+    gap: 1rem; 
   }
 
   .invoice-title-text {
     font-family: 'HammersmithOne', Georgia, serif;
-    /* Menggunakan clamp agar font otomatis menyesuaikan lebar layar */
     font-size: clamp(2.2rem, 8vw, 3.5rem); 
     margin: 0;
     line-height: 0.95;
@@ -352,7 +337,6 @@
     margin: -0.5rem 0;
   }
 
-  /* ── Section Detail Client & Harga Atas ── */
   .summary-section { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
 
   .label-muted {
@@ -392,7 +376,6 @@
     color: #2a2420;
   }
 
-  /* ── DATA TABEL RAPI ── */
   .table-container { width: 100%; overflow-x: auto; }
 
   .soft-brutal-table { width: 100%; border-collapse: collapse; }
@@ -419,14 +402,12 @@
   .table-item-main { display: block; font-weight: 700; font-size: 1.05rem; margin-bottom: 0.3rem; }
   .table-item-sub { display: block; font-size: 0.85rem; color: #7a706a; }
 
-  /* ── PERHITUNGAN SUB-TOTAL ── */
   .calculation-block { display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem; width: 100%; margin-top: -0.5rem; }
 
   .calc-row { display: flex; justify-content: flex-end; width: 280px; font-size: 0.95rem; color: #2a2420; }
   .calc-label { width: 50%; text-align: right; color: #7a706a; font-weight: 600; padding-right: 0.8rem; }
   .calc-val { width: 50%; text-align: right; font-weight: 700; font-family: 'HammersmithOne', serif; }
 
-  /* Total Akhir Highlight */
   .final-total-row { margin-top: 0.5rem; align-items: center; }
 
   .final-label {
@@ -446,8 +427,6 @@
     text-align: right;
     box-shadow: 3px 3px 0px #2a2420;
   }
-
-  /* ── BLOK FOOTER & ASSET QRIS ── */
   .payment-footer-area {
     display: flex; justify-content: space-between; align-items: flex-end;
     gap: 2rem; margin-top: auto; padding-top: 2rem; border-top: 2.5px dashed rgba(42,36,32,0.2);
@@ -465,7 +444,6 @@
     padding: 3px 6px; border: 1.5px solid rgba(42,36,32,0.2); border-radius: 6px; color: #2a2420;
   }
 
-  /* Style Image Asset QRIS */
   .qr-code-wrapper { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
 
   .brutal-qr-img {
@@ -475,21 +453,18 @@
 
   .thanks-caption { margin: 0; font-family: 'HammersmithOne', serif; font-size: 0.95rem; color: #2a2420; }
 
-  /* ══════════════════════════════════════════
-     MEDIA RESPONSIVE (MOBILE OPTIMIZATION)
-     ══════════════════════════════════════════ */
   @media (max-width: 650px) {
     
     .main-header {
-      flex-direction: column; /* Ubah ke kolom biar tidak saling tabrak */
+      flex-direction: column; 
       align-items: flex-start;
       gap: 0.5rem;
     }
 
     .brand-logo {
-      padding-top: 0; /* Hilangkan padding atas biar lebih rapat ke title-area */
-      order: -1;      /* Pindah ke paling atas kalau mau */
-    }
+      padding-top: 0; 
+      order: -1;      
+      }
 
 .invoice-sub-id { margin: 0.2rem 0 0 0; }
 
@@ -504,16 +479,12 @@
     .summary-section { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
     .top-total-display { align-self: flex-start; }
     .label-muted-right { text-align: left; }
-    /* .invoice-title-text { font-size: 2.6rem; text-shadow: 3px 3px 0px #2a2420; -webkit-text-stroke: 1.5px #2a2420;} */
 
     .payment-footer-area { flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
     .payment-method-box { text-align: center; }
     .mobile-break { display: block; }
   }
 
-  /* ══════════════════════════════════════════
-     MEDIA PRINT (WINDOW PRINT / PDF)
-     ══════════════════════════════════════════ */
   @media print {
     :global(body) { background-color: #ffffff !important; }
     .no-print { display: none !important; }

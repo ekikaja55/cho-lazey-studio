@@ -8,8 +8,7 @@
 
   const waUrl = $derived(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
 
-  let scrolled = $state(false); // false = tampil WA, true = tampil scroll-up
-
+  let scrolled = $state(false); 
   function handleScroll() {
     scrolled = window.scrollY > 300;
   }
@@ -21,7 +20,6 @@
 </script>
 
 <div class="fab-wrap">
-  <!-- WA -->
 <a  
     href={waUrl}
     target="_blank"
@@ -35,7 +33,6 @@
     </svg>
   </a>
 
-  <!-- Scroll Up -->
   <button
     class="fab fab--scroll"
     class:fab--hidden={!scrolled}
@@ -55,7 +52,6 @@
     bottom: calc(36px + env(safe-area-inset-bottom, 0px));
     right: 32px;
     z-index: 100;
-    /* kedua FAB di-stack di posisi yang sama */
     width: 64px;
     height: 64px;
   }
@@ -82,7 +78,6 @@
       box-shadow 0.2s ease;
   }
 
-  /* saat hidden: scale down + sedikit rotate biar swap-nya berasa */
   .fab--hidden {
     opacity: 0;
     pointer-events: none;
@@ -109,9 +104,6 @@
     box-shadow: 0px 0px 0px var(--c-dark);
   }
 
-  /* ===================== */
-  /* MOBILE                */
-  /* ===================== */
   @media (max-width: 768px) {
     .fab-wrap {
       bottom: auto;

@@ -1,4 +1,7 @@
 <script>
+    import { goto } from '$app/navigation';
+    import { authenticate } from '$lib/data/mockUsers';
+  import { auth } from '$lib/stores/auth';
   import { toast } from '$lib/stores/toast.js';
 
   let { onSwitch } = $props();
@@ -12,10 +15,19 @@
     e.preventDefault();
     if (!username.trim() || !password) { toast.error('Please fill in all fields.'); return; }
     loading = true;
+    
     setTimeout(() => {
-      toast.success('[PROTOTYPE] Login successful!');
+      const user = authenticate(username, password);
+      if (user) {
+        auth.login(user);
+        toast.success(`[PROTOTYPE]Welcome back, ${user.display_name}! `);
+
+        setTimeout(() => goto(`/dashboard/${user.role}`), 700);
+      } else {
+        toast.error('Invalid username or password.');
+      }
       loading = false;
-    }, 800);
+    }, 500);
   }
 </script>
 
@@ -60,7 +72,6 @@
     </button>
   </form>
 
-  <!-- ③ Switch ke Register — prominent pill card -->
   <div class="auth-switch-wrap">
     <p class="auth-switch-text">Don't have an account?</p>
     <button type="button" class="switch-btn" onclick={onSwitch}>
@@ -95,7 +106,6 @@
   .btn-submit:hover:not(:disabled) { background: #9b8bc4; transform: translateY(-2px); box-shadow: 5px 5px 0px #2a2420; }
   .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
 
-  /* ③ Switch card */
   .auth-switch-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1.25rem; padding: 10px 16px; background: rgba(42,36,32,0.05); border: 1.5px solid rgba(42,36,32,0.12); border-radius: 14px; flex-wrap: wrap; }
   .auth-switch-text { font-family: 'DM Sans', system-ui, sans-serif; font-size: 0.87rem; color: #4a3f3a; margin: 0; }
   .switch-btn { display: inline-flex; align-items: center; gap: 6px; background: #2a2420; color: #f0ebe3; border: none; border-radius: 999px; padding: 6px 16px; font-family: 'HammersmithOne', serif; font-size: 0.85rem; cursor: pointer; transition: background 0.2s, transform 0.15s; }

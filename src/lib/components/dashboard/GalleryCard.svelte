@@ -1,10 +1,8 @@
 <script>
   import { formatRupiah } from '$lib/data/galleryImages.js';
   
-  // Svelte 5 Runes Props
   let { image, onOpenDetails } = $props();
-
-  // Mapping teks rapi status
+  
   const statusLabels = {
     'available': 'Available',
     'not_sold': 'Not Sold',
@@ -80,8 +78,15 @@
   .title-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
   
   .artwork-title {
-    font-family: 'HammersmithOne', serif; font-size: 1.15rem; color: #2a2420; margin: 0;
-    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: 'HammersmithOne', serif; 
+    font-size: 1.15rem; 
+    color: #2a2420; 
+    margin: 0;
+    display: -webkit-box; 
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical; 
+    overflow: hidden;
   }
 
   .btn-action-view {
@@ -93,8 +98,16 @@
   .btn-action-view:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0px #2a2420; }
 
   .artwork-desc {
-    font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: #6a5f58; margin: 0;
-    line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-family: 'DM Sans', sans-serif; 
+    font-size: 0.85rem; 
+    color: #6a5f58; 
+    margin: 0;
+    line-height: 1.5; 
+    display: -webkit-box; 
+    -webkit-line-clamp: 2; 
+    line-clamp: 2;
+    -webkit-box-orient: vertical; 
+    overflow: hidden;
     flex: 1;
   }
 
@@ -105,7 +118,6 @@
 
   .price-tag { font-family: 'DM Sans', sans-serif; font-weight: 800; color: #c05c20; font-size: 1rem; }
 
-  /* Status Badge Styling */
   .status-badge {
     font-size: 0.68rem; font-weight: 800; text-transform: uppercase;
     padding: 0.25rem 0.65rem; border-radius: 6px; border: 2px solid #2a2420;

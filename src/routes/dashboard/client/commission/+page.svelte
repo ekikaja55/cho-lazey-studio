@@ -71,7 +71,7 @@
  
   function handlePaymentSuccess(payload) {
     showPaymentModal = false;
-    toast.success('[PROTOTYPE] Payment submitted! Redirecting to your invoice…');
+    toast.contact('[PROTOTYPE] Payment submitted! Redirecting to your invoice…');
     const invoicePayload = {
       itemId: Math.floor(Math.random() * 900) + 100,
       itemTitle: purchaseItemData.title,
@@ -93,9 +93,7 @@
  
 <div class="page" class:visible={mounted}>
  
-  <!-- ── Header Section ── -->
 <header class="page-header boxed-header">
-  <!-- Ornamen Geometris Background -->
   <div class="bg-shapes">
     <div class="shape shape-purple"></div>
     <div class="shape shape-green"></div>
@@ -113,7 +111,6 @@
 </header>  
 
 {#if currentView === 'selection'}
-    <!-- ── Tier Cards — folder style ── -->
     <div class="tier-grid" transition:fade={{ duration: 180 }}>
       {#each commissionTiers as tier, i}
         {@const tilt = tilts[i]}
@@ -123,8 +120,8 @@
           style="--tilt: {tilt}deg; --tab-color: {tier.tabColor}; --anim-delay: {i * 0.07}s;"
           onmouseenter={() => hoveredId = tier.id}
           onmouseleave={() => hoveredId = null}
+          role="presentation"
         >
-          <!-- Folder tab -->
           <div class="folder-tab" aria-hidden="true">
             <span class="folder-tab-label">
               {i === 0 ? 'STARTER' : i === 1 ? 'POPULAR' : i === 2 ? 'DETAIL' : 'PREMIUM'}
@@ -136,12 +133,10 @@
             onclick={() => selectTier(tier)}
             aria-label="Select {tier.title} commission"
           >
-            <!-- Image -->
             <div class="folder-img-wrap">
-              <WatermarkWrapper text="CHO'S LAZEY" fontSize={11} spacing={45} opacity={0.3}>
+              <WatermarkWrapper text="CHO'S LAZEY" fontSize={15} spacing={45} opacity={0.5}>
                 <img src={tier.img} alt={tier.title} class="folder-img" loading={i < 2 ? 'eager' : 'lazy'} />
               </WatermarkWrapper>
-              <!-- Hover overlay -->
               <div class="folder-overlay" aria-hidden="true">
                 <div class="overlay-inner">
                   <span class="overlay-icon" aria-hidden="true">
@@ -154,7 +149,6 @@
               </div>
             </div>
  
-            <!-- Footer -->
             <div class="folder-footer">
               <span class="folder-name">{tier.title}</span>
               <span class="folder-price">from {formatRupiah(tier.basePrice)}</span>
@@ -172,7 +166,6 @@
     </div>
  
   {:else if currentView === 'configure'}
-    <!-- ── Configure Panel ── -->
     <div class="config-root" transition:fade={{ duration: 180 }}>
  
       <button class="btn-back" onclick={() => currentView = 'selection'}>
@@ -191,7 +184,7 @@
           </div>
           <div class="panel panel-preview">
             <div class="preview-frame">
-              <WatermarkWrapper text="CONFIDENTIAL" fontSize={14} spacing={60} opacity={0.25}>
+              <WatermarkWrapper text="CONFIDENTIAL" fontSize={15} spacing={60} opacity={0.5}>
                 <img src={selectedTier.img} alt={selectedTier.title} class="preview-img" />
               </WatermarkWrapper>
             </div>
@@ -336,7 +329,6 @@
 {/if}
  
 <style>
-  /* ── Page Shell ── */
   .page {
     width: 100%;
     /* max-width: 1020px; */
@@ -351,7 +343,6 @@
   }
   .page.visible { opacity: 1; transform: translateY(0); }
  
-  /* ── /* ── Header (Boxed Style) ── */
 .page-header.boxed-header {
   position: relative;
   background: #f3eee6;
@@ -418,7 +409,6 @@
   margin: 0;
 }
 
-/* ── Decorative Background Shapes ── */
 .bg-shapes {
   position: absolute;
   inset: 0;
@@ -455,22 +445,13 @@
   transform: rotate(18deg);
 }
 
-@media (max-width: 600px) {
-  .page-header.boxed-header {
-    padding: 1.5rem;
-    border-radius: 16px;
-  }
-  .bg-shapes { opacity: 0.4; }
-}  /* ── Tier Grid — folder cards ── */
   .tier-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1.25rem;
-    /* Reserve space for folder tabs */
     padding-top: 20px;
   }
  
-  /* ── Folder Card ── */
   .folder-card {
     position: relative;
     transform: rotate(var(--tilt));
@@ -478,7 +459,6 @@
     animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     animation-delay: var(--anim-delay);
     margin-top: 18px;
-    /* Fixed height for grid consistency */
     height: 300px;
   }
  
@@ -493,7 +473,6 @@
     filter: drop-shadow(6px 8px 0px rgba(42, 36, 32, 0.35));
   }
  
-  /* Folder tab */
   .folder-tab {
     position: absolute;
     top: -18px;
@@ -517,7 +496,6 @@
     color: #2a2420;
   }
  
-  /* Folder body */
   .folder-body {
     width: 100%;
     height: 100%;
@@ -539,7 +517,6 @@
     box-shadow: 6px 8px 0px #2a2420;
   }
  
-  /* Image area */
   .folder-img-wrap {
     flex: 1;
     position: relative;
@@ -556,7 +533,6 @@
  
   .folder-card.hovered .folder-img { transform: scale(1.07); }
  
-  /* Hover overlay */
   .folder-overlay {
     position: absolute;
     inset: 0;
@@ -600,7 +576,6 @@
     text-shadow: 0 1px 4px rgba(0,0,0,0.4);
   }
  
-  /* Card footer */
   .folder-footer {
     display: flex;
     flex-direction: column;
@@ -625,7 +600,6 @@
     font-weight: 500;
   }
  
-  /* Info note */
   .info-note {
     display: inline-flex;
     align-items: center;
@@ -639,7 +613,6 @@
     border-radius: 12px;
   }
  
-  /* ── Configure Workspace ── */
   .config-root {
     display: flex;
     flex-direction: column;
@@ -677,7 +650,6 @@
     align-items: start;
   }
  
-  /* ── Preview folder card ── */
   .config-preview-wrap {
     position: relative;
     padding-top: 20px;
@@ -698,7 +670,6 @@
     z-index: 1;
   }
  
-  /* ── Panels ── */
   .panel {
     background: rgba(240, 235, 227, 0.97);
     border: 2.5px solid #2a2420;
@@ -765,7 +736,6 @@
     border-bottom: 2px dashed rgba(42, 36, 32, 0.15);
   }
  
-  /* Options */
   .options-list {
     display: flex;
     flex-direction: column;
@@ -809,7 +779,6 @@
     letter-spacing: 0.02em;
   }
  
-  /* Radio Group */
   .radio-group {
     display: flex;
     gap: 0.6rem;
@@ -871,7 +840,6 @@
  
   .radio-label.checked .radio-hint { color: rgba(251,250,248,0.65); }
  
-  /* Toggle */
   .toggle-wrap { display: inline-flex; align-items: center; cursor: pointer; }
   .toggle-input { display: none; }
  
@@ -898,7 +866,6 @@
  
   .toggle-track.on .toggle-thumb { transform: translateX(20px); }
  
-  /* Stepper */
   .num-stepper {
     display: flex;
     align-items: center;
@@ -934,7 +901,6 @@
     border-right: 2px solid rgba(42,36,32,0.15);
   }
  
-  /* Breakdown */
   .breakdown-box {
     border: 2px solid #2a2420;
     border-radius: 12px;
@@ -976,7 +942,6 @@
     padding: 0.6rem 0.8rem;
   }
  
-  /* Details Form */
   .details-form {
     display: flex;
     flex-direction: column;
@@ -1107,7 +1072,6 @@
     box-shadow: 2px 2px 0px #2a2420;
   }
  
-  /* ── Responsive ── */
   @media (max-width: 900px) {
     .tier-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -1119,10 +1083,12 @@
   }
  
   @media (max-width: 600px) {
-    .page-header {
-      padding: 1.5rem 1.4rem;
-      border-radius: 22px;
+    .page-header.boxed-header {
+      padding: 1.5rem;
+      border-radius: 16px;
     }
+    .bg-shapes { opacity: 0.4; }
+    
     .tier-grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
@@ -1139,7 +1105,7 @@
     .radio-group { flex-direction: column; }
     .form-submit-row { justify-content: stretch; }
     .btn-submit { width: 100%; }
-    .header-shape-1, .header-shape-2, .header-shape-3 { display: none; }
+    .shape-purple, .shape-green, .shape-peach { display: none; }
   }
  
   @media (max-width: 420px) {

@@ -1,17 +1,13 @@
 <script>
-  // 1. Import Store Auth dan Helper Database Prototype
   import { auth } from '$lib/stores/auth.js'; 
   import { getHistoryByUserId } from '$lib/data/mockHistory.js'; 
   import { formatRupiah } from '$lib/data/galleryImages.js';
 
-  // 2. Ambil ID & Nama user yang sedang login secara reaktif dari store auth
   let currentUserId = $derived($auth?.id ?? null);
   let currentUserName = $derived($auth?.username ?? 'Patron');
 
-  // 3. Tarik data secara dinamis menggunakan rune $derived
   let myHistoryData = $derived(currentUserId ? getHistoryByUserId(currentUserId) : []);
 
-  // 4. Pengelompokan status berbasis data dinamis
   let activeCommissions = $derived(
     myHistoryData.filter(item => item.statusOrder !== 'completed' && item.statusOrder !== 'cancelled')
   );
@@ -20,11 +16,9 @@
     myHistoryData.filter(item => item.statusOrder === 'completed')
   );
 
-  // 5. Hitung jumlah total secara dinamis untuk widget statistik atas
   let activeCount = $derived(activeCommissions.length);
   let collectedCount = $derived(collectedPieces.length);
 
-  // Helper warna badge Soft Brutalist
   function getStatusBadgeClass(status) {
     switch (status) {
       case 'revision': return 'badge-revision';
@@ -35,7 +29,6 @@
     }
   }
 
-  // Helper deskripsi status pelacakan proyek
   function getStatusDescription(item) {
     if (item.statusOrder === 'revision' && item.revision_note) {
       return `Catatan Anda: "${item.revision_note}"`;
@@ -173,9 +166,6 @@
 </div>
 
 <style>
-  /* ══════════════════════════════════════════
-     LAYOUT & RESET STYLE
-     ══════════════════════════════════════════ */
   .page-container {
     width: 100%;
     display: flex;
@@ -183,7 +173,6 @@
     gap: 2rem;
   }
 
-  /* ── Header (Boxed Style Matched - TANPA Animasi Masuk) ── */
   .page-header.boxed-header {
     position: relative;
     background: #f3eee6;
@@ -270,7 +259,6 @@
     margin: 0;
   }
 
-  /* Decorative Background Shapes */
   .bg-shapes {
     position: absolute;
     inset: 0;
@@ -300,9 +288,6 @@
     gap: 1rem;
   }
 
-  /* ══════════════════════════════════════════
-     GRID & ANIMATIONS
-     ══════════════════════════════════════════ */
   .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -316,7 +301,6 @@
     }
   }
 
-  /* Animasi Masuk Beruntun (Staggered) */
   @keyframes cardEntry {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -327,9 +311,6 @@
     animation-delay: calc(var(--card-index) * 0.1s);
   }
 
-  /* ══════════════════════════════════════════
-     CARDS & THEME BLOCKS
-     ══════════════════════════════════════════ */
   .stats-sidebar {
     display: flex;
     flex-direction: column;
@@ -407,14 +388,10 @@
     box-shadow: 2px 2px 0px #2a2420;
   }
 
-  /* Warna identitas DNA */
   .block-peach { background-color: #f4a87c; }
   .block-lavender { background-color: #e2dcf2; }
   .block-mint { background-color: #dcf2e9; }
 
-  /* ══════════════════════════════════════════
-     TRACKER AREA & BADGES
-     ══════════════════════════════════════════ */
   .brutal-container {
     border: 2.5px solid #2a2420;
     border-radius: 20px;
@@ -499,7 +476,7 @@
     border: 2px solid #2a2420;
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    box-shadow: 2px 2px 0px rgba(42, 36, 32, 0.8);
+    box-shadow: 2px 2px 0px rgba(42,36,32, 0.8);
   }
 
   .badge-revision { background-color: #f4a87c; color: #2a2420; }
@@ -568,7 +545,6 @@
     opacity: 0.7;
   }
 
-  /* Responsive Adjustments */
   @media (max-width: 600px) {
     .page-header.boxed-header { padding: 1.5rem; border-radius: 16px; }
     .bg-shapes { opacity: 0.4; }

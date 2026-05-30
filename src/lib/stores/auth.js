@@ -1,9 +1,3 @@
-/**
- * auth.js
- * Cho's Studio — Auth Store (Prototype)
- * Simpan user session di sessionStorage
- */
-
 import { writable, derived } from "svelte/store";
 
 const SESSION_KEY = "cho_session";
@@ -24,7 +18,6 @@ function createAuthStore() {
   return {
     subscribe,
 
-    /** Login — simpan user ke store + sessionStorage */
     login(user) {
       if (typeof sessionStorage !== "undefined") {
         sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
@@ -32,7 +25,6 @@ function createAuthStore() {
       set(user);
     },
 
-    /** Logout — hapus session */
     logout() {
       if (typeof sessionStorage !== "undefined") {
         sessionStorage.removeItem(SESSION_KEY);
@@ -44,8 +36,6 @@ function createAuthStore() {
 
 export const auth = createAuthStore();
 
-/** Derived: apakah user sudah login? */
 export const isLoggedIn = derived(auth, ($auth) => $auth !== null);
 
-/** Derived: role user saat ini */
 export const userRole = derived(auth, ($auth) => $auth?.role ?? null);

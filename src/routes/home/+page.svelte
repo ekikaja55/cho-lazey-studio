@@ -57,7 +57,6 @@
     color: #999;
   }
 
-  /* Memastikan tidak ada padding berlebih di mobile agar tidak overflow */
   @media (max-width: 600px) {
     .home-page {
       gap: 2rem;

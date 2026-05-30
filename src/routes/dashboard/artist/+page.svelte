@@ -1,30 +1,21 @@
 <script>
   import OverviewHeader from '$lib/components/dashboard/OverviewHeader.svelte';
-  
-  // Mengambil data dari mock data yang sudah kamu siapkan
   import { galleryImages, formatRupiah } from '$lib/data/galleryImages.js';
   import { commissions } from '$lib/data/mockCommissions.js';
   import { mockAdoptions } from '$lib/data/mockAdoptions.js';
-
-  // --- Svelte 5 Runes: State & Derivations ---
   
-  // 1. Menghitung Total Karya Galeri
   let totalArtworks = $derived(galleryImages.length);
   let availableArtworks = $derived(galleryImages.filter(img => img.status === 'available' || img.status === 'not_sold').length);
 
-  // 2. Menghitung Komisi Aktif (yang belum selesai/batal)
   let activeCommissions = $derived(
     commissions.filter(c => !['completed', 'cancelled', 'declined'].includes(c.status))
   );
 
-  // 3. Menghitung Total Pendapatan (Komisi Paid/DP + Adopsi Paid)
   let totalRevenue = $derived(() => {
-    // Pendapatan Komisi
     const commRevenue = commissions
       .filter(c => c.paymentStatus === 'paid' || c.paymentStatus === 'dp')
       .reduce((sum, c) => sum + (c.price || 0), 0);
       
-    // Pendapatan Adopsi (mencocokkan harga dari galeri)
     const adoptRevenue = mockAdoptions
       .filter(a => a.paymentStatus === 'paid')
       .reduce((sum, a) => {
@@ -35,7 +26,6 @@
     return commRevenue + adoptRevenue;
   });
 
-  // 4. Mengambil 3 Komisi Terbaru untuk ditampilkan
   let recentCommissions = $derived(activeCommissions.slice(0, 3));
 </script>
 
@@ -170,7 +160,6 @@
 </div>
 
 <style>
-  /* Base Variables */
   :root {
     --text-main: #1e293b;
     --text-muted: #64748b;
@@ -184,7 +173,6 @@
     --radius-md: 12px;
   }
 
-  /* Page Layout */
   .page-container {
     width: 100%;
     display: flex;
@@ -194,7 +182,6 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
-  /* --- Stats Grid Bento --- */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -218,7 +205,6 @@
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05);
   }
 
-  /* Icon Wrappers */
   .stat-icon-wrapper {
     padding: 0.8rem;
     border-radius: var(--radius-md);
@@ -232,7 +218,6 @@
   .stat-icon-wrapper.purple { background: #f5f3ff; color: var(--accent-purple); }
   .stat-icon-wrapper.green { background: #ecfdf5; color: var(--accent-green); }
 
-  /* Stat Card Content */
   .stat-content h3 {
     margin: 0;
     font-size: 0.875rem;
@@ -261,9 +246,7 @@
     background: rgba(255,255,255,0.1);
     color: white;
   }
-  .stat-card.primary h3, .stat-card.primary .stat-desc {
-    color: #cbd5e1;
-  }
+  .stat-card.primary h3,   
   .stat-card.primary .stat-value {
     color: white;
   }
@@ -274,7 +257,6 @@
     color: #f8fafc;
   }
 
-  /* --- Workspace Splir Grid --- */
   .workspace-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
@@ -320,7 +302,6 @@
   }
   .btn-ghost:hover { background: #f1f5f9; }
 
-  /* Queue List Items */
   .list-container {
     display: flex;
     flex-direction: column;
@@ -371,7 +352,6 @@
     gap: 0.4rem;
   }
   
-  /* Status Badges */
   .status-badge {
     font-size: 0.7rem;
     font-weight: 700;
@@ -390,7 +370,6 @@
     font-weight: 500;
   }
 
-  /* Gallery Spotlight Grid */
   .spotlight-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -438,7 +417,6 @@
   .art-status.sold { color: #f87171; }
   .art-status.reserved { color: #fcd34d; }
 
-  /* Responsive Adjustments */
   @media (max-width: 1024px) {
     .workspace-grid {
       grid-template-columns: 1fr;

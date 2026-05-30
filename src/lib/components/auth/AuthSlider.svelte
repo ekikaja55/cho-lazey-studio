@@ -22,7 +22,7 @@
   <div class="auth-wrapper" class:visible={mounted} class:is-register={!isLogin}>
 
     <div class="slider-panel">
-      <img src="/gallery/1.jpeg" alt="Login Art" class="slider-img img-login" />
+      <img src="/gallery/5.jpg" alt="Login Art" class="slider-img img-login" />
       <img src="/gallery/10.jpg" alt="Register Art" class="slider-img img-register" />
       <div class="slider-overlay"></div>
     </div>
@@ -39,7 +39,6 @@
 </div>
 
 <style>
-  /* ── Root ── */
   .auth-root {
     min-height: 100vh;
     display: flex;
@@ -50,7 +49,6 @@
     overflow: hidden;
   }
 
-  /* ── Deco shapes ── */
   .deco-shapes { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
   .deco { position: absolute; border-radius: 12px; border: 2px solid rgba(42,36,32,0.14); animation: decoIn 0.9s ease both; }
   .deco-1 { width: 210px; height: 210px; background: #a2e1db; top:  1%; left:  -5%; transform: rotate(-12deg); opacity: 0.45; }
@@ -59,22 +57,13 @@
   .deco-4 { width: 120px; height: 120px; background: #f4a87c; bottom: 3%; right: -2%; transform: rotate(22deg); opacity: 0.35; animation-delay: 0.5s; }
   @keyframes decoIn { from { opacity: 0; transform: scale(0.8); } to { opacity: inherit; } }
 
-  /* ── Main wrapper ── */
   .auth-wrapper {
     position: relative;
     z-index: 1;
     width: 100%;
     max-width: 1100px;
 
-    /*
-     * ✅ FIX UTAMA:
-     * Pakai height berbasis viewport, bukan nilai fixed.
-     * min() memastikan tidak lebih tinggi dari layar,
-     * tapi cukup untuk form register yang panjang.
-     * clamp(680px, 88vh, 860px) = minimal 680px,
-     * ideal 88% viewport height, maksimal 860px.
-     */
-    height: clamp(680px, 88vh, 860px);
+   height: clamp(680px, 88vh, 860px);
 
     background: rgba(240,235,227,0.94);
     backdrop-filter: blur(20px) saturate(160%);
@@ -95,7 +84,6 @@
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
    }
 
-  /* ── Slider panel ── */
   .slider-panel {
     position: absolute;
     top: 0; left: 0;
@@ -115,19 +103,12 @@
   .is-register .img-register{ opacity: 1; }
   .slider-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(42,36,32,0.1), rgba(42,36,32,0.3)); }
 
-  /* ── Form sides ── */
   .form-side {
     position: absolute;
     top: 0;
     width: 50%;
 
-    /*
-     * ✅ FIX SCROLL:
-     * height 100% = ikut tinggi wrapper yang sudah pakai clamp.
-     * overflow-y: auto = scroll muncul hanya kalau konten
-     * lebih panjang dari panel.
-     */
-    height: 100%;
+   height: 100%;
     overflow-y: auto;
 
     padding: 2.5rem;
@@ -138,18 +119,16 @@
   .form-side::-webkit-scrollbar { width: 4px; }
   .form-side::-webkit-scrollbar-thumb { background: rgba(42,36,32,0.18); border-radius: 4px; }
 
-  /* posisi & visibilitas — sama persis seperti semula */
   .login-side    { left: 50%; opacity: 1; z-index: 2; }
   .register-side { left: 0;   opacity: 0; z-index: 1; pointer-events: none; transform: translateX(-12px); }
   .is-register .login-side    { opacity: 0; z-index: 1; pointer-events: none; transform: translateX(12px); }
   .is-register .register-side { opacity: 1; z-index: 2; pointer-events: auto; transform: translateX(0); }
 
-  /* ── Tablet (≤900px) ── */
   @media (max-width: 900px) {
     .auth-wrapper {
       display: flex;
       flex-direction: column;
-      height: auto; /* ✅ mobile: tinggi mengikuti konten, page scroll biasa */
+      height: auto;     
     }
     .slider-panel {
       position: relative;
@@ -162,7 +141,7 @@
     .form-side {
       position: relative;
       width: 100%;
-      height: auto;     /* ✅ konten terbuka penuh, tidak di-clip */
+      height: auto;         
       overflow-y: visible;
       left: 0 !important;
       padding: 1.75rem 1.5rem;
@@ -176,7 +155,6 @@
     .is-register .register-side { display: block; }
   }
 
-  /* ── Mobile kecil (≤480px) ── */
   @media (max-width: 480px) {
     .auth-root { padding: 1rem 0.75rem; }
     .auth-wrapper { border-radius: 20px; box-shadow: 4px 4px 0px #2a2420; }

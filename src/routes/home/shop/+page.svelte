@@ -1,4 +1,3 @@
-<!-- home/shop/+page.svelte -->
 <script>
   import { onMount }      from 'svelte';
   import { goto }         from '$app/navigation';
@@ -17,7 +16,7 @@
   let showViewer = $state(false);
   let hoveredId  = $state(null);
   let previewRef;
-  // Exclude archived
+
   const items = galleryImages.filter(i => i.status !== 'archived');
   const total = items.length;
 
@@ -31,7 +30,6 @@
 
   function sc(status) { return statusCfg[status] ?? statusCfg.archived; }
 
-  // Tab colors — peach-forward for shop vs turquoise-forward for gallery
   const tabColors = [
     '#f4a87c', '#b4a6d5', '#a2e1db',
     '#f4a87c', '#b4a6d5', '#a2e1db',
@@ -46,9 +44,7 @@
 
   function selectItem(item) { 
     selected = item;
-    // Cek apakah ini di sisi client dan ukurannya sesuai dengan breakpoint mobile kamu (960px)
     if (typeof window !== 'undefined' && window.innerWidth <= 960 && previewRef) {
-      // Gunakan setTimeout kecil untuk memastikan Svelte selesai merender data baru sebelum scrolling
       setTimeout(() => {
         previewRef.scrollIntoView({ 
           behavior: 'smooth', 
@@ -72,7 +68,7 @@
     showModal = false;
     const invoiceData = { itemId: item.gallery_id, itemTitle: item.title, itemPrice: item.price, itemFormat: item.file_format, itemStatus: item.status, buyerEmail: email, proofName };
     sessionStorage.setItem('cho_invoice', JSON.stringify(invoiceData));
-    toast.success('[PROTOTYPE] Payment submitted! Redirecting to your invoice…');
+    toast.contact('[PROTOTYPE] Payment submitted! Redirecting to your invoice…');
     setTimeout(() => goto('/invoice?back=/home/shop'), 1200);
   }
 
@@ -100,10 +96,8 @@
       description="{total} pieces — select a work, preview it, then make it yours."
     />
  
-  <!-- ── Main: folder grid + sticky preview ── -->
   <div class="shop-layout">
 
-    <!-- Grid — SAME folder-card DNA as gallery, peach-tab variant -->
     <section class="shop-grid-section" aria-label="Artworks for adoption">
       <div class="shop-grid" role="list">
         {#each items as item, i}
@@ -122,12 +116,10 @@
             onmouseenter={() => hoveredId = item.gallery_id}
             onmouseleave={() => hoveredId = null}
           >
-            <!-- Folder tab -->
             <div class="folder-tab" aria-hidden="true">
               <span class="folder-tab-label">{item.file_format}</span>
             </div>
 
-            <!-- Card body -->
             <button
               class="folder-body"
               onclick={() => selectItem(item)}
@@ -144,7 +136,6 @@
                   />
                 </WatermarkWrapper>
 
-                <!-- Status stamp for unavailable -->
                 {#if item.status !== 'available'}
                   <div
                     class="status-stamp"
@@ -153,11 +144,9 @@
                   >{s.label}</div>
                 {/if}
 
-                <!-- Hover overlay -->
                 <div class="folder-overlay" aria-hidden="true">
                   <div class="overlay-inner">
                     <span class="overlay-icon" aria-hidden="true">
-                      <!-- Available: heart; else: eye -->
                       {#if item.status === 'available'}
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                       {:else}
@@ -172,14 +161,12 @@
                 </div>
               </div>
 
-              <!-- Footer -->
               <div class="folder-footer">
                 <span class="folder-title">{item.title}</span>
                 <span class="folder-price">{formatRupiah(item.price)}</span>
               </div>
             </button>
 
-            <!-- Selected ring -->
             {#if selected?.gallery_id === item.gallery_id}
               <div class="selected-ring" aria-hidden="true"></div>
             {/if}
@@ -188,13 +175,10 @@
       </div>
     </section>
 
-    <!-- Preview panel — sticky on desktop -->
     <aside class="preview-panel" bind:this={previewRef} aria-label="Artwork preview">
 
-      <!-- Panel inner card — same border+shadow DNA -->
       <div class="panel-card">
 
-        <!-- Panel header bar -->
         <div class="panel-header">
           <div class="panel-header-left">
             <span class="panel-eyebrow">Preview</span>
@@ -210,7 +194,6 @@
           {/if}
         </div>
 
-        <!-- Image area -->
         <div class="preview-frame" class:has-image={!!selected}>
           {#if selected}
             {#key selected.gallery_id}
@@ -223,7 +206,6 @@
                     draggable="false"
                   />
                 </WatermarkWrapper>
-                <!-- Tab accent on preview image -->
                 <div class="preview-tab-accent" aria-hidden="true"></div>
               </div>
             {/key}
@@ -235,7 +217,6 @@
           {/if}
         </div>
 
-        <!-- Detail strip -->
         {#if selected}
           {@const s = sc(selected.status)}
           <div class="detail-strip" in:fade={{ duration: 180 }}>
@@ -255,7 +236,6 @@
             </div>
           </div>
         {:else}
-          <!-- Skeleton -->
           <div class="detail-skeleton-wrap">
             <div class="skeleton-row">
               <div class="skel"></div>
@@ -265,7 +245,6 @@
           </div>
         {/if}
 
-        <!-- Adopt button -->
         <button
           class="btn-adopt"
           class:unavailable={!canBuy}
@@ -287,7 +266,6 @@
   </div>
 </div>
 
-<!-- Modals -->
 {#if showViewer && selected}
   <ArtworkViewer item={selected} onClose={() => showViewer = false} />
 {/if}
@@ -301,12 +279,8 @@
 {/if}
 
 <style>
-  /* ══════════════════════════════════════
-     ROOT
-  ══════════════════════════════════════ */
   .shop-root {
     width: 100%;
-    /* max-width: 1020px; */
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -317,9 +291,6 @@
   }
   .shop-root.visible { opacity: 1; transform: translateY(0); }
 
-  /* ══════════════════════════════════════
-     LAYOUT: 2-col on desktop
-  ══════════════════════════════════════ */
   .shop-layout {
     display: grid;
     grid-template-columns: 1fr 280px;
@@ -327,12 +298,6 @@
     align-items: start;
   }
 
-  /* ══════════════════════════════════════
-     FOLDER GRID — exact DNA from gallery
-     Nuance: 3-col uniform (no featured span),
-     tab colors peach-first,
-     selected-ring in peach
-  ══════════════════════════════════════ */
   .shop-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -340,7 +305,6 @@
     grid-auto-rows: 190px;
   }
 
-  /* Featured: first item 2×2 */
   .folder-card.featured {
     grid-column: 1 / 3;
     grid-row: 1 / 3;
@@ -367,7 +331,6 @@
     filter: drop-shadow(5px 7px 0px rgba(42,36,32,0.3));
   }
 
-  /* Selected: peach ring instead of turquoise */
   .selected-ring {
     position: absolute;
     inset: -4px;
@@ -383,7 +346,6 @@
     to   { opacity:1; transform: scale(1); }
   }
 
-  /* Folder tab */
   .folder-tab {
     position: absolute;
     top: -18px; left: 14px;
@@ -406,7 +368,6 @@
     color: #2a2420;
   }
 
-  /* Folder body */
   .folder-body {
     position: absolute;
     inset: 0;
@@ -426,7 +387,6 @@
   .folder-card.hovered .folder-body { box-shadow: 6px 7px 0px #2a2420; }
   .folder-card.selected-card .folder-body { box-shadow: 5px 5px 0px #f4a87c, 7px 7px 0px #2a2420; }
 
-  /* Image */
   .folder-img-wrap {
     flex: 1;
     position: relative;
@@ -443,7 +403,6 @@
 
   .folder-card.hovered .folder-img { transform: scale(1.07); }
 
-  /* Status stamp */
   .status-stamp {
     position: absolute;
     top: 50%; left: 50%;
@@ -460,7 +419,6 @@
     pointer-events: none;
   }
 
-  /* Hover overlay */
   .folder-overlay {
     position: absolute;
     inset: 0;
@@ -516,7 +474,6 @@
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
 
-  /* Footer */
   .folder-footer {
     display: flex;
     align-items: center;
@@ -547,9 +504,6 @@
     flex-shrink: 0;
   }
 
-  /* ══════════════════════════════════════
-     PREVIEW PANEL — sticky sidebar
-  ══════════════════════════════════════ */
   .preview-panel {
     position: sticky;
     top: 1.5rem;
@@ -565,7 +519,6 @@
     flex-direction: column;
   }
 
-  /* Panel header */
   .panel-header {
     display: flex;
     align-items: center;
@@ -628,7 +581,6 @@
     transform: translateY(-1px);
   }
 
-  /* Preview frame */
   .preview-frame {
     position: relative;
     height: 220px;
@@ -651,7 +603,6 @@
     display: block;
   }
 
-  /* Subtle peach tab accent on preview */
   .preview-tab-accent {
     position: absolute;
     bottom: 0; left: 0; right: 0;
@@ -675,7 +626,6 @@
     color: #b0a09a;
   }
 
-  /* Detail strip */
   .detail-strip {
     border-bottom: 1.5px solid rgba(42,36,32,0.08);
     flex-shrink: 0;
@@ -742,14 +692,12 @@
     letter-spacing: 0.02em;
   }
 
-  /* Skeleton */
   .detail-skeleton-wrap { padding: 10px 12px; display: flex; flex-direction: column; gap: 7px; }
   .skeleton-row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
   .skel { height: 48px; background: rgba(42,36,32,0.05); border-radius: 9px; animation: shimmer 1.5s ease-in-out infinite alternate; }
   .skel.tall { height: 38px; }
   @keyframes shimmer { from{opacity:.4} to{opacity:.9} }
 
-  /* Adopt button */
   .btn-adopt {
     display: flex;
     align-items: center;
@@ -787,9 +735,6 @@
     cursor: not-allowed;
   }
 
-  /* ══════════════════════════════════════
-     RESPONSIVE
-  ══════════════════════════════════════ */
   @media (max-width: 960px) {
     .shop-layout {
       grid-template-columns: 1fr;
@@ -815,12 +760,9 @@
       grid-column: 1 / -1;
       grid-row: 1 / 2;
     }
-    /* No tilt on small screens */
     .folder-card { transform: rotate(0deg) !important; }
     .folder-card.hovered { transform: translateY(-3px) scale(1.015) !important; }
 
-    .shop-header { padding: 1.5rem 1.4rem; border-radius: 22px; }
-    .shop-title { font-size: clamp(1.8rem, 7vw, 2.5rem); }
   }
 
   @media (max-width: 420px) {
@@ -832,7 +774,5 @@
       grid-column: 1 / -1;
       grid-row: 1 / 1;
     }
-    .shop-stats { gap: 5px; }
-    .stat-pill { font-size: 0.65rem; padding: 3px 9px; }
   }
 </style>

@@ -1,9 +1,3 @@
-/**
- * mockUsers.js
- * Cho's Studio — Prototype Mock User Database
- * Gantiin backend auth untuk keperluan prototype
- */
-
 export const MOCK_USERS = [
   {
     id: 1,
@@ -43,19 +37,12 @@ export const MOCK_USERS = [
   },
 ];
 
-/**
- * Cek login — return user object (tanpa password) atau null
- * @param {string} username
- * @param {string} password
- * @returns {Omit<typeof MOCK_USERS[0], 'password'> | null}
- */
 export function authenticate(username, password) {
   const user = MOCK_USERS.find(
     (u) => u.username === username.trim() && u.password === password,
   );
   if (!user) return null;
 
-  // Return tanpa password
   const { password: _, ...safeUser } = user;
   return safeUser;
 }

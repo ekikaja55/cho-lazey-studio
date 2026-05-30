@@ -1,5 +1,4 @@
 <script>
-  // Menggunakan Svelte 5 Runes untuk komponen reusable
   let { 
     username = 'Default', 
     title = 'Default', 
@@ -30,7 +29,6 @@
 </header>
 
 <style>
-  /* ── Header Boxed Style (Soft Brutalist) ── */
   .page-header.boxed-header {
     position: relative;
     background: #f3eee6;
@@ -118,7 +116,6 @@
     margin: 0;
   }
 
-  /* Decorative Background Shapes */
   .bg-shapes {
     position: absolute;
     inset: 0;
@@ -135,7 +132,6 @@
   .shape-green { width: 90px; height: 90px; background: #dcf2e9; border-radius: 18px; top: -30px; right: 40px; transform: rotate(12deg); }
   .shape-peach { width: 65px; height: 65px; background: #fae0cd; border-radius: 14px; bottom: -20px; right: 100px; transform: rotate(18deg); }
 
-  /* Responsive Adjustments (Include Media Query) */
   @media (max-width: 600px) {
     .page-header.boxed-header { 
       padding: 1.5rem; 

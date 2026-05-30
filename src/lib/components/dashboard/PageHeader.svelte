@@ -1,5 +1,4 @@
 <script>
-  // Menggunakan Svelte 5 Runes untuk komponen inner page header yang reusable
   let { 
     title = 'Default', 
     description ='Default',   
@@ -25,21 +24,20 @@
 </header>
 
 <style>
-  /* ── Header (Boxed Style Matched - Soft Brutalist) ── */
   .page-header.boxed-header {
     position: relative;
-    background: #f3eee6; /* Warna krem hangat menyesuaikan tema */
+    background: #f3eee6;    
     border: 2.5px solid #2a2420;
     border-radius: 20px;
     padding: 2.5rem 3rem;
     box-shadow: 6px 6px 0px #2a2420;
-    overflow: hidden; /* Memastikan ornamen tidak keluar kotak */
+    overflow: hidden; 
     z-index: 1;
   }
 
   .header-content {
     position: relative;
-    z-index: 2; /* Menjaga teks tetap di atas ornamen dekorasi */
+    z-index: 2;     
     display: flex; 
     flex-direction: column; 
     gap: 0.6rem;
@@ -58,7 +56,6 @@
     gap: 0.6rem;
   }
 
-  /* Ikon donat kecil di teks eyebrow */
   .eyebrow-dot {
     display: inline-block;
     width: 10px;
@@ -75,7 +72,6 @@
     line-height: 1.1;
   }
 
-  /* Garis gradasi peach ke ungu */
   .header-rule {
     width: 72px;
     height: 5px;
@@ -94,13 +90,12 @@
     margin: 0;
   }
 
-  /* ── Decorative Background Shapes ── */
   .bg-shapes {
     position: absolute;
     inset: 0;
     z-index: 0;
-    pointer-events: none; /* Agar tidak menghalangi seleksi teks */
-  }
+    pointer-events: none;   
+    }
 
   .shape {
     position: absolute;
@@ -131,14 +126,13 @@
     transform: rotate(18deg);
   }
 
-  /* Responsive penyesuaian khusus header include media query */
   @media (max-width: 600px) {
     .page-header.boxed-header {
       padding: 1.5rem;
       border-radius: 16px;
     }
     .bg-shapes { 
-      opacity: 0.4; /* Diredam di layar kecil agar teks tidak bertabrakan */
+      opacity: 0.4; 
     }
   }
 </style>

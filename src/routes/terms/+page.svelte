@@ -179,7 +179,6 @@
 </div>
 
 <style>
-  /* ── Root ── */
   .terms-root {
     min-height: 100vh;
     display: flex;
@@ -190,7 +189,6 @@
     overflow: hidden;
   }
 
-  /* ── Decorative shapes (mirroring Background.png) ── */
   .deco-shapes {
     position: fixed;
     inset: 0;
@@ -250,7 +248,6 @@
     to   { opacity: inherit; }
   }
 
-  /* ── Main card ── */
   .terms-card {
     position: relative;
     z-index: 1;
@@ -273,7 +270,6 @@
     transform: translateY(0);
   }
 
-  /* ── Progress bar ── */
   .progress-track {
     position: absolute;
     top: 0; left: 0; right: 0;
@@ -289,7 +285,6 @@
     transition: width 0.1s ease;
   }
 
-  /* ── Back button (top) ── */
   .back-btn {
     display: inline-flex;
     align-items: center;
@@ -311,7 +306,6 @@
     transform: translateX(-3px);
   }
 
-  /* ── Header ── */
   .terms-header {
     padding: 1.25rem 2rem 1.5rem;
     text-align: center;
@@ -357,7 +351,6 @@
     line-height: 1.55;
   }
 
-  /* ── Scrollable area ── */
   .terms-scroll {
     max-height: 55vh;
     overflow-y: auto;
@@ -374,7 +367,6 @@
     border-radius: 999px;
   }
 
-  /* ── Section cards ── */
   .sections-list {
     display: flex;
     flex-direction: column;
@@ -400,7 +392,6 @@
     box-shadow: -4px 4px 0px #2a2420;
   }
 
-  /* Stagger delays */
   .stagger-1 { animation-delay: 0.05s; }
   .stagger-2 { animation-delay: 0.12s; }
   .stagger-3 { animation-delay: 0.19s; }
@@ -412,7 +403,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Decorative corner accent */
   .section-corner {
     position: absolute;
     bottom: -12px; right: -12px;
@@ -423,7 +413,6 @@
     opacity: 0.35;
   }
 
-  /* Icon group */
   .section-icon-wrap {
     display: flex;
     flex-direction: column;
@@ -449,7 +438,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* Text body */
   .section-body { flex: 1; min-width: 0; }
 
   .section-title {
@@ -469,7 +457,6 @@
     text-align: justify;
   }
 
-  /* ── Closing note ── */
   .closing-note {
     display: flex;
     gap: 0.85rem;
@@ -501,7 +488,6 @@
     font-weight: 700;
   }
 
-  /* ── Scroll hint ── */
   .scroll-hint {
     display: flex;
     align-items: center;
@@ -520,7 +506,6 @@
     50%       { transform: translateY(3px); opacity: 0.8; }
   }
 
-  /* ── Footer ── */
   .terms-footer {
     padding: 1.25rem 2rem 1.75rem;
     border-top: 2px solid rgba(42, 36, 32, 0.12);
@@ -538,7 +523,6 @@
     text-transform: uppercase;
   }
 
-  /* Back button (bottom) */
   .btn-back {
     display: inline-flex;
     align-items: center;
@@ -569,7 +553,6 @@
     box-shadow: 2px 2px 0px #2a2420;
   }
 
-  /* ── Responsive ── */
   @media (max-width: 600px) {
     .terms-card {
       border-radius: 20px;

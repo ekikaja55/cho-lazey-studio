@@ -7,9 +7,9 @@
   import '$lib/styles/app.css';
   let { children } = $props();
 
-  // onMount(() => {
-  //   initArtProtection();
-  // });
+  onMount(() => {
+    initArtProtection();
+  });
 </script>
 
 <svelte:head>

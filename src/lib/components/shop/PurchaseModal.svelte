@@ -1,4 +1,3 @@
-<!-- lib/components/shop/PurchaseModal.svelte -->
 <script>
   import { scale, fade } from 'svelte/transition';
   import { backOut }     from 'svelte/easing';
@@ -52,7 +51,6 @@
 
 <svelte:window onkeydown={onKeydown} />
 
-<!-- Backdrop — same as gallery lightbox -->
 <div
   class="modal-backdrop"
   transition:fade={{ duration: 200 }}
@@ -61,7 +59,6 @@
   aria-hidden="true"
 ></div>
 
-<!-- Modal — lightbox-card DNA -->
 <div
   class="modal-wrap"
   role="dialog"
@@ -70,10 +67,7 @@
   transition:scale={{ duration: 320, easing: backOut, start: 0.92 }}
 >
   <div class="modal">
-
-    <!-- Header — folder-tab palette strip + peach bg -->
     <div class="modal-header">
-      <!-- Tab strip -->
       <div class="modal-tab-strip" aria-hidden="true">
         <span class="mtab mtab-peach"></span>
         <span class="mtab mtab-lavender"></span>
@@ -102,21 +96,15 @@
       </div>
     </div>
 
-    <!-- Body: 2-col grid — same as gallery lightbox layout -->
     <div class="modal-body">
-
-      <!-- Left: artwork + price -->
       <div class="modal-left">
-        <!-- Preview frame — same border/radius as lb-img-wrap -->
         <div class="preview-frame">
           <WatermarkWrapper opacity={0.22} fontSize={10} spacing={55}>
             <img src={item.image_url} alt={item.title} class="preview-img" loading="lazy" draggable="false" />
           </WatermarkWrapper>
-          <!-- Bottom gradient accent -->
           <div class="frame-accent" aria-hidden="true"></div>
         </div>
 
-        <!-- Price card -->
         <div class="price-card">
           <div class="price-card-row">
             <span class="price-card-label">Transfer exact amount</span>
@@ -126,10 +114,8 @@
         </div>
       </div>
 
-      <!-- Right: QRIS + form -->
       <div class="modal-right">
 
-        <!-- QRIS -->
         <div class="qris-block">
           <div class="qris-header">
             <p class="qris-label">
@@ -158,10 +144,7 @@
           <p class="qris-note">Berlaku untuk semua bank &amp; e-wallet Indonesia</p>
         </div>
 
-        <!-- Divider -->
         <div class="modal-divider" aria-hidden="true"></div>
-
-        <!-- Form -->
         <form class="pay-form" onsubmit={handleSubmit} novalidate>
 
           <div class="pay-field">
@@ -182,7 +165,7 @@
           </div>
 
           <div class="pay-field">
-            <label class="pay-label">
+            <label class="pay-label" for="proof-upload">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
               Upload Payment Proof
             </label>
@@ -204,7 +187,8 @@
                 disabled={submitting}
                 class="file-input-hidden"
                 aria-label="Upload payment proof"
-              />
+                id="proof-upload"
+           />
             </label>
           </div>
 
@@ -227,7 +211,6 @@
 </div>
 
 <style>
-  /* ── Backdrop ── */
   .modal-backdrop {
     position: fixed; inset: 0;
     background: rgba(42,36,32,0.65);
@@ -237,7 +220,6 @@
     cursor: pointer;
   }
 
-  /* ── Modal wrap (center) ── */
   .modal-wrap {
     position: fixed; inset: 0;
     z-index: 501;
@@ -250,7 +232,6 @@
 
   .modal-wrap > * { pointer-events: all; }
 
-  /* ── Modal card — lightbox-card DNA ── */
   .modal {
     background: rgba(240,235,227,0.99);
     border: 3px solid #2a2420;
@@ -264,7 +245,6 @@
     overflow: hidden;
   }
 
-  /* ── Header ── */
   .modal-header {
     background: rgba(244,168,124,0.18);
     border-bottom: 3px solid #2a2420;
@@ -272,7 +252,6 @@
     flex-shrink: 0;
   }
 
-  /* Same tab-strip as viewer */
   .modal-tab-strip {
     display: flex;
     height: 5px;
@@ -376,7 +355,6 @@
     transform: rotate(90deg) scale(1.08);
   }
 
-  /* ── Body ── */
   .modal-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -385,7 +363,6 @@
     min-height: 0;
   }
 
-  /* ── Left col ── */
   .modal-left {
     border-right: 2px solid rgba(42,36,32,0.1);
     display: flex;
@@ -394,7 +371,6 @@
     overflow: hidden;
   }
 
-  /* Same bg/structure as lb-img-wrap */
   .preview-frame {
     flex: 1;
     min-height: 0;
@@ -418,7 +394,6 @@
     pointer-events: none;
   }
 
-  /* Price card */
   .price-card {
     padding: 0.85rem 1rem;
     background: rgba(244,168,124,0.1);
@@ -458,7 +433,6 @@
     color: rgba(42,36,32,0.38);
   }
 
-  /* ── Right col ── */
   .modal-right {
     display: flex;
     flex-direction: column;
@@ -467,7 +441,6 @@
     overflow-y: auto;
   }
 
-  /* QRIS */
   .qris-block { display: flex; flex-direction: column; align-items: center; gap: 0.55rem; }
 
   .qris-header {
@@ -543,7 +516,6 @@
     margin: 0;
   }
 
-  /* Form */
   .pay-form { display: flex; flex-direction: column; gap: 0.85rem; }
   .pay-field { display: flex; flex-direction: column; gap: 5px; }
 
@@ -583,7 +555,6 @@
     line-height: 1.4;
   }
 
-  /* File drop */
   .file-drop {
     display: flex;
     flex-direction: column;
@@ -619,7 +590,6 @@
   .file-change { font-family: 'DM Sans', system-ui, sans-serif; font-size: 0.66rem; color: #7a6f68; }
   .file-input-hidden { display: none; }
 
-  /* Actions */
   .pay-actions { display: flex; gap: 8px; margin-top: 0.15rem; }
 
   .btn-submit {
@@ -680,7 +650,6 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── Responsive ── */
   @media (max-width: 640px) {
     .modal { border-radius: 20px; max-height: 92vh; }
     .modal-body { grid-template-columns: 1fr; }

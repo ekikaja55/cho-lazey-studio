@@ -1,13 +1,6 @@
-/* ============================================================
-   CHO'S STUDIO — Global Styles
-   SvelteKit + Tailwind CSS v4
-   ============================================================ */
-
-/* === ALL @imports must come first (CSS spec) === */
 @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap");
 @import "tailwindcss";
 
-/* === Custom Font === */
 @font-face {
   font-family: "HammersmithOne";
   src: url("/fonts/HammersmithOne-Regular.ttf") format("truetype");
@@ -16,34 +9,28 @@
   font-display: swap;
 }
 
-/* === Design Tokens === */
 @theme {
-  /* Brand Colors */
   --color-pastel-turquoise: #a2e1db;
   --color-turquoise: #7dc8c1;
   --color-pastel-gray-turquoise: #9edad4;
   --color-background: #efeae4;
 
-  /* From Background.png palette */
   --color-bg-mint: #a8e6df;
   --color-bg-peach: #f4a87c;
   --color-bg-lavender: #b8a8d8;
 
-  /* Status Colors */
   --color-status-danger: #f46958;
   --color-status-warning: #ffba09;
   --color-status-info: #91fff5;
   --color-status-success: #a2e1a6;
   --color-status-neutral: #b4a6d5;
 
-  /* Typography */
   --font-display: "HammersmithOne", "DM Serif Display", Georgia, serif;
   --font-serif: "DM Serif Display", Georgia, serif;
   --font-body: "Lora", Georgia, serif;
   --font-sans: "DM Sans", system-ui, sans-serif;
 }
 
-/* === CSS Custom Properties === */
 :root {
   --c-bg: #efeae4;
   --c-turquoise: #7dc8c1;
@@ -72,7 +59,6 @@
   --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* === Base Reset & Body === */
 *,
 *::before,
 *::after {
@@ -101,7 +87,6 @@ body {
   background-attachment: fixed;
   overflow-x: hidden;
 
-  /* Art Protection */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -110,7 +95,6 @@ body {
   transition: filter 0.4s ease;
 }
 
-/* Allow text selection in specific areas */
 .selectable,
 input,
 textarea {
@@ -119,7 +103,6 @@ textarea {
   user-select: text;
 }
 
-/* Prevent image dragging */
 img {
   -webkit-user-drag: none;
   -khtml-user-drag: none;
@@ -129,7 +112,6 @@ img {
   user-select: none;
 }
 
-/* === Scrollbar === */
 html,
 body {
   scrollbar-width: thin;
@@ -154,7 +136,6 @@ body::-webkit-scrollbar-thumb:hover {
   background-color: rgba(125, 200, 193, 0.85);
 }
 
-/* === Typography === */
 h1,
 h2,
 h3,
@@ -191,16 +172,12 @@ a {
   text-decoration: none;
 }
 
-/* === Focus Styles (Accessibility) === */
 :focus-visible {
   outline: 2px solid var(--c-turquoise);
   outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
-/* === Utility Classes === */
-
-/* Glass morphism card */
 .glass {
   background: rgba(239, 234, 228, 0.72);
   backdrop-filter: blur(16px) saturate(180%);
@@ -217,7 +194,6 @@ a {
   border-radius: var(--radius-lg);
 }
 
-/* Tilted paper card — echo of background shapes */
 .paper-card {
   background: rgba(239, 234, 228, 0.9);
   border: 1.5px solid rgba(42, 36, 32, 0.15);
@@ -233,7 +209,6 @@ a {
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Turquoise accent pill */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -265,7 +240,6 @@ a {
   border: 1px solid rgba(184, 168, 216, 0.4);
 }
 
-/* Status badges */
 .badge-danger {
   background: #f46958;
   color: #fff;
@@ -298,13 +272,11 @@ a {
   letter-spacing: 0.03em;
 }
 
-/* Decorative tilted shape — matches background aesthetic */
 .shape-tilt {
   border-radius: var(--radius-md);
   border: 2px solid rgba(42, 36, 32, 0.12);
 }
 
-/* Section divider */
 .divider-art {
   display: flex;
   align-items: center;
@@ -324,7 +296,6 @@ a {
   background: var(--c-border-strong);
 }
 
-/* Button base */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -389,7 +360,6 @@ a {
   color: var(--c-dark);
 }
 
-/* === Page Transitions === */
 .page-enter {
   opacity: 0;
   transform: translateY(12px);
@@ -401,7 +371,6 @@ a {
     transform 350ms ease;
 }
 
-/* === Animations === */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -475,7 +444,6 @@ a {
   animation: scaleIn 0.3s ease forwards;
 }
 
-/* Stagger helpers */
 .stagger-1 {
   animation-delay: 0.05s;
 }
@@ -492,7 +460,6 @@ a {
   animation-delay: 0.25s;
 }
 
-/* Skeleton loader */
 .skeleton {
   background: linear-gradient(
     90deg,
@@ -505,13 +472,9 @@ a {
   border-radius: var(--radius-sm);
 }
 
-/* === Rupiah Formatting Helper === */
-/* Applied in JS via formatRupiah/parseRupiah utils */
-
-/* === Mobile Overrides === */
 @media (max-width: 768px) {
   body {
-    background-attachment: scroll; /* Fixed bg causes issues on mobile */
+    background-attachment: scroll;
   }
 
   h1 {
@@ -522,7 +485,6 @@ a {
   }
 }
 
-/* === Print === */
 @media print {
   body {
     background: white !important;

@@ -7,7 +7,6 @@
   const loginLink       = $derived($isLoggedIn ? `/dashboard/${$userRole || ''}` : '/home');
   const getStartedText  = $derived($isLoggedIn ? 'Dashboard' : 'Get Started');
 
-  // Hanya 5 gambar persis seperti permintaanmu
   const baseArtworks = [
     { src: '/gallery/3.jpeg', alt: 'Artwork 1' },
     { src: '/gallery/10.jpg', alt: 'Artwork 2' },
@@ -16,20 +15,15 @@
     { src: '/gallery/4.jpg',  alt: 'Artwork 5' }
   ];
 
-  // Gandakan array 100 lap (500 item) agar terasa "infinite" & bebas bug
   const artworks = Array(100).fill(baseArtworks).flat();
 
-  // ── CAROUSEL STATE ──
-  // Kita mulai persis di titik tengah dari 500 iterasi tersebut
   let currentIndex = $state(Math.floor(artworks.length / 2));
   let isPaused     = $state(false);
 
-  // Fungsi pengontrol
   function next() { currentIndex++; }
   function prev() { currentIndex--; }
   function togglePause() { isPaused = !isPaused; }
 
-  // Autoplay Effect (Jeda 3 detik antar pergantian gambar)
   $effect(() => {
     if (isPaused) return;
     
@@ -40,7 +34,6 @@
     return () => clearInterval(timer);
   });
 
-  // Background floating shapes (Tetap Sama)
   const shapes = [
     { color: '#a2e1db', rotate: -12, top: '8%',    left: '-4%',   size: 220, delay: 0     },
     { color: '#f4a87c', rotate:  15, top: '5%',    right: '-2%',  size: 180, delay: 0.3   },
@@ -124,34 +117,28 @@
     to   { opacity: 0.55; transform: scale(1); }
   }
 
-  /* Wrapper Tengah Pembungkus Hero Card */
  .center-wrap {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 760px; /* Dinaikkan dari 620px agar teks panjang muat 1 baris */
+    max-width: 760px;    
     display: flex;
     flex-direction: column;
   }  
-  /* Positioning Controls */
   .controls-container {
     margin-top: 24px;
-    /* Sesuai referensi: Di desktop controls berada di sisi kanan bawah */
     display: flex;
     justify-content: flex-end; 
     width: 100%;
   }
 
-  /* Mobile Layout Adjustment */
   @media (max-width: 640px) {
     .landing-root {
-      /* Dorong Hero Card agak ke bawah di mobile agar Carousel di atasnya terekspos */
       align-items: flex-end; 
       padding-bottom: 15vh;
     }
 
     .controls-container {
-      /* Sesuai referensi: Di mobile controls berada di tengah bawah */
       justify-content: center;
     }
   }

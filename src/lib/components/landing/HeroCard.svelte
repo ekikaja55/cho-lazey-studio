@@ -82,7 +82,6 @@
 </div>
 
 <style>
-  /* ── Card (Lebih Panjang & Tetap Pipih) ── */
   .hero-card {
     position: relative;
     background: #ffffff;
@@ -116,7 +115,6 @@
     width: 100%;
   } 
 
-  /* ── Typewriter Text (Wajib 1 Baris) ── */
  .studio-typewriter {
     font-family: 'HammersmithOne', Georgia, serif;
     font-size: clamp(1.6rem, 4vw, 2.8rem); 
@@ -124,8 +122,8 @@
     color: #2a2420;
     margin: 0;
     letter-spacing: -0.02em;
-    white-space: nowrap; /* Mengunci teks dalam 1 baris mendatar */
-  } 
+    white-space: nowrap;   
+    } 
 
   .tw-cursor {
     display: inline-block;
@@ -149,7 +147,6 @@
     margin-left: 0; 
   }
 
-  /* ── CTA Block (Desktop: Align Kanan / End) ── */
   .cta-block {
     opacity: 0;
     transform: translateY(16px);
@@ -192,7 +189,6 @@
     box-shadow: 2px 2px 0px #2a2420;
   }
 
-  /* ── Mobile Responsive ── */
   @media (max-width: 640px) {
     .hero-card {
       padding: 1.5rem 1.25rem;
@@ -201,9 +197,7 @@
     }
 
     .studio-typewriter {
-      /* Di-lock tetap satu baris lurus mendatar */
       white-space: nowrap;
-      /* Ukuran font mengecil secara dinamis menggunakan fluid-vw agar pas di layar kecil */
       font-size: clamp(1.1rem, 5.3vw, 2.2rem);
     }
 
@@ -213,13 +207,14 @@
     }
 
     .cta-block {
-      /* Memaksa susunan tombol di mobile bergeser ke kiri (start) */
       justify-content: flex-start;
     }
 
     .btn-letsgo {
-      font-size: 1.1rem;
-      padding: 0.7rem 1.5rem;
+      font-size: 0.95rem;
+      padding: 0.6rem 1.4rem;
+      border-width: 2.5px;
+      box-shadow: 3px 3px 0px #2a2420;
     }
   }
 </style>

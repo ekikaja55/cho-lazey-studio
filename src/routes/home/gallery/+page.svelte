@@ -1,9 +1,4 @@
 <script>
-  /**
-   * /gallery/+page.svelte
-   * Cho's Studio — Gallery Page
-   */
-
   import { galleryImages } from '$lib/data/galleryImages.js';
   import HomePageHeader from '$lib/components/home/HomePageHeader.svelte';
   import HomeGalleryGrid from '$lib/components/home/HomeGalleryGrid.svelte';
@@ -31,9 +26,6 @@
 </div>
 
 <style>
-  /* ══════════════════════════════════════
-     PAGE WRAPPER
-   ══════════════════════════════════════ */
   .gallery-page {
     width: 100%;
     display: flex;

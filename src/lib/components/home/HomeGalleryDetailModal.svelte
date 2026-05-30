@@ -1,4 +1,3 @@
-<!-- HomeGalleryDetailModal.svelte -->
 <script>
   import { formatRupiah } from '$lib/data/galleryImages.js';
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
@@ -31,8 +30,6 @@
     };
   });
 
-  // ✅ Portal action — pindahkan elemen langsung ke <body>
-  // agar position: fixed selalu relatif ke viewport, bukan parent
   function portal(node) {
     document.body.appendChild(node);
     return {
@@ -56,12 +53,15 @@
     aria-modal="true"
     aria-label="Artwork lightbox"
     tabindex="-1"
+    onkeydown={(e)=>{if (e.key === 'Escape' || e.key === 'Enter') onclose(); }}
   >
     <div
       class="lightbox-card"
       onclick={(e) => e.stopPropagation()}
-      role="document"
-      tabindex="0"
+      role="dialog"
+      tabindex="-1"
+      onkeydown={(e)=> e.stopPropagation()}
+
     >
       <button class="lb-close" onclick={onClose} aria-label="Close lightbox">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
@@ -77,7 +77,7 @@
         </button>
 
         <div class="watermark-container">
-          <WatermarkWrapper opacity={0.13} fontSize={13} spacing={90}>
+          <WatermarkWrapper opacity={0.5} fontSize={15} spacing={90}>
             <img src={item.image_url} alt={item.title} class="lb-img" />
           </WatermarkWrapper>
         </div>
@@ -110,10 +110,6 @@
 {/if}
 
 <style>
-  /*
-   * Semua style pakai :global() karena elemen di-teleport ke <body>
-   * dan keluar dari scope scoped CSS Svelte komponen ini.
-   */
 
   :global(.lightbox-backdrop) {
     position: fixed;

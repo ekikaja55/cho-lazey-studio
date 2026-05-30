@@ -3,7 +3,6 @@
   import WatermarkWrapper from '$lib/components/WatermarkWrapper.svelte';
   import HomeGalleryDetailModal from './HomeGalleryDetailModal.svelte';
 
-  // Lightbox state
   let lightboxOpen = $state(false);
   let lightboxIndex = $state(0);
   let hoveredId = $state(null);
@@ -120,9 +119,6 @@
 />
 
 <style>
-  /* ══════════════════════════════════════
-     GALLERY GRID
-   ══════════════════════════════════════ */
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -131,9 +127,6 @@
     padding-top: 1rem;
   }
 
-  /* ══════════════════════════════════════
-     FOLDER CARD
-   ══════════════════════════════════════ */
   .folder-card {
     position: relative;
     grid-column: span 4;

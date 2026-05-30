@@ -1,47 +1,37 @@
 <script>
-  // Props untuk menerima data dan fungsi dari parent
   let { data = [], onView } = $props();
-
-  // State untuk kontrol tabel
   let searchQuery = $state('');
   let statusFilter = $state('all');
   let currentPage = $state(1);
   let itemsPerPage = 10;
 
-  // Derivasi untuk Filtering & Search
   let filteredData = $derived(
     data.filter((item) => {
-      // Pencarian berdasarkan ID, Title, atau Email Pembeli
       const query = searchQuery.toLowerCase();
       const matchSearch = item.artTitle?.toLowerCase().includes(query) || 
                           item.id?.toLowerCase().includes(query) ||
                           item.buyer?.toLowerCase().includes(query);
                           
-      // Filter berdasarkan orderStatus
       const matchStatus = statusFilter === 'all' || item.orderStatus === statusFilter;
       
       return matchSearch && matchStatus;
     })
   );
 
-  // Derivasi untuk Pagination
   let totalPages = $derived(Math.max(1, Math.ceil(filteredData.length / itemsPerPage)));
   let paginatedData = $derived(
     filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
   );
 
-  // Reset ke halaman 1 jika user melakukan pencarian/filter
   $effect(() => {
     if (searchQuery || statusFilter) {
       currentPage = 1;
     }
   });
 
-  // Fungsi navigasi page
   function prevPage() { if (currentPage > 1) currentPage--; }
   function nextPage() { if (currentPage < totalPages) currentPage++; }
 
-  // Helper untuk memformat tanggal (ISO String ke tanggal bacaan)
   const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('en-GB', { 
       day: 'numeric', month: 'short', year: 'numeric' 
@@ -93,9 +83,6 @@
             <tr>
               <td>
                 <div class="artwork-cell">
-                  <!-- <div class="art-thumb"> -->
-                  <!--   <img src={item.imgUrl} alt={item.artTitle} loading="lazy" /> -->
-                  <!-- </div> -->
                   <span class="font-heading">{item.artTitle}</span>
                 </div>
               </td>
@@ -141,7 +128,6 @@
 </div>
 
 <style>
-  /* ── Container & Controls ── */
   .table-container {
     display: flex;
     flex-direction: column;
@@ -195,21 +181,18 @@
     outline: none;
   }
 
-  /* ── Scrollable Table Wrapper (VERTICAL & HORIZONTAL) ── */
   .table-responsive-wrapper {
     background: #fbfaf8;
     border: 2.5px solid #2a2420;
     border-radius: 16px;
     box-shadow: 6px 6px 0px #2a2420;
     
-    /* Inti dari scrollable box: */
-    max-height: 500px;  /* Batas tinggi tabel (bisa disesuaikan) */
-    overflow-y: auto;   /* Scroll Vertikal jika data panjang */
-    overflow-x: auto;   /* Scroll Horizontal untuk mobile */
-    position: relative; /* Penting untuk sticky header */
+    max-height: 500px;  
+    overflow-y: auto;   
+    overflow-x: auto;   
+    position: relative; 
   }
 
-  /* Custom Scrollbar untuk Wrapper Tabel */
   .table-responsive-wrapper::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -224,11 +207,10 @@
     border: 2px solid #f0ebe3;
   }
 
-  /* ── Table Styling ── */
   .brutal-table {
     width: 100%;
-    min-width: 900px; /* Memaksa scroll horizontal jika layar HP kecil */
-    border-collapse: separate; /* Diganti ke separate agar sticky background tidak bocor */
+    min-width: 900px;    
+    border-collapse: separate;
     border-spacing: 0;
     font-family: 'DM Sans', sans-serif;
     text-align: left;
@@ -240,7 +222,6 @@
     border-bottom: 2px solid rgba(42, 36, 32, 0.1);
   }
 
-  /* Membuat Header Sticky / Menempel saat di scroll ke bawah */
   .brutal-table th {
     font-family: 'HammersmithOne', serif;
     text-transform: uppercase;
@@ -248,14 +229,12 @@
     letter-spacing: 0.05em;
     background: #f0ebe3;
     white-space: nowrap;
-    
-    /* Sticky magic */
     position: sticky;
     top: 0;
     z-index: 10; 
     border-bottom: 2.5px solid #2a2420;
-    box-shadow: 0 2px 0px rgba(0,0,0,0.05); /* Soft divider */
-  }
+    box-shadow: 0 2px 0px rgba(0,0,0,0.05);   
+    }
 
   .brutal-table tbody tr {
     transition: background 0.15s ease;
@@ -269,7 +248,6 @@
     border-bottom: none;
   }
 
-  /* ── Sel Konten Khusus (Thumbnail, Badge) ── */
   .artwork-cell {
     display: flex;
     align-items: center;
@@ -285,17 +263,10 @@
     flex-shrink: 0;
   }
   
-  .art-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
   .font-heading { font-family: 'HammersmithOne', serif; font-size: 1rem; }
   .font-bold { font-weight: 700; }
   .text-gray { color: #7a706a; font-size: 0.85rem; }
 
-  /* Badge Order Status */
   .status-badge {
     font-size: 0.72rem;
     font-weight: 800;
@@ -313,11 +284,9 @@
   .status-delivered { background: #d4e8ff; color: #1a4d8a; }
   .status-completed { background: #dcf2e9; color: #1a5c57; }
   
-  /* Badge Payment Status */
   .pay-paid { background: #2a2420; color: #fbfaf8; border-color: #2a2420; box-shadow: none; }
   .pay-pending { background: #fbfaf8; color: #2a2420; border-color: #2a2420; border-style: dashed; }
 
-  /* ── Action Cell ── */
   .action-cell {
     text-align: right;
     width: 80px;
@@ -347,7 +316,6 @@
     box-shadow: 1px 1px 0px #2a2420;
   }
 
-  /* ── Pagination ── */
   .pagination {
     display: flex;
     justify-content: space-between;
